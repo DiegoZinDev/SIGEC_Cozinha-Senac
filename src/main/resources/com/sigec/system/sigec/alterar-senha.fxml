@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@css/estilo.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.desktop_cozinha.controller.AlteraSenhaController">
+   <center>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@imagens/LogocoloridaSenac.png" />
+               </image>
+               <VBox.margin>
+                  <Insets top="-10.0" />
+               </VBox.margin>
+            </ImageView>
+            <Label text="ALTERAR SENHA">
+               <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label>
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="SansSerif Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label alignment="TOP_CENTER" graphicTextGap="0.0" prefHeight="19.0" prefWidth="500.0" text="NOVA SENHA" textOverrun="CENTER_ELLIPSIS">
+               <VBox.margin>
+                  <Insets top="50.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="4.0" left="-420.0" />
+               </padding>
+               <font>
+                  <Font name="SansSerif Bold" size="12.0" />
+               </font>
+            </Label>
+            <PasswordField fx:id="novaSenha" maxHeight="25.0" maxWidth="500.0" minHeight="25.0" minWidth="250.0" prefHeight="25.0" prefWidth="500.0">
+               <VBox.margin>
+                  <Insets bottom="15.0" left="150.0" right="150.0" />
+               </VBox.margin>
+            </PasswordField>
+            <Label alignment="TOP_CENTER" graphicTextGap="0.0" layoutX="160.0" layoutY="207.0" prefHeight="19.0" prefWidth="502.0" text="CONFIRMAR NOVA SENHA" textOverrun="CENTER_ELLIPSIS">
+               <padding>
+                  <Insets bottom="4.0" left="-344.0" />
+               </padding>
+               <font>
+                  <Font name="SansSerif Bold" size="12.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="2.0" left="5.0" right="2.0" top="5.0" />
+               </VBox.margin>
+            </Label>
+            <PasswordField fx:id="confirmaSenha" maxHeight="25.0" maxWidth="500.0" minHeight="25.0" minWidth="250.0" prefHeight="25.0" prefWidth="500.0">
+               <VBox.margin>
+                  <Insets left="150.0" right="150.0" />
+               </VBox.margin>
+            </PasswordField>
+            <Button fx:id="confirmaTroca" mnemonicParsing="false" onAction="#onConfirmaTrocaClick" prefHeight="26.0" prefWidth="195.0" styleClass="btn-laranja" text="CONFIRMAR ALTERAÇÃO">
+               <VBox.margin>
+                  <Insets top="34.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+   </center>
+   <top>
+      <AnchorPane prefHeight="50.0" prefWidth="800.0" style="-fx-background-color: #054685;" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="40.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+               <image>
+                  <Image url="@imagens/LogobrancaSenac.png" />
+               </image></ImageView>
+            <Label alignment="CENTER" layoutX="212.0" layoutY="15.0" text="Sistema de Gerenciamento de Estoque da Cozinha" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Arial" size="18.0" />
+               </font>
+            </Label>
+         </children></AnchorPane>
+   </top>
+</BorderPane>
