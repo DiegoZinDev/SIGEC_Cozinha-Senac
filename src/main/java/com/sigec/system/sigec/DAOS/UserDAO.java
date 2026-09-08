@@ -3,10 +3,7 @@ package com.sigec.system.sigec.DAOS;
 import com.sigec.system.sigec.DTBConfig.ConfigDataBase;
 import com.sigec.system.sigec.Services.EncryptService;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class UserDAO {
 
@@ -45,4 +42,26 @@ public class UserDAO {
         }
         return null; // Usuário não encontrado
     }
+
+    public static boolean cadastrar(String nomeC, String emailC, String senhaC, String acessoC) throws SQLException {
+        String sql = "INSERT INTO usuario(nome, email, senha, acesso) VALUES (?, ?, ?, ?)";
+        String senhaCodificada = EncryptService.encrypt(senhaC);
+        try (Connection conn = ConfigDataBase.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, nomeC);
+            stmt.setString(2, emailC);
+            stmt.setString(3, senhaCodificada);
+            stmt.setString(4, acessoC);
+            stmt.executeUpdate();
+            return true;
+        }catch (SQLIntegrityConstraintViolationException e){
+            return false;
+        }catch (SQLException e) {
+            // Se for um erro de conexão ou outro problema no banco, estoura a exceção
+            throw new RuntimeException("Erro interno no banco de dados ao criar usuário", e);
+        }
+
+    }
+
 }
