@@ -1,12 +1,17 @@
 module com.sigec.system.sigec {
     requires javafx.controls;
     requires javafx.fxml;
-
-    requires org.controlsfx.controls;
-    requires org.kordamp.bootstrapfx.core;
     requires java.sql;
     requires jbcrypt;
+    requires atlantafx.base;
+    requires jakarta.mail;
 
     opens com.sigec.system.sigec to javafx.fxml;
+    opens com.sigec.system.sigec.Controllers to javafx.fxml;
+
     exports com.sigec.system.sigec;
+    exports com.sigec.system.sigec.Controllers;
+    exports com.sigec.system.sigec.DAOS;
+    exports com.sigec.system.sigec.DTBConfig;
+    exports com.sigec.system.sigec.Services;
 }

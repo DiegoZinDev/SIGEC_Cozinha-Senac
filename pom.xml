@@ -81,8 +81,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.sigec.system/com.sigec.system.MainApplication
-                            </mainClass>
+                            <mainClass>com.sigec.system.sigec/com.sigec.system.sigec.MainApplication</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
