@@ -1,112 +1,124 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@css/estilo.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.desktop_cozinha.controller.LoginController">
-    <center>
-        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@CSS/StyleSheet.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sigec.system.sigec.Controllers.LoginController">
+    <top>
+        <AnchorPane prefHeight="50.0" style="-fx-background-color: #054685;" BorderPane.alignment="CENTER">
             <children>
-                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="40.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="5.0">
+                    <image>
+                        <Image url="@imagens/LogobrancaSenac.png" />
+                    </image>
+                </ImageView>
+                <Label alignment="CENTER" text="Sistema de Gerenciamento de Estoque da Cozinha" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <font>
+                        <Font name="Arial Bold" size="18.0" />
+                    </font>
+                </Label>
+            </children>
+        </AnchorPane>
+    </top>
+    <center>
+        <VBox alignment="CENTER" prefHeight="550.0" prefWidth="800.0" spacing="12.0" BorderPane.alignment="CENTER">
+            <children>
+                <ImageView fitHeight="130.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@imagens/LogocoloridaSenac.png" />
                     </image>
                     <VBox.margin>
-                        <Insets top="-10.0" />
+                        <Insets bottom="5.0" />
                     </VBox.margin>
                 </ImageView>
-                <Label text="ACESSO">
-                    <VBox.margin>
-                        <Insets top="15.0" />
-                    </VBox.margin>
+                <Label text="ACESSO" textFill="#054685">
                     <font>
-                        <Font name="SansSerif Bold" size="18.0" />
+                        <Font name="Arial Bold" size="20.0" />
                     </font>
                 </Label>
-                <Label alignment="TOP_CENTER" graphicTextGap="0.0" prefHeight="19.0" prefWidth="500.0" text="E-mail" textOverrun="CENTER_ELLIPSIS">
-                    <VBox.margin>
-                        <Insets top="50.0" />
-                    </VBox.margin>
-                    <padding>
-                        <Insets bottom="4.0" left="-460.0" />
-                    </padding>
-                    <font>
-                        <Font name="Arial Bold" size="13.0" />
-                    </font>
-                </Label>
-                <TextField fx:id="txtemail" maxHeight="25.0" maxWidth="500.0" minHeight="25.0" minWidth="250.0" prefHeight="25.0" prefWidth="500.0">
-                    <VBox.margin>
-                        <Insets left="150.0" right="150.0" />
-                    </VBox.margin>
-                </TextField>
-                <Label alignment="TOP_CENTER" graphicTextGap="0.0" layoutX="160.0" layoutY="207.0" prefHeight="19.0" prefWidth="500.0" text="Senha" textOverrun="CENTER_ELLIPSIS">
-                    <padding>
-                        <Insets bottom="4.0" left="-460.0" />
-                    </padding>
-                    <font>
-                        <Font name="Arial Bold" size="13.0" />
-                    </font>
-                    <VBox.margin>
-                        <Insets top="20.0" />
-                    </VBox.margin>
-                </Label>
-                <PasswordField fx:id="pswsenha" maxHeight="25.0" maxWidth="500.0" minHeight="25.0" minWidth="250.0" prefHeight="25.0" prefWidth="500.0">
-                    <VBox.margin>
-                        <Insets left="150.0" right="150.0" />
-                    </VBox.margin>
-                </PasswordField>
-            <HBox alignment="CENTER" prefHeight="27.0" prefWidth="800.0">
-               <children>
-                      <Hyperlink fx:id="lbesquecisenha" alignment="CENTER" onAction="#EsqueciSenha" prefHeight="23.0" prefWidth="504.0" text="Esqueceu a senha?" textFill="#1b7ee3" textOverrun="CLIP">
-                     <font>
-                        <Font name="Arial Bold" size="12.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                     <padding>
-                        <Insets right="-391.0" />
-                     </padding>
-                      </Hyperlink>
-               </children></HBox>
-                <Button fx:id="btnlogin" mnemonicParsing="false" onAction="#onButtonLoginClick" prefHeight="26.0" prefWidth="110.0" styleClass="btn-laranja" text="ENTRAR">
-                    <VBox.margin>
-                        <Insets top="17.0" />
-                    </VBox.margin>
-                </Button>
-            <HBox alignment="CENTER" prefHeight="43.0" prefWidth="800.0">
-               <children>
-                  <Label text="Não tenho uma conta?">
-                     <font>
-                        <Font name="Arial Bold" size="12.0" />
-                     </font></Label>
-                  <Hyperlink alignment="CENTER" onAction="#Cadastrarme" text="Cadastre-se" textAlignment="JUSTIFY" textFill="#1b7ee3">
-                     <font>
-                        <Font name="Arial Bold" size="12.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin></Hyperlink>
-               </children>
-            </HBox>
+                <VBox alignment="CENTER_LEFT" maxWidth="400.0" prefWidth="400.0" spacing="5.0">
+                    <children>
+                        <Label text="E-mail">
+                            <font>
+                                <Font name="Arial Bold" size="13.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="txtemail" prefHeight="35.0" promptText="Digite seu e-mail">
+                            <font>
+                                <Font name="Arial" size="13.0" />
+                            </font>
+                        </TextField>
+                        <Label text="Senha">
+                            <font>
+                                <Font name="Arial Bold" size="13.0" />
+                            </font>
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                        </Label>
+                        <PasswordField fx:id="pswsenha" prefHeight="35.0" promptText="Digite sua senha">
+                            <font>
+                                <Font name="Arial" size="13.0" />
+                            </font>
+                        </PasswordField>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="25.0">
+                            <children>
+                                <Hyperlink fx:id="lbesquecisenha" onAction="#EsqueciSenha" text="Esqueceu a senha?" textFill="#054685">
+                                    <font>
+                                        <Font name="Arial Bold" size="12.0" />
+                                    </font>
+                                </Hyperlink>
+                            </children>
+                            <VBox.margin>
+                                <Insets top="2.0" />
+                            </VBox.margin>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="45.0">
+                            <children>
+                                <Button fx:id="btnlogin" mnemonicParsing="false" onAction="#onButtonLoginClick" prefHeight="35.0" prefWidth="150.0" styleClass="btn-laranja" text="ENTRAR" textFill="WHITE">
+                                    <font>
+                                        <Font name="Arial Bold" size="13.0" />
+                                    </font>
+                                </Button>
+                            </children>
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                        </HBox>
+                        <HBox alignment="CENTER" spacing="5.0">
+                            <children>
+                                <Label text="Não tenho uma conta?">
+                                    <font>
+                                        <Font name="Arial" size="12.0" />
+                                    </font>
+                                </Label>
+                                <Hyperlink onAction="#Cadastrarme" text="Cadastre-se" textFill="#054685">
+                                    <font>
+                                        <Font name="Arial Bold" size="12.0" />
+                                    </font>
+                                </Hyperlink>
+                            </children>
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                        </HBox>
+                    </children>
+                </VBox>
             </children>
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
+            </padding>
         </VBox>
     </center>
-    <top>
-        <AnchorPane prefHeight="50.0" prefWidth="800.0" style="-fx-background-color: #054685;" BorderPane.alignment="CENTER">
-            <children>
-                <ImageView fitHeight="40.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
-               <image>
-                  <Image url="@imagens/LogobrancaSenac.png" />
-               </image></ImageView>
-                <Label alignment="CENTER" layoutX="212.0" layoutY="15.0" text="Sistema de Gerenciamento de Estoque da Cozinha" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                    <font>
-                        <Font name="Arial" size="18.0" />
-                    </font>
-                </Label>
-            </children></AnchorPane>
-    </top>
 </BorderPane>
