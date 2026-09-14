@@ -1,0 +1,105 @@
+package com.sigec.system.sigec.Controllers;
+
+import com.sigec.system.sigec.DAOS.UserDAO;
+import com.sigec.system.sigec.MainApplication;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+
+import java.io.IOException;
+import java.sql.SQLException;
+
+public class CadastroController {
+
+    @FXML
+    private TextField txtNome;
+
+    @FXML
+    private TextField txtEmail;
+
+    @FXML
+    private PasswordField txtSenha;
+
+    @FXML
+    private PasswordField txtConfirmarSenha;
+
+    @FXML
+    private Button btnCadastrar;
+
+    @FXML
+    public void onCadastrar(ActionEvent event) {
+        String nome = txtNome.getText();
+        String email = txtEmail.getText();
+        String senha = txtSenha.getText();
+        String confirmarSenha = txtConfirmarSenha.getText();
+
+        if (nome == null || nome.trim().isEmpty() ||
+            email == null || email.trim().isEmpty() ||
+            senha == null || senha.isEmpty() ||
+            confirmarSenha == null || confirmarSenha.isEmpty()) {
+
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Campos Obrigatórios");
+            alert.setHeaderText(null);
+            alert.setContentText("Preencha todos os campos para continuar.");
+            alert.showAndWait();
+            return;
+        }
+
+        if (!senha.equals(confirmarSenha)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Senhas não conferem");
+            alert.setHeaderText(null);
+            alert.setContentText("A senha e a confirmação de senha devem ser idênticas.");
+            alert.showAndWait();
+            return;
+        }
+
+        try {
+            boolean cadastrado = UserDAO.cadastrar(nome.trim(), email.trim(), senha, "comum");
+            if (cadastrado) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Sucesso");
+                alert.setHeaderText(null);
+                alert.setContentText("Usuário cadastrado com sucesso!");
+                alert.showAndWait();
+
+                MainApplication.trocadorDeTelas("login.fxml");
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erro no Cadastro");
+                alert.setHeaderText(null);
+                alert.setContentText("Não foi possível cadastrar. O e-mail informado pode já estar em uso.");
+                alert.showAndWait();
+            }
+        } catch (SQLException | RuntimeException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro de Banco de Dados");
+            alert.setHeaderText(null);
+            alert.setContentText("Erro ao salvar cadastro: " + e.getMessage());
+            alert.showAndWait();
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro de Navegação");
+            alert.setHeaderText(null);
+            alert.setContentText("Erro ao redirecionar para a tela de login: " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    public void voltarTela(ActionEvent event) {
+        try {
+            MainApplication.trocadorDeTelas("login.fxml");
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro de Navegação");
+            alert.setHeaderText(null);
+            alert.setContentText("Erro ao voltar para o login: " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+}

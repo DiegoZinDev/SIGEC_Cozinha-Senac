@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@CSS/StyleSheet.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sigec.system.sigec.Controllers.CadastroController">
+    <top>
+        <AnchorPane prefHeight="50.0" style="-fx-background-color: #054685;" BorderPane.alignment="CENTER">
+            <children>
+                <ImageView fitHeight="40.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="5.0">
+                    <image>
+                        <Image url="@imagens/LogobrancaSenac.png" />
+                    </image>
+                </ImageView>
+                <Label alignment="CENTER" text="Sistema de Gerenciamento de Estoque da Cozinha" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <font>
+                        <Font name="Arial Bold" size="18.0" />
+                    </font>
+                </Label>
+            </children>
+        </AnchorPane>
+    </top>
+    <left>
+        <VBox alignment="TOP_CENTER" prefWidth="80.0" BorderPane.alignment="CENTER">
+            <children>
+                <Hyperlink onAction="#voltarTela" text="← Voltar" textFill="#054685">
+                    <font>
+                        <Font name="Arial Bold" size="15.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets top="15.0" />
+                    </VBox.margin>
+                </Hyperlink>
+            </children>
+        </VBox>
+    </left>
+    <right>
+        <VBox prefWidth="80.0" BorderPane.alignment="CENTER" />
+    </right>
+    <center>
+        <VBox alignment="CENTER" prefHeight="550.0" prefWidth="640.0" spacing="10.0" BorderPane.alignment="CENTER">
+            <children>
+                <ImageView fitHeight="110.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@imagens/LogocoloridaSenac.png" />
+                    </image>
+                    <VBox.margin>
+                        <Insets bottom="5.0" />
+                    </VBox.margin>
+                </ImageView>
+                <Label text="CADASTRO" textFill="#054685">
+                    <font>
+                        <Font name="Arial Bold" size="20.0" />
+                    </font>
+                </Label>
+                <VBox alignment="CENTER_LEFT" maxWidth="400.0" prefWidth="400.0" spacing="4.0">
+                    <children>
+                        <Label text="Nome">
+                            <font>
+                                <Font name="Arial Bold" size="13.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="txtNome" prefHeight="32.0" promptText="Digite seu nome completo">
+                            <font>
+                                <Font name="Arial" size="13.0" />
+                            </font>
+                        </TextField>
+                        <Label text="E-mail">
+                            <font>
+                                <Font name="Arial Bold" size="13.0" />
+                            </font>
+                            <VBox.margin>
+                                <Insets top="6.0" />
+                            </VBox.margin>
+                        </Label>
+                        <TextField fx:id="txtEmail" prefHeight="32.0" promptText="Digite seu e-mail">
+                            <font>
+                                <Font name="Arial" size="13.0" />
+                            </font>
+                        </TextField>
+                  <Label text="Acesso">
+                     <font>
+                        <Font name="Arial Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <TextField promptText="Digite o nível de acesso" />
+                        <Label text="Senha">
+                            <font>
+                                <Font name="Arial Bold" size="13.0" />
+                            </font>
+                            <VBox.margin>
+                                <Insets top="6.0" />
+                            </VBox.margin>
+                        </Label>
+                        <PasswordField fx:id="txtSenha" prefHeight="32.0" promptText="Crie uma senha">
+                            <font>
+                                <Font name="Arial" size="13.0" />
+                            </font>
+                        </PasswordField>
+                        <Label text="Confirmar Senha">
+                            <font>
+                                <Font name="Arial Bold" size="13.0" />
+                            </font>
+                            <VBox.margin>
+                                <Insets top="6.0" />
+                            </VBox.margin>
+                        </Label>
+                        <PasswordField fx:id="txtConfirmarSenha" prefHeight="32.0" promptText="Confirme sua senha">
+                            <font>
+                                <Font name="Arial" size="13.0" />
+                            </font>
+                        </PasswordField>
+                        <HBox alignment="CENTER" prefHeight="45.0">
+                            <children>
+                                <Button fx:id="btnCadastrar" mnemonicParsing="false" onAction="#onCadastrar" prefHeight="35.0" prefWidth="160.0" styleClass="btn-laranja" text="CADASTRAR" textFill="WHITE">
+                                    <font>
+                                        <Font name="Arial Bold" size="13.0" />
+                                    </font>
+                                </Button>
+                            </children>
+                            <VBox.margin>
+                                <Insets top="15.0" />
+                            </VBox.margin>
+                        </HBox>
+                    </children>
+                </VBox>
+            </children>
+            <padding>
+                <Insets bottom="15.0" left="20.0" right="20.0" top="5.0" />
+            </padding>
+        </VBox>
+    </center>
+</BorderPane>

@@ -1,0 +1,259 @@
+.btn-padrao {
+    -fx-background-color:  #aecae6;
+    -fx-background-radius: 10;
+    -fx-pref-width: 185;
+    -fx-pref-height: 40;
+    -fx-font-family: "Arial";
+    -fx-font-size: 17;
+    -fx-text-fill: black;
+    -fx-cursor: hand;
+}
+
+.btn-padrao:hover{
+    /*
+       Parâmetros do dropshadow:
+       - three-pass-box: algoritmo de blur suave
+       - rgba(0,0,0,0.4): cor preta com 40% de opacidade
+       - 10: raio do blur (espalhamento)
+       - 0.5: quanto a sombra se espalha além do blur
+       - 5: deslocamento em X (move para a direita)
+       - 5: deslocamento em Y (move para baixo)
+    */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0.5, 5, 5);
+}
+
+.btn-click {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0.5, 5, 5);
+}
+
+.btn-click2 {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,225,225,0.4), 10, 0.5, 5, 5);
+}
+
+.btn-padrao-transparent {
+    -fx-background-color:  transparent;
+    -fx-background-radius: 10;
+    -fx-pref-width: 150;
+    -fx-pref-height: 40;
+    -fx-font-family: "Arial";
+    -fx-font-size: 14;
+    -fx-text-fill: black;
+    -fx-cursor: hand;
+    -fx-text-alignment: left;
+}
+.btn-padrao-transparent:hover { /*botão configuração
+    /*
+       Parâmetros do dropshadow:
+       - three-pass-box: algoritmo de blur suave
+       - rgba(0,0,0,0.4): cor preta com 40% de opacidade
+       - 10: raio do blur (espalhamento)
+       - 0.5: quanto a sombra se espalha além do blur
+       - 5: deslocamento em X (move para a direita)
+       - 5: deslocamento em Y (move para baixo)
+    */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0.5, 5, 5);
+}
+.btn-padrao-home { /* botão controle de estoque*/
+    -fx-background-color:  #aecae6;
+    -fx-background-radius: 10;
+    -fx-pref-width: 185;
+    -fx-pref-height: 40;
+    -fx-font-family: "Arial";
+    -fx-font-size: 14;
+    -fx-text-fill: black;
+    -fx-cursor: hand;
+    -fx-text-alignment: left;
+}
+.btn-padrao-home:hover {
+    /*
+       Parâmetros do dropshadow:
+       - three-pass-box: algoritmo de blur suave
+       - rgba(0,0,0,0.4): cor preta com 40% de opacidade
+       - 10: raio do blur (espalhamento)
+       - 0.5: quanto a sombra se espalha além do blur
+       - 5: deslocamento em X (move para a direita)
+       - 5: deslocamento em Y (move para baixo)
+    */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0.5, 5, 5);
+}
+
+.painel-lateral {
+    -fx-background-color: #8daccb;
+    -fx-border-color: #054584;
+    -fx-border-width: 2;
+}
+.painel-center{
+    -fx-border-color: #054584;
+    -fx-border-width: 3.5;
+}
+.painel-superior {
+    -fx-background-color: #054584;
+}
+.btn-sair {
+    -fx-background-color: transparent;
+    -fx-background-radius: 10;
+    -fx-font-family: "Arial";
+    -fx-text-fill: black;
+    -fx-cursor: hand;
+    -fx-text-alignment: center;
+    -fx-border-color: #f3ad50;
+    -fx-border-radius: 5;
+    -fx-border-width: 0 0 2 0;
+.btn-sair:hover,
+.btn-sair-adimin:hover {
+    /*
+       Parâmetros do dropshadow:
+       - three-pass-box: algoritmo de blur suave
+       - rgba(0,0,0,0.4): cor preta com 40% de opacidade
+       - 10: raio do blur (espalhamento)
+       - 0.5: quanto a sombra se espalha além do blur
+       - 5: deslocamento em X (move para a direita)
+       - 5: deslocamento em Y (move para baixo)
+    */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0.5, 5, 5);
+}
+.btn-padrao-transparent-2 {
+    -fx-background-color:  transparent;
+    -fx-background-radius: 10;
+    -fx-font-family: "Arial";
+    -fx-font-size: 14;
+    -fx-text-fill: WHITE;
+    -fx-cursor: hand;
+    -fx-text-alignment: CENTER_LEFT;
+}
+.btn-padrao-transparent-2:hover { /*botão configuração
+    /*
+       Parâmetros do dropshadow:
+       - three-pass-box: algoritmo de blur suave
+       - rgba(0,0,0,0.4): cor preta com 40% de opacidade
+       - 10: raio do blur (espalhamento)
+       - 0.5: quanto a sombra se espalha além do blur
+       - 5: deslocamento em X (move para a direita)
+       - 5: deslocamento em Y (move para baixo)
+    */
+    -fx-effect: dropshadow(three-pass-box, rgba(225,225,225,0.5), 10, 0.5, 5, 5);
+}
+.table-view {
+    -fx-font-family: "Arial"; /* Sua fonte preferida */
+    -fx-control-inner-background:  #054584; /* Cor de fundo das células */
+    -fx-font-family: "Arial";
+    -fx-font-size: 15px;
+    -fx-background-color: transparent; /* Fundo transparente */
+
+    /* Borda externa de tamanho 3 e cor #054584 */
+    -fx-border-color: #054584;
+    -fx-border-width: 3px;
+    -fx-border-radius: 5px; /* Opcional: deixa a borda levemente arredondada */
+}
+
+/* Muda a cor do texto das células */
+.table-cell {
+    -fx-text-fill: #000000;
+    -fx-font-family: "Arial";
+    -fx-control-inner-background:  #054584;
+}
+
+/* 2. Estilização dos Cabeçalhos das Colunas (TableColumn) */
+.table-view .column-header,
+.table-view .column-header-background .filler {
+    -fx-background-color: #054584; /* Cor de fundo das colunas */
+    -fx-border-width: 1;
+    -fx-border-color: #ffffff;
+}
+
+/* Cor do texto do cabeçalho */
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+/* 4. Estilização das Linhas quando selecionadas (Opcional, para não sumir o texto) */
+.table-row-cell:selected {
+    -fx-background-color: #054584;
+    -fx-background-insets: 0;
+}
+
+/* 5. Remove aquela borda extra quando a tabela ganha foco */
+.table-view:focused {
+    -fx-background-color: transparent, transparent, transparent;
+}
+
+.btn-relatorio {
+    -fx-background-color:  #aecae6;
+    -fx-background-radius: 5;
+    -fx-font-family: "Arial";
+    -fx-font-weight: Bold;
+    -fx-font-style: italic;
+    -fx-font-size: 15;
+    -fx-text-fill: black;
+    -fx-cursor: hand;
+}
+.btn-relatorio:hover{
+    /*
+       Parâmetros do dropshadow:
+       - three-pass-box: algoritmo de blur suave
+       - rgba(0,0,0,0.4): cor preta com 40% de opacidade
+       - 10: raio do blur (espalhamento)
+       - 0.5: quanto a sombra se espalha além do blur
+       - 5: deslocamento em X (move para a direita)
+       - 5: deslocamento em Y (move para baixo)
+    */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0.5, 5, 5);
+}
+.btn-padrao-2{
+    -fx-background-color: #aecae6;
+    -fx-background-radius: 8;
+    -fx-pref-width: 90;
+    -fx-font-family: "Arial";
+    -fx-font-size: 12;
+    -fx-text-fill: BLACK;
+    -fx-cursor: hand;
+    -fx-text-alignment: center;
+    -fx-border-color: #f3ad50;
+    -fx-border-radius: 5;
+    -fx-border-width: 0 0 2 0;
+}
+.btn-padrao-2:hover{ /* */
+    /*
+       Parâmetros do dropshadow:
+       - three-pass-box: algoritmo de blur suave
+       - rgba(0,0,0,0.4): cor preta com 40% de opacidade
+       - 10: raio do blur (espalhamento)
+       - 0.5: quanto a sombra se espalha além do blur
+       - 5: deslocamento em X (move para a direita)
+       - 5: deslocamento em Y (move para baixo)
+    */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0.5, 5, 5);
+}
+/* Configura as cores de fundo alternadas (Zebra) */
+.list-view {
+    -fx-control-inner-background: #aecae6;      /* Cor 1 (Ímpar) */
+    -fx-control-inner-background-alt: #f3ad50;  /* Cor 2 (Par) */
+}
+
+/* Configura as linhas divisórias */
+.list-cell {
+    -fx-border-color: #054584;      /* Cor da linha */
+    -fx-border-width: 1;
+    -fx-alignment: CENTER;
+    -fx-padding: 30px;              /* Espaçamento interno */
+}
+
+/* Remove a borda azul chata que aparece quando clicamos na lista */
+.list-view:focused {
+    -fx-background-color: transparent, -fx-box-border, -fx-control-inner-background;
+    -fx-background-insets: -1.4, 0, 1;
+}
+
+.painel-secundario {
+    -fx-background-color: #e4891b;
+}
+
+.btn-laranja {
+    -fx-background-color:#e4891b;
+    -fx-font-family: SansSerif;
+    -fx-font-weight: bold;
+}
+
+.btn-laranja:hover{
+    -fx-background-color: #ba7119;
+}

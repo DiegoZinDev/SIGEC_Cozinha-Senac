@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="520.0" stylesheets="@CSS/StyleSheet.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sigec.system.sigec.Controllers.EdicaoProdutosController">
+    <center>
+        <StackPane prefHeight="480.0" prefWidth="520.0" styleClass="painel-center" BorderPane.alignment="CENTER">
+            <children>
+                <ImageView fitHeight="380.0" fitWidth="380.0" opacity="0.15" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@imagens/LogocoloridaSenac.png" />
+                    </image>
+                </ImageView>
+                <VBox alignment="CENTER" maxWidth="450.0" prefHeight="480.0" prefWidth="450.0" spacing="12.0">
+                    <children>
+                        <Label alignment="CENTER" text="EDITAR PRODUTO" textFill="#054685">
+                            <font>
+                                <Font name="Arial Bold" size="20.0" />
+                            </font>
+                            <VBox.margin>
+                                <Insets bottom="10.0" top="10.0" />
+                            </VBox.margin>
+                        </Label>
+                        <VBox spacing="10.0">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" prefHeight="35.0">
+                                    <children>
+                                        <Label prefWidth="170.0" text="NOME DO PRODUTO">
+                                            <font>
+                                                <Font name="Arial Bold" size="13.0" />
+                                            </font>
+                                        </Label>
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <TextField fx:id="txtNomeProduto" prefHeight="30.0" prefWidth="220.0" promptText="Nome do produto">
+                                            <font>
+                                                <Font name="Arial" size="12.0" />
+                                            </font>
+                                        </TextField>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" prefHeight="35.0">
+                                    <children>
+                                        <Label prefWidth="170.0" text="QUANTIDADE ATUAL">
+                                            <font>
+                                                <Font name="Arial Bold" size="13.0" />
+                                            </font>
+                                        </Label>
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <TextField fx:id="txtQtdAtual" prefHeight="30.0" prefWidth="220.0" promptText="Quantidade em estoque">
+                                            <font>
+                                                <Font name="Arial" size="12.0" />
+                                            </font>
+                                        </TextField>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" prefHeight="35.0">
+                                    <children>
+                                        <Label prefWidth="170.0" text="ESTOQUE MÍNIMO">
+                                            <font>
+                                                <Font name="Arial Bold" size="13.0" />
+                                            </font>
+                                        </Label>
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <TextField fx:id="txtEstoqueMinimo" prefHeight="30.0" prefWidth="220.0" promptText="Estoque mínimo">
+                                            <font>
+                                                <Font name="Arial" size="12.0" />
+                                            </font>
+                                        </TextField>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" prefHeight="35.0">
+                                    <children>
+                                        <Label prefWidth="170.0" text="TIPO DO PRODUTO">
+                                            <font>
+                                                <Font name="Arial Bold" size="13.0" />
+                                            </font>
+                                        </Label>
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <ChoiceBox fx:id="txtTipoProduto" prefHeight="30.0" prefWidth="220.0" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" prefHeight="35.0">
+                                    <children>
+                                        <Label prefWidth="170.0" text="UNIDADE DE MEDIDA">
+                                            <font>
+                                                <Font name="Arial Bold" size="13.0" />
+                                            </font>
+                                        </Label>
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <ChoiceBox fx:id="txtUnidadeDeMedida" prefHeight="30.0" prefWidth="220.0" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" prefHeight="35.0">
+                                    <children>
+                                        <Label prefWidth="170.0" text="DATA DE VALIDADE">
+                                            <font>
+                                                <Font name="Arial Bold" size="13.0" />
+                                            </font>
+                                        </Label>
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <DatePicker fx:id="txtDataValidade" prefHeight="30.0" prefWidth="220.0" promptText="Selecione a data" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                        <HBox alignment="CENTER" prefHeight="50.0" spacing="40.0">
+                            <children>
+                                <Button fx:id="btnVoltar" mnemonicParsing="false" onAction="#voltarTela" prefHeight="35.0" prefWidth="120.0" styleClass="btn-padrao-2" text="VOLTAR">
+                                    <font>
+                                        <Font name="Arial Bold" size="13.0" />
+                                    </font>
+                                </Button>
+                                <Button fx:id="btnCadastro" mnemonicParsing="false" onAction="#onEditar" prefHeight="35.0" prefWidth="130.0" styleClass="btn-laranja" text="SALVAR" textFill="WHITE">
+                                    <font>
+                                        <Font name="Arial Bold" size="13.0" />
+                                    </font>
+                                </Button>
+                            </children>
+                            <VBox.margin>
+                                <Insets top="15.0" />
+                            </VBox.margin>
+                        </HBox>
+                    </children>
+                    <padding>
+                        <Insets bottom="15.0" left="20.0" right="20.0" top="10.0" />
+                    </padding>
+                </VBox>
+            </children>
+        </StackPane>
+    </center>
+</BorderPane>
