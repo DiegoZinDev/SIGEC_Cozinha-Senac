@@ -3,24 +3,46 @@
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.*?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@CSS/StyleSheet.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sigec.system.sigec.Controllers.ListaController">
     <top>
         <AnchorPane prefHeight="50.0" style="-fx-background-color: #054685;" BorderPane.alignment="CENTER">
             <children>
-                <ImageView fitHeight="40.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="5.0">
-                    <image>
-                        <Image url="@imagens/LogobrancaSenac.png" />
-                    </image>
-                </ImageView>
-                <Label alignment="CENTER" text="Sistema de Gerenciamento de Estoque da Cozinha" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <font>
-                        <Font name="Arial Bold" size="18.0" />
-                    </font>
-                </Label>
+                <!-- Parte de trás da onda (Branca) -->
+                <SVGPath content="M -5 55 L 330 50 C 390 50, 410 0, 470 0 L -5 -5 Z" fill="WHITE" stroke="TRANSPARENT" />
+
+                <!-- Fina borda azul escuro do lado da parte branca -->
+                <SVGPath content="M 328 50 C 388 50, 408 0, 468 0" fill="TRANSPARENT" stroke="#054685" strokeWidth="2.0" />
+
+                <!-- Linha laranja divisória seguindo o formato da onda (de baixo para cima) -->
+                <SVGPath content="M 330 50 C 390 50, 410 0, 470 0" fill="TRANSPARENT" stroke="#f3ad50" strokeWidth="3.5" />
+
+                <!-- Logo colorida Senac maior e centralizada no centro da parte branca -->
+                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <ImageView fitHeight="44.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@imagens/LogocoloridaSenac.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </HBox>
+
+                <!-- Sigla S.I.G.E.C centralizada na parte azul em branco do mesmo tamanho da logo -->
+                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <Label text="S.I.G.E.C" textFill="WHITE">
+                            <font>
+                                <Font name="Arial Bold" size="26.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
             </children>
         </AnchorPane>
     </top>
@@ -36,13 +58,16 @@
                             <image>
                                 <Image url="@imagens/home.png" />
                             </image>
+                            <effect>
+                                <ColorAdjust brightness="1.0" />
+                            </effect>
                         </ImageView>
                     </graphic>
                     <VBox.margin>
                         <Insets bottom="15.0" top="20.0" />
                     </VBox.margin>
                 </Button>
-                <Button alignment="BASELINE_LEFT" graphicTextGap="12.0" mnemonicParsing="false" text="Estoque">
+                <Button alignment="BASELINE_LEFT" graphicTextGap="12.0" mnemonicParsing="false" styleClass="btn-padrao" text="Estoque">
                     <font>
                         <Font name="Arial Bold" size="15.0" />
                     </font>
@@ -51,15 +76,14 @@
                             <image>
                                 <Image url="@imagens/estoque.png" />
                             </image>
+                            <effect>
+                                <ColorAdjust brightness="1.0" />
+                            </effect>
                         </ImageView>
                     </graphic>
                     <VBox.margin>
                         <Insets bottom="15.0" />
                     </VBox.margin>
-                    <styleClass>
-                        <String fx:value="btn-padrao" />
-                        <String fx:value="btn-click" />
-                    </styleClass>
                 </Button>
                 <Button alignment="BASELINE_LEFT" graphicTextGap="12.0" mnemonicParsing="false" onAction="#onClickRelatorio" styleClass="btn-padrao" text="Relatório">
                     <font>
@@ -70,32 +94,46 @@
                             <image>
                                 <Image url="@imagens/relatorio.png" />
                             </image>
+                            <effect>
+                                <ColorAdjust brightness="1.0" />
+                            </effect>
                         </ImageView>
                     </graphic>
                     <VBox.margin>
                         <Insets bottom="15.0" />
                     </VBox.margin>
                 </Button>
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="40.0" prefWidth="185.0" styleClass="btn-padrao" text="Cadastro">
-               <VBox.margin>
-                  <Insets bottom="70.0" />
-               </VBox.margin>
-               <graphic>
-                  <ImageView fitHeight="33.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@imagens/cadastroIMG.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-                <Button fx:id="botaoSair" alignment="CENTER" mnemonicParsing="false" onAction="#botaoSairAction" prefHeight="35.0" prefWidth="120.0" styleClass="btn-sair" text="Sair">
+                <Button alignment="BASELINE_LEFT" graphicTextGap="12.0" mnemonicParsing="false" onAction="#onClickCadastro" styleClass="btn-padrao" text="Cadastro">
                     <font>
-                        <Font name="Arial Bold" size="14.0" />
+                        <Font name="Arial Bold" size="15.0" />
                     </font>
+                    <graphic>
+                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@imagens/cadastroIMG.png" />
+                            </image>
+                            <effect>
+                                <ColorAdjust brightness="1.0" />
+                            </effect>
+                        </ImageView>
+                    </graphic>
                     <VBox.margin>
-                        <Insets bottom="20.0" />
+                        <Insets bottom="15.0" />
                     </VBox.margin>
                 </Button>
+                <Region VBox.vgrow="ALWAYS" />
+                <HBox alignment="CENTER_LEFT">
+                    <children>
+                        <Button fx:id="botaoSair" alignment="CENTER" mnemonicParsing="false" onAction="#botaoSairAction" styleClass="btn-sair" text="Sair">
+                            <font>
+                                <Font name="Arial Bold" size="13.0" />
+                            </font>
+                        </Button>
+                    </children>
+                    <VBox.margin>
+                        <Insets bottom="20.0" left="15.0" />
+                    </VBox.margin>
+                </HBox>
             </children>
         </VBox>
     </left>

@@ -63,9 +63,14 @@ public class ConfigDataBase {
     }
 
     public static Connection getConnection() throws SQLException {
-        String url = getEnvVar("DB_URL", "jdbc:mysql://mysql-1d28e263-sigec-5373.j.aivencloud.com:28873/db_sigec?sslMode=REQUIRED&serverTimezone=America/Sao_Paulo");
-        String user = getEnvVar("DB_USER", "avnadmin");
-        String pass = getEnvVar("DB_PASS", "AVNS_IE8GbetcX33ik0HL6db");
+        // Pegando os dados estritamente do ambiente ou do arquivo .env
+        String url = getEnvVar("DB_URL", "");
+        String user = getEnvVar("DB_USER", "");
+        String pass = getEnvVar("DB_PASS", "");
+
+        if (url.isBlank() || user.isBlank() || pass.isBlank()) {
+            throw new SQLException("Credenciais do banco de dados não encontradas no arquivo .env");
+        }
 
         return DriverManager.getConnection(url, user, pass);
     }
