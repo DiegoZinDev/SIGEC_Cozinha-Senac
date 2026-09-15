@@ -13,6 +13,28 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
+import javafx.animation.PathTransition;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.SVGPath;
+import javafx.scene.shape.Circle;
+import javafx.scene.Group;
+import javafx.util.Duration;
+import javafx.scene.image.ImageView;
+import javafx.scene.control.Label;
+
 public class LoginController {
 
     @FXML
@@ -26,6 +48,44 @@ public class LoginController {
 
     @FXML
     private Hyperlink lbesquecisenha;
+
+    @FXML
+    private SVGPath linhaLaranja;
+
+    @FXML
+    private VBox loginForm;
+
+    @FXML
+    private AnchorPane animatedBackground;
+
+    @FXML
+    private StackPane rootPane;
+
+    @FXML
+    private ImageView logoSenac;
+
+    @FXML
+    private Group waveGroup;
+
+    @FXML
+    public void initialize() {
+        if (linhaLaranja != null && waveGroup != null) {
+            // Criação do feixe de luz
+            Circle feixe = new Circle(8);
+            feixe.getStyleClass().add("particula-luz");
+            waveGroup.getChildren().add(feixe);
+
+            // Animação do feixe de luz acompanhando a linha sólida
+            PathTransition pt = new PathTransition();
+            pt.setDuration(Duration.seconds(4));
+            pt.setPath(linhaLaranja);
+            pt.setNode(feixe);
+            pt.setCycleCount(Timeline.INDEFINITE);
+            pt.setInterpolator(Interpolator.LINEAR);
+            pt.setRate(-1.0); // Movendo da direita (alto) para a esquerda (baixo)
+            pt.play();
+        }
+    }
 
     @FXML
     public void onButtonLoginClick(ActionEvent event) {
@@ -50,7 +110,7 @@ public class LoginController {
                 alert.setContentText("Login realizado com sucesso!");
                 alert.showAndWait();
 
-                MainApplication.trocadorDeTelas("home.fxml");
+                transicaoParaHome();
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Erro");
@@ -64,13 +124,49 @@ public class LoginController {
             alert.setHeaderText(null);
             alert.setContentText("Erro ao conectar ao banco de dados: " + e.getMessage());
             alert.showAndWait();
-        } catch (IOException e) {
+        } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erro de Navegação");
             alert.setHeaderText(null);
             alert.setContentText("Não foi possível carregar a tela principal: " + e.getMessage());
             alert.showAndWait();
         }
+
+    }
+
+    private void transicaoParaHome() throws IOException {
+        FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource("home.fxml"));
+        Parent homeRoot = loader.load();
+        
+        HomeController homeController = loader.getController();
+        homeController.prepararAnimacao();
+
+        // Adiciona a home por trás
+        rootPane.getChildren().add(0, homeRoot);
+
+        // Oculta o formulário e as logos antigas
+        FadeTransition ftForm = new FadeTransition(Duration.millis(400), loginForm);
+        ftForm.setToValue(0);
+        
+        FadeTransition ftLogo1 = new FadeTransition(Duration.millis(400), logoSenac);
+        ftLogo1.setToValue(0);
+
+        // Encolhe o fundo para virar a barra do topo (altura 50)
+        ScaleTransition st = new ScaleTransition(Duration.millis(800), animatedBackground);
+        st.setToY(50.0 / 600.0);
+        
+        TranslateTransition tt = new TranslateTransition(Duration.millis(800), animatedBackground);
+        tt.setToY(-275); // Move de modo que o centro fique na posição correta do topo
+
+        ParallelTransition pt = new ParallelTransition(ftForm, ftLogo1, st, tt);
+        pt.setOnFinished(e -> {
+            MainApplication.getPrimaryStage().getScene().setRoot(homeRoot);
+            homeController.iniciarAnimacaoLogos();
+        });
+        
+        // Desativa a janela durante a animação
+        MainApplication.getPrimaryStage().getScene().getRoot().setDisable(true);
+        pt.play();
     }
 
     @FXML

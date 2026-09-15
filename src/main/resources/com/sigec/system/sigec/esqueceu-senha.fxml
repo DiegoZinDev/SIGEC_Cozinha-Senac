@@ -18,7 +18,7 @@
     <top>
         <AnchorPane prefHeight="50.0" style="-fx-background-color: #054685;" BorderPane.alignment="CENTER">
             <children>
-                <ImageView fitHeight="40.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="5.0">
+                <ImageView fitHeight="44.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="3.0">
                     <image>
                         <Image url="@imagens/LogobrancaSenac.png" />
                     </image>

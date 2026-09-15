@@ -1,29 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.ColorAdjust?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.SVGPath?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@CSS/StyleSheet.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sigec.system.sigec.Controllers.HistoricoController">
     <top>
-        <AnchorPane prefHeight="50.0" style="-fx-background-color: #054685;" BorderPane.alignment="CENTER">
+        <AnchorPane prefHeight="13.0" prefWidth="800.0" style="-fx-background-color: #054685;" BorderPane.alignment="CENTER">
             <children>
                 <!-- Parte de trás da onda (Branca) -->
                 <SVGPath content="M -5 55 L 330 50 C 390 50, 410 0, 470 0 L -5 -5 Z" fill="WHITE" stroke="TRANSPARENT" />
@@ -35,18 +22,18 @@
                 <SVGPath content="M 330 50 C 390 50, 410 0, 470 0" fill="TRANSPARENT" stroke="#f3ad50" strokeWidth="3.5" />
 
                 <!-- Logo colorida Senac maior e centralizada no centro da parte branca -->
-                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <HBox alignment="CENTER" prefHeight="53.0" prefWidth="392.0" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
-                        <ImageView fitHeight="44.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@imagens/LogocoloridaSenac.png" />
-                            </image>
+                        <ImageView fitHeight="43.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@imagens/senac.png" />
+                     </image>
                         </ImageView>
                     </children>
                 </HBox>
 
                 <!-- Sigla S.I.G.E.C centralizada na parte azul em branco do mesmo tamanho da logo -->
-                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <HBox alignment="CENTER" layoutX="401.0" prefHeight="50.0" prefWidth="399.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="401.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
                         <Label text="S.I.G.E.C" textFill="WHITE">
                             <font>

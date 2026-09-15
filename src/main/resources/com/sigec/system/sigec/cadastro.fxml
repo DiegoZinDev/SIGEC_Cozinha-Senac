@@ -23,7 +23,7 @@
                 <!-- Logo colorida Senac maior e centralizada no centro da parte branca -->
                 <HBox alignment="CENTER" prefHeight="50.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
-                        <ImageView fitHeight="44.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="46.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@imagens/LogocoloridaSenac.png" />
                             </image>

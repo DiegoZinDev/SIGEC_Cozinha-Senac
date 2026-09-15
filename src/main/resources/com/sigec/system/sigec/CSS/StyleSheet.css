@@ -271,3 +271,25 @@
 .btn-laranja:hover{
     -fx-background-color: #ba7119;
 }
+
+/* --- Novos estilos do Login Inteiramente em CSS --- */
+.fundo-login {
+    -fx-background-color: #f6f8fb;
+}
+
+.onda-azul {
+    -fx-fill: #0b2647;
+    -fx-stroke: transparent;
+}
+
+.onda-laranja {
+    -fx-fill: transparent;
+    -fx-stroke: #e47d1b;
+    -fx-stroke-width: 6;
+    -fx-stroke-line-cap: round;
+}
+
+.particula-luz {
+    -fx-fill: #ffffff;
+    -fx-effect: dropshadow(three-pass-box, #ff9900, 20, 0.7, 0, 0);
+}

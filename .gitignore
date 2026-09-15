@@ -41,3 +41,4 @@ build/
 ### Antigravity & Secrets ###
 .antigravity/
 *.env
+.agent/

@@ -2,6 +2,7 @@ package com.sigec.system.sigec.Controllers;
 
 import com.sigec.system.sigec.MainApplication;
 import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -12,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -31,6 +33,12 @@ public class HomeController implements Initializable {
 
     @FXML
     private Label horaLabel;
+    
+    @FXML
+    private ImageView logoSenac;
+    
+    @FXML
+    private Label logoSigec;
 
     @FXML
     private TableView<?> tabelaAlertas;
@@ -73,6 +81,26 @@ public class HomeController implements Initializable {
             }));
             timeline.setCycleCount(Animation.INDEFINITE);
             timeline.play();
+        }
+    }
+
+    public void prepararAnimacao() {
+        if (logoSenac != null && logoSigec != null) {
+            logoSenac.setOpacity(0);
+            logoSigec.setOpacity(0);
+        }
+    }
+
+    public void iniciarAnimacaoLogos() {
+        if (logoSenac != null && logoSigec != null) {
+            FadeTransition ft1 = new FadeTransition(Duration.millis(800), logoSenac);
+            ft1.setToValue(1);
+            
+            FadeTransition ft2 = new FadeTransition(Duration.millis(800), logoSigec);
+            ft2.setToValue(1);
+            
+            ft1.play();
+            ft2.play();
         }
     }
 
