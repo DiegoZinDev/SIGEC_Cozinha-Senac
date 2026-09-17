@@ -36,6 +36,9 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.paint.CycleMethod;
 
+/**
+ * LoginController
+ */
 public class LoginController {
 
     @FXML
@@ -74,35 +77,8 @@ public class LoginController {
             // Remove os elementos SVG antigos
             waveGroup.getChildren().clear();
 
-            Canvas canvas = new Canvas(800, 600);
-            // Garante que o canvas ocupe a tela toda usando o rootPane
-            canvas.widthProperty().bind(rootPane.widthProperty());
-            canvas.heightProperty().bind(rootPane.heightProperty());
-
-            // Adiciona o canvas no fundo (índice 0)
-            animatedBackground.getChildren().add(0, canvas);
-
-            GraphicsContext gc = canvas.getGraphicsContext2D();
-
-            AnimationTimer timer = new AnimationTimer() {
-                private long lastUpdate = 0;
-                private double time = 0;
-
-                @Override
-                public void handle(long now) {
-                    if (lastUpdate == 0) {
-                        lastUpdate = now;
-                        return;
-                    }
-                    double deltaSeconds = (now - lastUpdate) / 1_000_000_000.0;
-                    lastUpdate = now;
-
-                    time += deltaSeconds;
-
-                    renderBackground(gc, canvas.getWidth(), canvas.getHeight(), time);
-                }
-            };
-            timer.start();
+            // Usa a classe utilitária para renderizar e animar o fundo
+            com.sigec.system.sigec.Utils.BackgroundAnimator.startAnimation(animatedBackground, rootPane);
         }
 
         if (logoSenac != null) {
@@ -121,93 +97,6 @@ public class LoginController {
             ptLogo.setDelay(Duration.millis(300)); // Pequeno delay antes de iniciar
             ptLogo.play();
         }
-    }
-
-    private void renderBackground(GraphicsContext gc, double width, double height, double time) {
-        // Fundo
-        gc.setFill(Color.web("#f6f8fb"));
-        gc.fillRect(0, 0, width, height);
-
-        // Padrão diagonal suave (agora escalonado para cobrir qualquer tamanho de tela)
-        gc.save();
-        gc.setStroke(Color.web("#c8d2df", 0.10)); // Muito mais transparente (quase invisível)
-        gc.setLineWidth(14); 
-        gc.setLineCap(StrokeLineCap.ROUND); // Bordas arredondadas nos traços
-        gc.setLineDashes(70, 45); 
-        
-        double diag = Math.sqrt(width * width + height * height);
-        gc.translate(width / 2, height / 2);
-        gc.rotate(-15);
-        gc.translate(-diag, -diag);
-        
-        int row = 0;
-        for (double y = 0; y < diag * 2; y += 65) { // Espaçamento maior entre as linhas
-            gc.setLineDashOffset(row % 2 == 0 ? 0 : 50); 
-            gc.strokeLine(0, y, diag * 2, y);
-            row++;
-        }
-        gc.restore();
-
-        // Coordenadas relativas para desenhar a onda proporcional ao tamanho da tela
-        double w = width;
-        double h = height;
-        
-        // Forma da onda azul (agora iniciando com espaço em branco na esquerda)
-        gc.save();
-        gc.beginPath();
-        gc.moveTo(w * 0.15, h);
-        // Primeiro Cubic Bezier: sobe abruptamente formando uma lombada suave, e desce para um vale
-        gc.bezierCurveTo(w * 0.25, h * 0.65, w * 0.45, h * 0.65, w * 0.65, h * 0.88);
-        // Segundo Cubic Bezier: sobe suavemente do vale até encostar na borda direita
-        gc.bezierCurveTo(w * 0.75, h * 1.0, w * 0.9, h * 0.65, w + 5, h * 0.65);
-        gc.lineTo(w + 5, h + 50); // Desce para o canto inferior direito
-        gc.lineTo(w * 0.15, h + 50); // Volta reta pelo chão até o ponto X inicial
-        gc.closePath();
-        gc.setFill(Color.web("#0b2647"));
-        gc.fill();
-        gc.restore();
-        
-        // Linha laranja com espessura variável (Tapered shape ajustado ao Cubic Bezier)
-        gc.save();
-        gc.beginPath();
-        // Borda superior (acompanha a nova onda azul)
-        gc.moveTo(w * 0.15, h);
-        gc.bezierCurveTo(w * 0.25, h * 0.65, w * 0.45, h * 0.65, w * 0.65, h * 0.88);
-        gc.bezierCurveTo(w * 0.75, h * 1.0, w * 0.9, h * 0.65, w + 5, h * 0.65);
-        
-        // Borda inferior (traçando de volta calculando a espessura dinamicamente)
-        gc.lineTo(w + 5, h * 0.65 + 14); // 14px na direita
-        gc.bezierCurveTo(
-            w * 0.9, h * 0.65 + 12.6, 
-            w * 0.75, h * 1.0 + 10.5, 
-            w * 0.65, h * 0.88 + 9.1
-        );
-        gc.bezierCurveTo(
-            w * 0.45, h * 0.65 + 6.2, 
-            w * 0.25, h * 0.65 + 3.4, 
-            w * 0.15, h + 2 // 2px na esquerda
-        );
-        gc.closePath();
-        
-        // Efeito de REFLEXO suave e contínuo no formato preenchido
-        double durationSeconds = 6.0; 
-        double phase = (time % durationSeconds) / durationSeconds;
-        double highlightCenter = phase * (w + 1600) - 800; 
-        
-        LinearGradient reflectionGradient = new LinearGradient(
-            highlightCenter - 600, 0,
-            highlightCenter + 600, 0,
-            false,
-            CycleMethod.NO_CYCLE,
-            new Stop(0.0, Color.web("#e47d1b")),         // Laranja sólido nas pontas
-            new Stop(0.5, Color.web("#ffd9b3")),         // Reflexo central suave
-            new Stop(1.0, Color.web("#e47d1b"))
-        );
-        
-        gc.setFill(reflectionGradient);
-        gc.fill();
-        
-        gc.restore();
     }
 
     @FXML

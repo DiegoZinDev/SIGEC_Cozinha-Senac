@@ -1,134 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Hyperlink?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@CSS/StyleSheet.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sigec.system.sigec.Controllers.ConfirmaEmailController">
-    <top>
-        <AnchorPane prefHeight="50.0" style="-fx-background-color: #054685;" BorderPane.alignment="CENTER">
-            <children>
-                <ImageView fitHeight="44.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="3.0">
-                    <image>
-                        <Image url="@imagens/LogobrancaSenac.png" />
-                    </image>
-                </ImageView>
-            </children>
-        </AnchorPane>
-    </top>
-    <left>
-        <VBox alignment="TOP_CENTER" prefWidth="80.0" BorderPane.alignment="CENTER">
-            <children>
-                <Hyperlink onAction="#onVoltarClick" text="← Voltar" textFill="#054685">
-                    <font>
-                        <Font name="Arial Bold" size="15.0" />
-                    </font>
-                    <VBox.margin>
-                        <Insets top="15.0" />
-                    </VBox.margin>
-                </Hyperlink>
-            </children>
-        </VBox>
-    </left>
-    <right>
-        <VBox prefWidth="80.0" BorderPane.alignment="CENTER" />
-    </right>
-    <center>
-        <VBox alignment="CENTER" prefHeight="550.0" prefWidth="640.0" spacing="10.0" BorderPane.alignment="CENTER">
-            <children>
-                <ImageView fitHeight="100.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@imagens/LogocoloridaSenac.png" />
-                    </image>
-                    <VBox.margin>
-                        <Insets bottom="5.0" />
-                    </VBox.margin>
-                </ImageView>
-                <Label text="ESQUECEU SUA SENHA" textFill="#054685">
-                    <font>
-                        <Font name="Arial Bold" size="20.0" />
-                    </font>
-                </Label>
-                <VBox alignment="CENTER_LEFT" maxWidth="430.0" prefWidth="430.0" spacing="6.0">
-                    <children>
-                        <Label text="Insira abaixo seu e-mail para redefinição de senha:">
-                            <font>
-                                <Font name="Arial" size="13.0" />
-                            </font>
-                        </Label>
-                        <Label text="E-MAIL">
-                            <font>
-                                <Font name="Arial Bold" size="12.0" />
-                            </font>
-                            <VBox.margin>
-                                <Insets top="4.0" />
-                            </VBox.margin>
-                        </Label>
-                        <TextField fx:id="emailDigitar" prefHeight="32.0" promptText="Digite seu e-mail cadastrado">
-                            <font>
-                                <Font name="Arial" size="13.0" />
-                            </font>
-                        </TextField>
-                        <HBox alignment="CENTER_RIGHT" prefHeight="35.0">
-                            <children>
-                                <Button mnemonicParsing="false" onAction="#onConfirmaEmailClick" prefHeight="30.0" prefWidth="130.0" styleClass="btn-laranja" text="ENVIAR CÓDIGO" textFill="WHITE">
-                                    <font>
-                                        <Font name="Arial Bold" size="12.0" />
-                                    </font>
-                                </Button>
-                            </children>
-                        </HBox>
-                        <Separator prefWidth="200.0">
-                            <VBox.margin>
-                                <Insets bottom="5.0" top="5.0" />
-                            </VBox.margin>
-                        </Separator>
-                        <Label text="Insira o código recebido no e-mail:">
-                            <font>
-                                <Font name="Arial" size="13.0" />
-                            </font>
-                        </Label>
-                        <Label text="CÓDIGO">
-                            <font>
-                                <Font name="Arial Bold" size="12.0" />
-                            </font>
-                            <VBox.margin>
-                                <Insets top="4.0" />
-                            </VBox.margin>
-                        </Label>
-                        <TextField fx:id="codigoDigitar" prefHeight="32.0" promptText="Digite o código de verificação">
-                            <font>
-                                <Font name="Arial" size="13.0" />
-                            </font>
-                        </TextField>
-                        <HBox alignment="CENTER" prefHeight="45.0">
-                            <children>
-                                <Button mnemonicParsing="false" onAction="#onConfirmaToken" prefHeight="35.0" prefWidth="160.0" styleClass="btn-laranja" text="CONFIRMAR" textFill="WHITE">
-                                    <font>
-                                        <Font name="Arial Bold" size="13.0" />
-                                    </font>
-                                </Button>
-                            </children>
-                            <VBox.margin>
-                                <Insets top="10.0" />
-                            </VBox.margin>
-                        </HBox>
-                    </children>
-                </VBox>
-            </children>
-            <padding>
-                <Insets bottom="15.0" left="20.0" right="20.0" top="5.0" />
-            </padding>
-        </VBox>
-    </center>
-</BorderPane>
+<StackPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@CSS/StyleSheet.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sigec.system.sigec.Controllers.ConfirmaEmailController">
+    <!-- Fundo animado que cobre toda a tela -->
+    <AnchorPane fx:id="animatedBackground" prefHeight="600.0" prefWidth="800.0" styleClass="fundo-login" />
+
+    <!-- Elementos Flutuantes -->
+    <AnchorPane pickOnBounds="false">
+        <children>
+            <!-- Botão Voltar -->
+            <Button mnemonicParsing="false" onAction="#onVoltarClick" prefHeight="40.0" prefWidth="120.0" styleClass="btn-laranja" text="⬅ Voltar" textFill="WHITE" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
+                <font>
+                    <Font name="Arial Bold" size="14.0" />
+                </font>
+            </Button>
+        </children>
+    </AnchorPane>
+
+    <!-- Container Central -->
+    <VBox alignment="CENTER" maxHeight="530.0" maxWidth="500.0" spacing="10.0" style="-fx-background-color: rgba(255, 255, 255, 0.95); -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 5);">
+        <children>
+            <ImageView fitHeight="100.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@imagens/LogocoloridaSenac.png" />
+                </image>
+                <VBox.margin>
+                    <Insets bottom="5.0" />
+                </VBox.margin>
+            </ImageView>
+            <Label text="ESQUECEU SUA SENHA?" textFill="#054685">
+                <font>
+                    <Font name="Arial Bold" size="20.0" />
+                </font>
+            </Label>
+            <VBox alignment="CENTER_LEFT" maxWidth="430.0" prefWidth="430.0" spacing="6.0">
+                <children>
+                    <Label text="Insira abaixo seu e-mail para redefinição de senha:">
+                        <font>
+                            <Font name="Arial" size="13.0" />
+                        </font>
+                    </Label>
+                    <Label text="E-MAIL">
+                        <font>
+                            <Font name="Arial Bold" size="12.0" />
+                        </font>
+                        <VBox.margin>
+                            <Insets top="4.0" />
+                        </VBox.margin>
+                    </Label>
+                    <TextField fx:id="emailDigitar" prefHeight="32.0" promptText="Digite seu e-mail cadastrado">
+                        <font>
+                            <Font name="Arial" size="13.0" />
+                        </font>
+                    </TextField>
+                    <HBox alignment="CENTER_RIGHT" prefHeight="35.0">
+                        <children>
+                            <Button mnemonicParsing="false" onAction="#onConfirmaEmailClick" prefHeight="30.0" prefWidth="130.0" styleClass="btn-laranja" text="ENVIAR CÓDIGO" textFill="WHITE">
+                                <font>
+                                    <Font name="Arial Bold" size="12.0" />
+                                </font>
+                            </Button>
+                        </children>
+                    </HBox>
+                    <Separator prefWidth="200.0">
+                        <VBox.margin>
+                            <Insets bottom="5.0" top="5.0" />
+                        </VBox.margin>
+                    </Separator>
+                    <Label text="Insira o código recebido no e-mail:">
+                        <font>
+                            <Font name="Arial" size="13.0" />
+                        </font>
+                    </Label>
+                    <Label text="CÓDIGO">
+                        <font>
+                            <Font name="Arial Bold" size="12.0" />
+                        </font>
+                        <VBox.margin>
+                            <Insets top="4.0" />
+                        </VBox.margin>
+                    </Label>
+                    <TextField fx:id="codigoDigitar" prefHeight="32.0" promptText="Digite o código de verificação">
+                        <font>
+                            <Font name="Arial" size="13.0" />
+                        </font>
+                    </TextField>
+                    <HBox alignment="CENTER" prefHeight="45.0">
+                        <children>
+                            <Button mnemonicParsing="false" onAction="#onConfirmaToken" prefHeight="35.0" prefWidth="160.0" styleClass="btn-laranja" text="CONFIRMAR" textFill="WHITE">
+                                <font>
+                                    <Font name="Arial Bold" size="13.0" />
+                                </font>
+                            </Button>
+                        </children>
+                        <VBox.margin>
+                            <Insets top="10.0" />
+                        </VBox.margin>
+                    </HBox>
+                </children>
+            </VBox>
+        </children>
+        <padding>
+            <Insets bottom="30.0" left="40.0" right="40.0" top="20.0" />
+        </padding>
+    </VBox>
+</StackPane>
