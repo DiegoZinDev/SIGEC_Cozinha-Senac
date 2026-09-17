@@ -18,7 +18,7 @@
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@CSS/StyleSheet.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sigec.system.sigec.Controllers.HomeController">
+<BorderPane prefHeight="600.0" prefWidth="800.0" stylesheets="@CSS/StyleSheet.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sigec.system.sigec.Controllers.HomeController">
     <top>
         <AnchorPane prefHeight="50.0" style="-fx-background-color: #054685;" BorderPane.alignment="CENTER">
             <children>
@@ -223,3 +223,4 @@
         </StackPane>
     </center>
 </BorderPane>
+

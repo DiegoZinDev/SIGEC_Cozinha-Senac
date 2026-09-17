@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<StackPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@CSS/StyleSheet.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sigec.system.sigec.Controllers.ConfirmaEmailController">
+<StackPane fx:id="rootPane" prefHeight="600.0" prefWidth="800.0" stylesheets="@CSS/StyleSheet.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sigec.system.sigec.Controllers.ConfirmaEmailController">
     <!-- Fundo animado que cobre toda a tela -->
     <AnchorPane fx:id="animatedBackground" prefHeight="600.0" prefWidth="800.0" styleClass="fundo-login" />
 
@@ -110,3 +110,4 @@
         </padding>
     </VBox>
 </StackPane>
+
