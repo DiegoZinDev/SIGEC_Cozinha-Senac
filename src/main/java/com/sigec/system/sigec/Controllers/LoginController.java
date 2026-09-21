@@ -2,6 +2,7 @@ package com.sigec.system.sigec.Controllers;
 
 import com.sigec.system.sigec.DAOS.UserDAO;
 import com.sigec.system.sigec.MainApplication;
+import com.sigec.system.sigec.Services.ScreenTransitionManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -172,12 +173,19 @@ public class LoginController {
 
         ParallelTransition pt = new ParallelTransition(ftForm, ftLogo1, st, tt);
         pt.setOnFinished(e -> {
-            MainApplication.getPrimaryStage().getScene().setRoot(homeRoot);
+            MainApplication.getRootContainer().getChildren().setAll(homeRoot);
+            if (MainApplication.getPrimaryStage().getScene().getRoot() != MainApplication.getRootContainer()) {
+                MainApplication.getPrimaryStage().getScene().setRoot(MainApplication.getRootContainer());
+            }
+            MainApplication.getRootContainer().setDisable(false);
             homeController.iniciarAnimacaoLogos();
+            ScreenTransitionManager.setCurrentFxml("home.fxml");
         });
 
         // Desativa a janela durante a animação
-        MainApplication.getPrimaryStage().getScene().getRoot().setDisable(true);
+        if (MainApplication.getRootContainer() != null) {
+            MainApplication.getRootContainer().setDisable(true);
+        }
         pt.play();
     }
 

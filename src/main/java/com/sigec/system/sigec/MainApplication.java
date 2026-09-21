@@ -4,6 +4,7 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import com.sigec.system.sigec.Services.ScreenTransitionManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -36,36 +37,11 @@ public class MainApplication extends Application {
     }
 
     public static void trocadorDeTelas(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(
-                MainApplication.class.getResource(fxml)
-        );
-        Parent newView = fxmlLoader.load();
+        trocadorDeTelas(fxml, ScreenTransitionManager.Direction.AUTO);
+    }
 
-        if (rootContainer.getChildren().isEmpty()) {
-            rootContainer.getChildren().add(newView);
-        } else {
-            // Pega a tela atual (último elemento adicionado no StackPane)
-            Parent oldView = (Parent) rootContainer.getChildren().get(rootContainer.getChildren().size() - 1);
-            // Desativa interações na tela antiga durante a transição para evitar cliques duplos
-            oldView.setDisable(true);
-            
-            // Prepara a nova tela para entrar pela direita
-            newView.setTranslateX(rootContainer.getWidth());
-            rootContainer.getChildren().add(newView);
-            
-            // Cria a animação de transição deslizando
-            Timeline timeline = new Timeline();
-            KeyValue kvNovaTela = new KeyValue(newView.translateXProperty(), 0, Interpolator.EASE_BOTH);
-            KeyValue kvTelaAntiga = new KeyValue(oldView.translateXProperty(), -rootContainer.getWidth(), Interpolator.EASE_BOTH);
-            
-            KeyFrame kf = new KeyFrame(Duration.millis(500), kvNovaTela, kvTelaAntiga);
-            timeline.getKeyFrames().add(kf);
-            timeline.setOnFinished(e -> {
-                // Remove a tela antiga quando a animação termina
-                rootContainer.getChildren().remove(oldView);
-            });
-            timeline.play();
-        }
+    public static void trocadorDeTelas(String fxml, ScreenTransitionManager.Direction direction) throws IOException {
+        ScreenTransitionManager.trocarTela(rootContainer, fxml, direction);
     }
 
     public static void abrirPopUp(String fxml) throws IOException {
@@ -90,5 +66,9 @@ public class MainApplication extends Application {
 
     public static Stage getPrimaryStage() {
         return primaryStage;
+    }
+
+    public static StackPane getRootContainer() {
+        return rootContainer;
     }
 }
