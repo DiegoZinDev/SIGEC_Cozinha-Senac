@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -14,29 +15,41 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@CSS/StyleSheet.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sigec.system.sigec.Controllers.HomeController">
+<BorderPane prefHeight="600.0" prefWidth="800.0" stylesheets="@CSS/StyleSheet.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sigec.system.sigec.Controllers.HomeController">
     <top>
-        <AnchorPane prefHeight="50.0" style="-fx-background-color: #054685;" BorderPane.alignment="CENTER">
+        <AnchorPane fx:id="topBarPane" prefHeight="50.0" style="-fx-background-color: #0b2647;" BorderPane.alignment="CENTER">
             <children>
-                <ImageView fitHeight="40.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="5.0">
-                    <image>
-                        <Image url="@imagens/LogobrancaSenac.png" />
-                    </image>
-                </ImageView>
-                <Label alignment="CENTER" text="Sistema de Gerenciamento de Estoque da Cozinha" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <font>
-                        <Font name="Arial Bold" size="18.0" />
-                    </font>
-                </Label>
+                <!-- Logo colorida Senac maior e posicionada na parte clara da onda -->
+                <HBox alignment="CENTER_LEFT" prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <ImageView fx:id="logoSenac" fitHeight="42.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@imagens/LogocoloridaSenac.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </HBox>
+
+                <!-- Sigla S.I.G.E.C centralizada na parte azul marinho em branco -->
+                <HBox alignment="CENTER_RIGHT" prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <Label fx:id="logoSigec" text="S.I.G.E.C" textFill="WHITE">
+                            <font>
+                                <Font name="Arial Bold" size="24.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
             </children>
         </AnchorPane>
     </top>
     <left>
         <VBox alignment="TOP_CENTER" prefHeight="550.0" prefWidth="200.0" styleClass="painel-lateral" BorderPane.alignment="CENTER">
             <children>
-                <Button alignment="BASELINE_LEFT" graphicTextGap="12.0" mnemonicParsing="false" text="Página Inicial">
+                <Button alignment="BASELINE_LEFT" graphicTextGap="12.0" mnemonicParsing="false" styleClass="btn-padrao" text="Página Inicial">
                     <font>
                         <Font name="Arial Bold" size="15.0" />
                     </font>
@@ -45,15 +58,14 @@
                             <image>
                                 <Image url="@imagens/home.png" />
                             </image>
+                            <effect>
+                                <ColorAdjust brightness="1.0" />
+                            </effect>
                         </ImageView>
                     </graphic>
                     <VBox.margin>
                         <Insets bottom="15.0" top="20.0" />
                     </VBox.margin>
-                    <styleClass>
-                        <String fx:value="btn-padrao" />
-                        <String fx:value="btn-click" />
-                    </styleClass>
                 </Button>
                 <Button alignment="BASELINE_LEFT" graphicTextGap="12.0" mnemonicParsing="false" onAction="#botaoEstoqueAction" styleClass="btn-padrao" text="Estoque">
                     <font>
@@ -64,6 +76,9 @@
                             <image>
                                 <Image url="@imagens/estoque.png" />
                             </image>
+                            <effect>
+                                <ColorAdjust brightness="1.0" />
+                            </effect>
                         </ImageView>
                     </graphic>
                     <VBox.margin>
@@ -79,6 +94,27 @@
                             <image>
                                 <Image url="@imagens/relatorio.png" />
                             </image>
+                            <effect>
+                                <ColorAdjust brightness="1.0" />
+                            </effect>
+                        </ImageView>
+                    </graphic>
+                    <VBox.margin>
+                        <Insets bottom="15.0" />
+                    </VBox.margin>
+                </Button>
+                <Button alignment="BASELINE_LEFT" graphicTextGap="12.0" mnemonicParsing="false" onAction="#onClickCadastro" styleClass="btn-padrao" text="Cadastro">
+                    <font>
+                        <Font name="Arial Bold" size="15.0" />
+                    </font>
+                    <graphic>
+                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@imagens/cadastroIMG.png" />
+                            </image>
+                            <effect>
+                                <ColorAdjust brightness="1.0" />
+                            </effect>
                         </ImageView>
                     </graphic>
                     <VBox.margin>
@@ -86,14 +122,18 @@
                     </VBox.margin>
                 </Button>
                 <Region VBox.vgrow="ALWAYS" />
-                <Button fx:id="botaoSair" alignment="CENTER" mnemonicParsing="false" onAction="#botaoSairAction" prefHeight="35.0" prefWidth="120.0" styleClass="btn-sair" text="Sair">
-                    <font>
-                        <Font name="Arial Bold" size="14.0" />
-                    </font>
+                <HBox alignment="CENTER_LEFT">
+                    <children>
+                        <Button fx:id="botaoSair" alignment="CENTER" mnemonicParsing="false" onAction="#botaoSairAction" styleClass="btn-sair" text="Sair">
+                            <font>
+                                <Font name="Arial Bold" size="13.0" />
+                            </font>
+                        </Button>
+                    </children>
                     <VBox.margin>
-                        <Insets bottom="20.0" />
+                        <Insets bottom="20.0" left="15.0" />
                     </VBox.margin>
-                </Button>
+                </HBox>
             </children>
         </VBox>
     </left>
@@ -174,3 +214,4 @@
         </StackPane>
     </center>
 </BorderPane>
+

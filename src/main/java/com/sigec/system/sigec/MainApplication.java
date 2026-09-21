@@ -1,9 +1,11 @@
 package com.sigec.system.sigec;
 
+import com.sigec.system.sigec.Services.ScreenTransitionManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -11,33 +13,34 @@ import java.io.IOException;
 public class MainApplication extends Application {
 
     private static Stage primaryStage;
+    private static StackPane rootContainer;
 
     @Override
     public void start(Stage stage) throws IOException {
         primaryStage = stage;
+        rootContainer = new StackPane();
 
+        // Define a cena inicial usando o StackPane como raiz
+        Scene scene = new Scene(rootContainer, 1366, 768);
+        primaryStage.setScene(scene);
+
+        // Carrega a primeira tela
         trocadorDeTelas("login.fxml");
 
         primaryStage.setTitle("Sistema Cozinha");
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 
     public static void trocadorDeTelas(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(
-                MainApplication.class.getResource(fxml)
-        );
+        trocadorDeTelas(fxml, ScreenTransitionManager.Direction.AUTO);
+    }
 
-        if(primaryStage.isMaximized()){
-            Scene scene = new Scene(fxmlLoader.load());
-            primaryStage.setScene(scene);
-            primaryStage.setMaximized(false);
-            primaryStage.setMaximized(true);
+    public static void trocadorDeTelas(String fxml, ScreenTransitionManager.Direction direction) throws IOException {
+        if (rootContainer == null) {
+            throw new IllegalStateException("rootContainer não foi inicializado.");
         }
-        else{
-            Scene scene = new Scene(fxmlLoader.load(), 1366,768);
-
-            primaryStage.setScene(scene);
-        }
+        ScreenTransitionManager.trocarTela(rootContainer, fxml, direction);
     }
 
     public static void abrirPopUp(String fxml) throws IOException {
@@ -52,15 +55,18 @@ public class MainApplication extends Application {
             popupStage.setScene(scene);
             popupStage.initModality(javafx.stage.Modality.WINDOW_MODAL);
             popupStage.initOwner(primaryStage);
-            popupStage.setResizable(false);
+            popupStage.setResizable(true);
             popupStage.showAndWait();
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
     }
 
     public static Stage getPrimaryStage() {
         return primaryStage;
+    }
+
+    public static StackPane getRootContainer() {
+        return rootContainer;
     }
 }

@@ -17,6 +17,17 @@ public class ConfirmaEmailController {
     private TextField codigoDigitar;
 
     @FXML
+    private javafx.scene.layout.StackPane rootPane;
+
+    @FXML
+    private javafx.scene.layout.AnchorPane animatedBackground;
+
+    @FXML
+    public void initialize() {
+        com.sigec.system.sigec.Utils.BackgroundAnimator.startAnimation(animatedBackground, rootPane);
+    }
+
+    @FXML
     public void onConfirmaEmailClick(ActionEvent event) {
         String email = emailDigitar.getText();
 

@@ -1,11 +1,14 @@
 .btn-padrao {
-    -fx-background-color:  #aecae6;
+    -fx-background-color: #054685;
     -fx-background-radius: 10;
+    -fx-border-color: #f3ad50;
+    -fx-border-radius: 5;
+    -fx-border-width: 0 0 2 0;
     -fx-pref-width: 185;
     -fx-pref-height: 40;
     -fx-font-family: "Arial";
-    -fx-font-size: 17;
-    -fx-text-fill: black;
+    -fx-font-size: 15;
+    -fx-text-fill: white;
     -fx-cursor: hand;
 }
 
@@ -19,11 +22,13 @@
        - 5: deslocamento em X (move para a direita)
        - 5: deslocamento em Y (move para baixo)
     */
+    -fx-background-color: #0c569e;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0.5, 5, 5);
 }
 
 .btn-click {
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0.5, 5, 5);
+    -fx-background-color: #054685;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0.5, 5, 5);
 }
 
 .btn-click2 {
@@ -41,7 +46,8 @@
     -fx-cursor: hand;
     -fx-text-alignment: left;
 }
-.btn-padrao-transparent:hover { /*botão configuração
+
+.btn-padrao-transparent:hover { /* botão configuração */
     /*
        Parâmetros do dropshadow:
        - three-pass-box: algoritmo de blur suave
@@ -54,13 +60,13 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0.5, 5, 5);
 }
 .btn-padrao-home { /* botão controle de estoque*/
-    -fx-background-color:  #aecae6;
+    -fx-background-color: #054685;
     -fx-background-radius: 10;
     -fx-pref-width: 185;
     -fx-pref-height: 40;
     -fx-font-family: "Arial";
     -fx-font-size: 14;
-    -fx-text-fill: black;
+    -fx-text-fill: white;
     -fx-cursor: hand;
     -fx-text-alignment: left;
 }
@@ -78,27 +84,29 @@
 }
 
 .painel-lateral {
-    -fx-background-color: #8daccb;
-    -fx-border-color: #054584;
-    -fx-border-width: 2;
+    -fx-background-color: #054685;
+    -fx-border-color: #054685;
+    -fx-border-width: 0 1 0 0;
 }
 .painel-center{
     -fx-border-color: #054584;
     -fx-border-width: 3.5;
 }
 .painel-superior {
-    -fx-background-color: #054584;
+    -fx-background-color: #0b2647;
 }
 .btn-sair {
-    -fx-background-color: transparent;
-    -fx-background-radius: 10;
+    -fx-background-color: #e4891b;
+    -fx-background-radius: 8;
+    -fx-pref-width: 90;
+    -fx-pref-height: 32;
     -fx-font-family: "Arial";
-    -fx-text-fill: black;
+    -fx-font-size: 13;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
     -fx-cursor: hand;
     -fx-text-alignment: center;
-    -fx-border-color: #f3ad50;
-    -fx-border-radius: 5;
-    -fx-border-width: 0 0 2 0;
+}
 .btn-sair:hover,
 .btn-sair-adimin:hover {
     /*
@@ -110,7 +118,11 @@
        - 5: deslocamento em X (move para a direita)
        - 5: deslocamento em Y (move para baixo)
     */
+    -fx-background-color: #ba7119;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0.5, 5, 5);
+}
+.btn-sair:pressed {
+    -fx-background-color: #9c5c14;
 }
 .btn-padrao-transparent-2 {
     -fx-background-color:  transparent;
@@ -121,7 +133,8 @@
     -fx-cursor: hand;
     -fx-text-alignment: CENTER_LEFT;
 }
-.btn-padrao-transparent-2:hover { /*botão configuração
+
+.btn-padrao-transparent-2:hover { /* botão configuração */
     /*
        Parâmetros do dropshadow:
        - three-pass-box: algoritmo de blur suave
@@ -252,8 +265,31 @@
     -fx-background-color:#e4891b;
     -fx-font-family: SansSerif;
     -fx-font-weight: bold;
+    -fx-text-fill: white;
 }
 
 .btn-laranja:hover{
     -fx-background-color: #ba7119;
+}
+
+/* --- Novos estilos do Login Inteiramente em CSS --- */
+.fundo-login {
+    -fx-background-color: #f6f8fb;
+}
+
+.onda-azul {
+    -fx-fill: #0b2647;
+    -fx-stroke: transparent;
+}
+
+.onda-laranja {
+    -fx-fill: transparent;
+    -fx-stroke: #e47d1b;
+    -fx-stroke-width: 6;
+    -fx-stroke-line-cap: round;
+}
+
+.particula-luz {
+    -fx-fill: #ffffff;
+    -fx-effect: dropshadow(three-pass-box, #ff9900, 20, 0.7, 0, 0);
 }
