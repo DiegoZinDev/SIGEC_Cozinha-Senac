@@ -63,13 +63,64 @@ public class ConfigDataBase {
     }
 
     public static Connection getConnection() throws SQLException {
-        // Pegando os dados estritamente do ambiente ou do arquivo .env
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException ignored) {
+        }
+
         String url = getEnvVar("DB_URL", "");
         String user = getEnvVar("DB_USER", "");
         String pass = getEnvVar("DB_PASS", "");
 
-        if (url.isBlank() || user.isBlank() || pass.isBlank()) {
-            throw new SQLException("Credenciais do banco de dados não encontradas no arquivo .env");
+        String host = getEnvVar("DB_HOST", "");
+        String port = getEnvVar("DB_PORT", "");
+        String dbName = getEnvVar("DB_NAME", "");
+
+        if (url != null) {
+            url = url.trim();
+            // Corrige possíveis erros de digitação como mmysql://
+            if (url.startsWith("mmysql://")) {
+                url = url.substring(1);
+            }
+            // Adiciona o prefixo jdbc: caso o usuário tenha colado mysql://
+            if (url.startsWith("mysql://")) {
+                url = "jdbc:" + url;
+            }
+
+            // Se o usuário passou formato de URI (jdbc:mysql://user:pass@host:port/db)
+            if (url.startsWith("jdbc:mysql://") && url.contains("@")) {
+                int atIdx = url.indexOf('@');
+                String userInfo = url.substring("jdbc:mysql://".length(), atIdx);
+                String rest = url.substring(atIdx + 1);
+                if (userInfo.contains(":")) {
+                    String[] parts = userInfo.split(":", 2);
+                    if (user.isBlank()) user = parts[0];
+                    if (pass.isBlank()) pass = parts[1];
+                } else if (user.isBlank()) {
+                    user = userInfo;
+                }
+                url = "jdbc:mysql://" + rest;
+            }
+
+            // Normaliza parâmetros de SSL
+            url = url.replace("ssl-mode=", "sslMode=");
+
+            // Se estiver apontando para defaultdb e houver DB_NAME configurado, ajusta o banco
+            if (url.contains("/defaultdb") && !dbName.isBlank() && !"defaultdb".equals(dbName)) {
+                url = url.replace("/defaultdb", "/" + dbName);
+            }
+        }
+
+        // Se a URL estiver vazia, monta com base nas variáveis individuais
+        if (url == null || url.isBlank()) {
+            if (host.isBlank() || port.isBlank() || dbName.isBlank()) {
+                throw new SQLException("Configurações do banco de dados (DB_URL ou DB_HOST/DB_PORT/DB_NAME) não encontradas no arquivo .env");
+            }
+            url = "jdbc:mysql://" + host + ":" + port + "/" + dbName + "?sslMode=REQUIRED&serverTimezone=America/Sao_Paulo";
+        }
+
+        if (user.isBlank() || pass.isBlank()) {
+            throw new SQLException("Credenciais do banco de dados (DB_USER, DB_PASS) não encontradas no arquivo .env");
         }
 
         return DriverManager.getConnection(url, user, pass);

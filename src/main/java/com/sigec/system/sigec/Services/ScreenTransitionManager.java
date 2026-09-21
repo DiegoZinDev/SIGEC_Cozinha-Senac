@@ -87,11 +87,19 @@ public class ScreenTransitionManager {
         isTransitioning = true;
         rootContainer.setDisable(true);
 
-        executarTransicaoCascata(rootContainer, oldView, newView, effectiveDirection, () -> {
+        try {
+            executarTransicaoCascata(rootContainer, oldView, newView, effectiveDirection, () -> {
+                currentFxml = fxml;
+                isTransitioning = false;
+                rootContainer.setDisable(false);
+            });
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            rootContainer.getChildren().setAll(newView);
             currentFxml = fxml;
             isTransitioning = false;
             rootContainer.setDisable(false);
-        });
+        }
     }
 
     private static Direction resolveDirection(String targetFxml, Direction requestedDirection) {
@@ -182,59 +190,69 @@ public class ScreenTransitionManager {
         );
 
         exitTimeline.setOnFinished(e -> {
-            // Reseta nós da tela antiga para consistência se ela for reutilizada
-            for (Node node : exitNodes) {
-                node.setTranslateX(0.0);
-                node.setOpacity(1.0);
-            }
-            oldView.setOpacity(1.0);
-
-            // Troca a tela no container raiz
-            rootContainer.getChildren().setAll(newView);
-
-            // Prepara a entrada da tela nova
-            List<Node> enterNodes = extractStaggerNodes(newView);
-            for (Node node : enterNodes) {
-                node.setTranslateX(enterTranslateX);
-                node.setOpacity(0.0);
-            }
-
-            // Timeline de Entrada (Cascata 1 por 1)
-            Timeline enterTimeline = new Timeline();
-
-            for (int i = 0; i < enterNodes.size(); i++) {
-                Node node = enterNodes.get(i);
-                double delay = Math.min(i * STAGGER_INTERVAL_MS, MAX_STAGGER_MS);
-
-                KeyFrame startKf = new KeyFrame(
-                        Duration.millis(delay),
-                        new KeyValue(node.translateXProperty(), enterTranslateX),
-                        new KeyValue(node.opacityProperty(), 0.0)
-                );
-
-                KeyFrame endKf = new KeyFrame(
-                        Duration.millis(delay + ENTER_DURATION_MS),
-                        new KeyValue(node.translateXProperty(), 0.0, EASE_OUT_SILK),
-                        new KeyValue(node.opacityProperty(), 1.0, EASE_OUT_SILK)
-                );
-
-                enterTimeline.getKeyFrames().addAll(startKf, endKf);
-            }
-
-            enterTimeline.setOnFinished(ev -> {
-                // Assegura estado final perfeito
-                for (Node node : enterNodes) {
+            try {
+                // Reseta nós da tela antiga para consistência se ela for reutilizada
+                for (Node node : exitNodes) {
                     node.setTranslateX(0.0);
                     node.setOpacity(1.0);
                 }
-                newView.setOpacity(1.0);
+                oldView.setOpacity(1.0);
 
+                // Troca a tela no container raiz
+                rootContainer.getChildren().setAll(newView);
+
+                // Prepara a entrada da tela nova
+                List<Node> enterNodes = extractStaggerNodes(newView);
+                for (Node node : enterNodes) {
+                    node.setTranslateX(enterTranslateX);
+                    node.setOpacity(0.0);
+                }
+
+                // Timeline de Entrada (Cascata 1 por 1)
+                Timeline enterTimeline = new Timeline();
+
+                for (int i = 0; i < enterNodes.size(); i++) {
+                    Node node = enterNodes.get(i);
+                    double delay = Math.min(i * STAGGER_INTERVAL_MS, MAX_STAGGER_MS);
+
+                    KeyFrame startKf = new KeyFrame(
+                            Duration.millis(delay),
+                            new KeyValue(node.translateXProperty(), enterTranslateX),
+                            new KeyValue(node.opacityProperty(), 0.0)
+                    );
+
+                    KeyFrame endKf = new KeyFrame(
+                            Duration.millis(delay + ENTER_DURATION_MS),
+                            new KeyValue(node.translateXProperty(), 0.0, EASE_OUT_SILK),
+                            new KeyValue(node.opacityProperty(), 1.0, EASE_OUT_SILK)
+                    );
+
+                    enterTimeline.getKeyFrames().addAll(startKf, endKf);
+                }
+
+                enterTimeline.setOnFinished(ev -> {
+                    try {
+                        // Assegura estado final perfeito
+                        for (Node node : enterNodes) {
+                            node.setTranslateX(0.0);
+                            node.setOpacity(1.0);
+                        }
+                        newView.setOpacity(1.0);
+                    } finally {
+                        if (onFinishedCallback != null) {
+                            onFinishedCallback.run();
+                        }
+                    }
+                });
+
+                enterTimeline.play();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                rootContainer.getChildren().setAll(newView);
                 if (onFinishedCallback != null) {
                     onFinishedCallback.run();
                 }
-            });
-
-            enterTimeline.play();
+            }
         });
 
         exitTimeline.play();
@@ -308,6 +326,11 @@ public class ScreenTransitionManager {
 
     public static void setCurrentFxml(String fxml) {
         currentFxml = fxml;
+        isTransitioning = false;
+    }
+
+    public static void reset() {
+        isTransitioning = false;
     }
 
     public static void clearHistory() {

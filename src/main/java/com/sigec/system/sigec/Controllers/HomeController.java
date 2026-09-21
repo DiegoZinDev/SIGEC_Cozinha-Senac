@@ -14,7 +14,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
+import com.sigec.system.sigec.Utils.BackgroundAnimator;
 
 import java.io.IOException;
 import java.net.URL;
@@ -24,6 +26,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
+
+    @FXML
+    private AnchorPane topBarPane;
 
     @FXML
     private Label dataLabel;
@@ -60,6 +65,9 @@ public class HomeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        if (topBarPane != null) {
+            BackgroundAnimator.startTopBarAnimation(topBarPane);
+        }
         configurarDataHora();
         if (usuarioLabel != null) {
             usuarioLabel.setText("Administrador");
@@ -137,6 +145,24 @@ public class HomeController implements Initializable {
             MainApplication.trocadorDeTelas("historico.fxml");
         } catch (IOException e) {
             exibirErroNavegacao("Relatório", e);
+        }
+    }
+
+    @FXML
+    public void onClickCadastro(ActionEvent event) {
+        navegarParaCadastro();
+    }
+
+    @FXML
+    public void botaoCadastroAction(ActionEvent event) {
+        navegarParaCadastro();
+    }
+
+    private void navegarParaCadastro() {
+        try {
+            MainApplication.trocadorDeTelas("cadastro.fxml");
+        } catch (IOException e) {
+            exibirErroNavegacao("Cadastro", e);
         }
     }
 

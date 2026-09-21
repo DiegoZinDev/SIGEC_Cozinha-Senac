@@ -1,9 +1,5 @@
 package com.sigec.system.sigec;
 
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import com.sigec.system.sigec.Services.ScreenTransitionManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +7,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.io.IOException;
 
@@ -24,7 +19,7 @@ public class MainApplication extends Application {
     public void start(Stage stage) throws IOException {
         primaryStage = stage;
         rootContainer = new StackPane();
-        
+
         // Define a cena inicial usando o StackPane como raiz
         Scene scene = new Scene(rootContainer, 1366, 768);
         primaryStage.setScene(scene);
@@ -33,6 +28,7 @@ public class MainApplication extends Application {
         trocadorDeTelas("login.fxml");
 
         primaryStage.setTitle("Sistema Cozinha");
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 
@@ -41,6 +37,9 @@ public class MainApplication extends Application {
     }
 
     public static void trocadorDeTelas(String fxml, ScreenTransitionManager.Direction direction) throws IOException {
+        if (rootContainer == null) {
+            throw new IllegalStateException("rootContainer não foi inicializado.");
+        }
         ScreenTransitionManager.trocarTela(rootContainer, fxml, direction);
     }
 
@@ -56,10 +55,9 @@ public class MainApplication extends Application {
             popupStage.setScene(scene);
             popupStage.initModality(javafx.stage.Modality.WINDOW_MODAL);
             popupStage.initOwner(primaryStage);
-            popupStage.setResizable(false);
+            popupStage.setResizable(true);
             popupStage.showAndWait();
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
     }

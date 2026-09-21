@@ -135,4 +135,152 @@ public class BackgroundAnimator {
         
         gc.restore();
     }
+
+    public static void startTopBarAnimation(AnchorPane topBarPane) {
+        if (topBarPane == null) {
+            return;
+        }
+
+        Canvas canvas = new Canvas(800, 50);
+        canvas.widthProperty().bind(topBarPane.widthProperty());
+        canvas.heightProperty().bind(topBarPane.heightProperty());
+
+        // Adiciona o canvas no fundo (índice 0)
+        topBarPane.getChildren().add(0, canvas);
+
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        AnimationTimer timer = new AnimationTimer() {
+            private long lastUpdate = 0;
+            private double time = 0;
+
+            @Override
+            public void handle(long now) {
+                if (lastUpdate == 0) {
+                    lastUpdate = now;
+                    return;
+                }
+                double deltaSeconds = (now - lastUpdate) / 1_000_000_000.0;
+                lastUpdate = now;
+
+                time += deltaSeconds;
+
+                renderTopBar(gc, canvas.getWidth(), canvas.getHeight(), time);
+            }
+        };
+        timer.start();
+    }
+
+    private static void renderTopBar(GraphicsContext gc, double width, double height, double time) {
+        if (width <= 0 || height <= 0) {
+            return;
+        }
+
+        // Fundo base claro (#f6f8fb, idêntico à tela de login)
+        gc.setFill(Color.web("#f6f8fb"));
+        gc.fillRect(0, 0, width, height);
+
+        // Padrão diagonal suave (mesma cor e textura do login)
+        gc.save();
+        gc.beginPath();
+        gc.rect(0, 0, width, height);
+        gc.clip();
+
+        gc.setStroke(Color.web("#c8d2df", 0.10));
+        gc.setLineWidth(10);
+        gc.setLineCap(StrokeLineCap.ROUND);
+        gc.setLineDashes(40, 25);
+
+        double diag = Math.sqrt(width * width + height * height);
+        gc.translate(width / 2, height / 2);
+        gc.rotate(-15);
+        gc.translate(-diag, -diag);
+
+        int row = 0;
+        for (double y = 0; y < diag * 2; y += 40) {
+            gc.setLineDashOffset(row % 2 == 0 ? 0 : 30);
+            gc.strokeLine(0, y, diag * 2, y);
+            row++;
+        }
+        gc.restore();
+
+        // Onda azul marinho escuro (#0b2647) com o design idêntico da curva da tela de login (adaptada para a barra do topo)
+        double w = width;
+        double h = height;
+
+        double xStart = w * 0.38;
+        double xEnd = w * 0.58;
+        double dx = xEnd - xStart;
+
+        gc.save();
+        gc.beginPath();
+        gc.moveTo(w + 5, 0);
+        gc.lineTo(w + 5, h + 5);
+        gc.lineTo(xStart, h);
+        // Primeiro Cubic Bezier: pico suave acompanhando o estilo da tela de login
+        gc.bezierCurveTo(
+            xStart + dx * 0.20, h * 0.60,
+            xStart + dx * 0.45, h * 0.75,
+            xStart + dx * 0.60, h * 0.75
+        );
+        // Segundo Cubic Bezier: arredondamento suave do vale subindo até o topo
+        gc.bezierCurveTo(
+            xStart + dx * 0.75, h * 0.75,
+            xStart + dx * 0.85, h * 0.55,
+            xEnd, 0
+        );
+        gc.closePath();
+        gc.setFill(Color.web("#0b2647"));
+        gc.fill();
+        gc.restore();
+
+        // Linha laranja com espessura variável (Tapered shape idêntico à tela de login) e reflexo dinâmico
+        gc.save();
+        gc.beginPath();
+        // Borda esquerda/superior da curva laranja
+        gc.moveTo(xStart, h);
+        gc.bezierCurveTo(
+            xStart + dx * 0.20, h * 0.60,
+            xStart + dx * 0.45, h * 0.75,
+            xStart + dx * 0.60, h * 0.75
+        );
+        gc.bezierCurveTo(
+            xStart + dx * 0.75, h * 0.75,
+            xStart + dx * 0.85, h * 0.55,
+            xEnd, 0
+        );
+
+        // Borda direita/inferior retornando com espessura cônica suavemente variável e bem visível (de 3.2px a 8.8px)
+        gc.lineTo(xEnd + 8.8, 0);
+        gc.bezierCurveTo(
+            xStart + dx * 0.85 + 7.8, h * 0.55,
+            xStart + dx * 0.75 + 6.8, h * 0.75,
+            xStart + dx * 0.60 + 5.8, h * 0.75
+        );
+        gc.bezierCurveTo(
+            xStart + dx * 0.45 + 4.8, h * 0.75,
+            xStart + dx * 0.20 + 3.8, h * 0.60,
+            xStart + 3.2, h
+        );
+        gc.closePath();
+
+        // Efeito de REFLEXO contínuo exatamente como na tela de login
+        double durationSeconds = 4.0;
+        double phase = (time % durationSeconds) / durationSeconds;
+        double highlightCenter = xStart + phase * (dx + 300) - 150;
+
+        LinearGradient reflectionGradient = new LinearGradient(
+            highlightCenter - 100, 0,
+            highlightCenter + 100, 0,
+            false,
+            CycleMethod.NO_CYCLE,
+            new Stop(0.0, Color.web("#e47d1b")),
+            new Stop(0.5, Color.web("#ffd9b3")),
+            new Stop(1.0, Color.web("#e47d1b"))
+        );
+
+        gc.setFill(reflectionGradient);
+        gc.fill();
+        gc.restore();
+    }
 }

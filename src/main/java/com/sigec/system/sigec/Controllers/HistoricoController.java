@@ -25,7 +25,13 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
+import javafx.scene.layout.AnchorPane;
+import com.sigec.system.sigec.Utils.BackgroundAnimator;
+
 public class HistoricoController implements Initializable {
+
+    @FXML
+    private AnchorPane topBarPane;
 
     @FXML
     private Label dataLabel;
@@ -77,6 +83,9 @@ public class HistoricoController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        if (topBarPane != null) {
+            BackgroundAnimator.startTopBarAnimation(topBarPane);
+        }
         configurarDataHora();
         if (usuarioLabel != null) {
             usuarioLabel.setText("Administrador");
@@ -135,6 +144,24 @@ public class HistoricoController implements Initializable {
             MainApplication.trocadorDeTelas("lista-estoque.fxml");
         } catch (IOException e) {
             exibirErro("Erro ao navegar para a tela de estoque: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void onClickCadastro(ActionEvent event) {
+        navegarParaCadastro();
+    }
+
+    @FXML
+    public void botaoCadastroAction(ActionEvent event) {
+        navegarParaCadastro();
+    }
+
+    private void navegarParaCadastro() {
+        try {
+            MainApplication.trocadorDeTelas("cadastro.fxml");
+        } catch (IOException e) {
+            exibirErro("Erro ao navegar para a tela de cadastro: " + e.getMessage());
         }
     }
 

@@ -8,11 +8,16 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import com.sigec.system.sigec.Utils.BackgroundAnimator;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
 public class CadastroController {
+
+    @FXML
+    private AnchorPane topBarPane;
 
     @FXML
     private TextField txtNome;
@@ -30,6 +35,13 @@ public class CadastroController {
     private Button btnCadastrar;
 
     @FXML
+    public void initialize() {
+        if (topBarPane != null) {
+            BackgroundAnimator.startTopBarAnimation(topBarPane);
+        }
+    }
+
+    @FXML
     public void onCadastrar(ActionEvent event) {
         String nome = txtNome.getText();
         String email = txtEmail.getText();
@@ -37,9 +49,9 @@ public class CadastroController {
         String confirmarSenha = txtConfirmarSenha.getText();
 
         if (nome == null || nome.trim().isEmpty() ||
-            email == null || email.trim().isEmpty() ||
-            senha == null || senha.isEmpty() ||
-            confirmarSenha == null || confirmarSenha.isEmpty()) {
+                email == null || email.trim().isEmpty() ||
+                senha == null || senha.isEmpty() ||
+                confirmarSenha == null || confirmarSenha.isEmpty()) {
 
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Campos Obrigatórios");
@@ -93,7 +105,7 @@ public class CadastroController {
     @FXML
     public void voltarTela(ActionEvent event) {
         try {
-            MainApplication.trocadorDeTelas("login.fxml");
+            MainApplication.trocadorDeTelas("home.fxml");
         } catch (IOException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erro de Navegação");

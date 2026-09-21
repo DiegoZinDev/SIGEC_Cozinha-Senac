@@ -20,21 +20,12 @@
 
 <BorderPane prefHeight="600.0" prefWidth="800.0" stylesheets="@CSS/StyleSheet.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sigec.system.sigec.Controllers.HomeController">
     <top>
-        <AnchorPane prefHeight="50.0" style="-fx-background-color: #054685;" BorderPane.alignment="CENTER">
+        <AnchorPane fx:id="topBarPane" prefHeight="50.0" style="-fx-background-color: #0b2647;" BorderPane.alignment="CENTER">
             <children>
-                <!-- Parte de trás da onda (Branca) -->
-                <SVGPath content="M -5 55 L 330 50 C 390 50, 410 0, 470 0 L -5 -5 Z" fill="WHITE" stroke="TRANSPARENT" />
-
-                <!-- Fina borda azul escuro do lado da parte branca -->
-                <SVGPath content="M 328 50 C 388 50, 408 0, 468 0" fill="TRANSPARENT" stroke="#054685" strokeWidth="2.0" />
-
-                <!-- Linha laranja divisória seguindo o formato da onda (de baixo para cima) -->
-                <SVGPath content="M 330 50 C 390 50, 410 0, 470 0" fill="TRANSPARENT" stroke="#f3ad50" strokeWidth="3.5" />
-
-                <!-- Logo colorida Senac maior e centralizada no centro da parte branca -->
-                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <!-- Logo colorida Senac maior e posicionada na parte clara da onda -->
+                <HBox alignment="CENTER_LEFT" prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="0.0">
                     <children>
-                        <ImageView fx:id="logoSenac" fitHeight="46.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="logoSenac" fitHeight="42.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@imagens/LogocoloridaSenac.png" />
                             </image>
@@ -42,12 +33,12 @@
                     </children>
                 </HBox>
 
-                <!-- Sigla S.I.G.E.C centralizada na parte azul em branco do mesmo tamanho da logo -->
-                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <!-- Sigla S.I.G.E.C centralizada na parte azul marinho em branco -->
+                <HBox alignment="CENTER_RIGHT" prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="0.0">
                     <children>
                         <Label fx:id="logoSigec" text="S.I.G.E.C" textFill="WHITE">
                             <font>
-                                <Font name="Arial Bold" size="26.0" />
+                                <Font name="Arial Bold" size="24.0" />
                             </font>
                         </Label>
                     </children>

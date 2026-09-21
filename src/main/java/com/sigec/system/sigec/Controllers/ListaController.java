@@ -25,8 +25,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class
-ListaController implements Initializable {
+import javafx.scene.layout.AnchorPane;
+import com.sigec.system.sigec.Utils.BackgroundAnimator;
+
+public class ListaController implements Initializable {
+
+    @FXML
+    private AnchorPane topBarPane;
 
     @FXML
     private Label dataLabel;
@@ -75,6 +80,9 @@ ListaController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        if (topBarPane != null) {
+            BackgroundAnimator.startTopBarAnimation(topBarPane);
+        }
         configurarDataHora();
         if (usuarioLabel != null) {
             usuarioLabel.setText("Administrador");
@@ -123,6 +131,24 @@ ListaController implements Initializable {
             MainApplication.trocadorDeTelas("historico.fxml");
         } catch (IOException e) {
             exibirErro("Erro ao navegar para a tela de relatórios: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void onClickCadastro(ActionEvent event) {
+        navegarParaCadastro();
+    }
+
+    @FXML
+    public void botaoCadastroAction(ActionEvent event) {
+        navegarParaCadastro();
+    }
+
+    private void navegarParaCadastro() {
+        try {
+            MainApplication.trocadorDeTelas("cadastro.fxml");
+        } catch (IOException e) {
+            exibirErro("Erro ao navegar para a tela de cadastro: " + e.getMessage());
         }
     }
 

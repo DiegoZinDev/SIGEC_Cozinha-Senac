@@ -114,79 +114,126 @@ public class LoginController {
             return;
         }
 
+        boolean autenticado = false;
         try {
-            boolean autenticado = UserDAO.autenticar(email.trim(), senha);
-            if (autenticado) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Sucesso");
-                alert.setHeaderText(null);
-                alert.setContentText("Login realizado com sucesso!");
-                alert.showAndWait();
-
-                transicaoParaHome();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erro");
-                alert.setHeaderText(null);
-                alert.setContentText("Usuário ou senha incorretos.");
-                alert.showAndWait();
-            }
+            autenticado = UserDAO.autenticar(email.trim(), senha);
         } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erro de Banco de Dados");
             alert.setHeaderText(null);
             alert.setContentText("Erro ao conectar ao banco de dados: " + e.getMessage());
             alert.showAndWait();
+            return;
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro de Navegação");
+            alert.setTitle("Erro de Autenticação");
             alert.setHeaderText(null);
-            alert.setContentText("Não foi possível carregar a tela principal: " + e.getMessage());
+            alert.setContentText("Ocorreu um erro ao validar os dados: " + e.getMessage());
             alert.showAndWait();
+            return;
         }
 
+        if (autenticado) {
+            try {
+                transicaoParaHome();
+            } catch (Exception e) {
+                Alert alertNav = new Alert(Alert.AlertType.ERROR);
+                alertNav.setTitle("Erro de Navegação");
+                alertNav.setHeaderText(null);
+                alertNav.setContentText("Não foi possível carregar a tela principal: " + e.getMessage());
+                alertNav.showAndWait();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro");
+            alert.setHeaderText(null);
+            alert.setContentText("Usuário ou senha incorretos.");
+            alert.showAndWait();
+        }
     }
 
     private void transicaoParaHome() throws IOException {
-        FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource("home.fxml"));
-        Parent homeRoot = loader.load();
-
-        HomeController homeController = loader.getController();
-        homeController.prepararAnimacao();
-
-        // Adiciona a home por trás
-        rootPane.getChildren().add(0, homeRoot);
-
-        // Oculta o formulário e as logos antigas
-        FadeTransition ftForm = new FadeTransition(Duration.millis(400), loginForm);
-        ftForm.setToValue(0);
-
-        FadeTransition ftLogo1 = new FadeTransition(Duration.millis(400), logoSenac);
-        ftLogo1.setToValue(0);
-
-        // Encolhe o fundo para virar a barra do topo (altura 50)
-        ScaleTransition st = new ScaleTransition(Duration.millis(800), animatedBackground);
-        st.setToY(50.0 / 600.0);
-
-        TranslateTransition tt = new TranslateTransition(Duration.millis(800), animatedBackground);
-        tt.setToY(-275); // Move de modo que o centro fique na posição correta do topo
-
-        ParallelTransition pt = new ParallelTransition(ftForm, ftLogo1, st, tt);
-        pt.setOnFinished(e -> {
-            MainApplication.getRootContainer().getChildren().setAll(homeRoot);
-            if (MainApplication.getPrimaryStage().getScene().getRoot() != MainApplication.getRootContainer()) {
-                MainApplication.getPrimaryStage().getScene().setRoot(MainApplication.getRootContainer());
+        try {
+            if (rootPane == null || animatedBackground == null || loginForm == null) {
+                MainApplication.trocadorDeTelas("home.fxml");
+                return;
             }
-            MainApplication.getRootContainer().setDisable(false);
-            homeController.iniciarAnimacaoLogos();
-            ScreenTransitionManager.setCurrentFxml("home.fxml");
-        });
 
-        // Desativa a janela durante a animação
-        if (MainApplication.getRootContainer() != null) {
-            MainApplication.getRootContainer().setDisable(true);
+            FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource("home.fxml"));
+            Parent homeRoot = loader.load();
+
+            HomeController homeController = loader.getController();
+            if (homeController != null) {
+                homeController.prepararAnimacao();
+            }
+
+            // Garante que homeRoot não esteja duplicado em rootPane
+            rootPane.getChildren().remove(homeRoot);
+            rootPane.getChildren().add(0, homeRoot);
+
+            // Oculta o formulário e as logos antigas
+            FadeTransition ftForm = new FadeTransition(Duration.millis(350), loginForm);
+            ftForm.setToValue(0);
+
+            FadeTransition ftLogo1 = new FadeTransition(Duration.millis(350), logoSenac);
+            ftLogo1.setToValue(0);
+
+            // Transição suave onde a tela de fundo se recolhe até a altura da barra do topo (50px)
+            double currentHeight = rootPane.getHeight() > 0 ? rootPane.getHeight() : 600.0;
+            javafx.scene.shape.Rectangle clipRect = new javafx.scene.shape.Rectangle();
+            clipRect.widthProperty().bind(rootPane.widthProperty());
+            clipRect.setHeight(currentHeight);
+            animatedBackground.setClip(clipRect);
+
+            javafx.animation.Timeline clipTimeline = new javafx.animation.Timeline(
+                new javafx.animation.KeyFrame(Duration.ZERO, new javafx.animation.KeyValue(clipRect.heightProperty(), currentHeight)),
+                new javafx.animation.KeyFrame(Duration.millis(750), new javafx.animation.KeyValue(clipRect.heightProperty(), 50.0, Interpolator.SPLINE(0.25, 0.1, 0.25, 1.0)))
+            );
+
+            // Transição de fusão da tela de fundo com a barra superior da Home
+            FadeTransition ftBgFade = new FadeTransition(Duration.millis(250), animatedBackground);
+            ftBgFade.setDelay(Duration.millis(550));
+            ftBgFade.setToValue(0.0);
+
+            ParallelTransition pt = new ParallelTransition(ftForm, ftLogo1, clipTimeline, ftBgFade);
+            pt.setOnFinished(e -> {
+                try {
+                    animatedBackground.setClip(null);
+                    // Remove homeRoot de rootPane antes de inseri-lo no rootContainer
+                    rootPane.getChildren().remove(homeRoot);
+
+                    if (MainApplication.getRootContainer() != null) {
+                        MainApplication.getRootContainer().getChildren().setAll(homeRoot);
+                        if (MainApplication.getPrimaryStage() != null &&
+                                MainApplication.getPrimaryStage().getScene() != null &&
+                                MainApplication.getPrimaryStage().getScene().getRoot() != MainApplication
+                                        .getRootContainer()) {
+                            MainApplication.getPrimaryStage().getScene().setRoot(MainApplication.getRootContainer());
+                        }
+                        MainApplication.getRootContainer().setDisable(false);
+                    }
+                    if (homeController != null) {
+                        homeController.iniciarAnimacaoLogos();
+                    }
+                    ScreenTransitionManager.setCurrentFxml("home.fxml");
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    if (MainApplication.getRootContainer() != null) {
+                        MainApplication.getRootContainer().getChildren().setAll(homeRoot);
+                        MainApplication.getRootContainer().setDisable(false);
+                    }
+                    ScreenTransitionManager.setCurrentFxml("home.fxml");
+                }
+            });
+
+            // Desativa a janela durante a animação
+            if (MainApplication.getRootContainer() != null) {
+                MainApplication.getRootContainer().setDisable(true);
+            }
+            pt.play();
+        } catch (Exception e) {
+            MainApplication.trocadorDeTelas("home.fxml");
         }
-        pt.play();
     }
 
     @FXML
