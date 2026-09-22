@@ -169,22 +169,22 @@
                         </HBox>
                         <VBox fx:id="conteudoPagina" styleClass="conteudo-pagina" VBox.vgrow="ALWAYS">
                             <children>
-                                <HBox alignment="CENTER_LEFT" prefHeight="40.0" spacing="10.0">
+                                <HBox alignment="CENTER_LEFT" prefHeight="45.0" spacing="12.0">
                                     <children>
-                                        <TextField fx:id="txtpesquisa" prefHeight="32.0" prefWidth="180.0" promptText="🔍 Pesquisar...">
+                                        <TextField fx:id="txtpesquisa" prefHeight="35.0" prefWidth="220.0" promptText="🔍 Pesquisar..." styleClass="search-field">
                                             <font>
-                                                <Font name="Arial" size="12.0" />
+                                                <Font name="Arial" size="13.0" />
                                             </font>
                                         </TextField>
-                                        <Button fx:id="btnbuscardata" mnemonicParsing="false" onAction="#filtrarHistorico" prefHeight="32.0" prefWidth="85.0" styleClass="btn-padrao-2" text="Filtrar">
+                                        <Button fx:id="btnbuscardata" mnemonicParsing="false" onAction="#filtrarHistorico" prefHeight="35.0" prefWidth="95.0" styleClass="btn-action-primary" text="Filtrar">
                                             <font>
-                                                <Font name="Arial Bold" size="12.0" />
+                                                <Font name="Arial Bold" size="13.0" />
                                             </font>
                                         </Button>
                                         <Region HBox.hgrow="ALWAYS" />
-                                        <DatePicker fx:id="dataDE" prefHeight="32.0" prefWidth="130.0" promptText="De" />
-                                        <DatePicker fx:id="dataATE" prefHeight="32.0" prefWidth="130.0" promptText="Até" />
-                                        <ChoiceBox fx:id="filtro" prefHeight="32.0" prefWidth="120.0" />
+                                        <DatePicker fx:id="dataDE" prefHeight="35.0" prefWidth="140.0" promptText="De" styleClass="custom-date-picker" />
+                                        <DatePicker fx:id="dataATE" prefHeight="35.0" prefWidth="140.0" promptText="Até" styleClass="custom-date-picker" />
+                                        <ChoiceBox fx:id="filtro" prefHeight="35.0" prefWidth="135.0" styleClass="custom-choice-box" />
                                     </children>
                                     <VBox.margin>
                                         <Insets left="20.0" right="20.0" top="15.0" />

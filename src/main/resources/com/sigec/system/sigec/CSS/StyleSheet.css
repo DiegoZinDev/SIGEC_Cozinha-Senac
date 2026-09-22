@@ -245,30 +245,344 @@
     */
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0.5, 5, 5);
 }
-.btn-padrao-2{
-    -fx-background-color: #aecae6;
+/* ==========================================================================
+   CONTEÚDO DA PÁGINA (ESTOQUE, HISTÓRICO/RELATÓRIOS E CONSULTAS)
+   Padronização visual e de dimensões com o novo design do SIGEC (Senac)
+   ========================================================================== */
+
+.conteudo-pagina {
+    -fx-background-color: #f6f8fb;
+}
+
+/* --- Botões de Ação Padronizados --- */
+.btn-padrao-2 {
+    -fx-background-color: #054685;
     -fx-background-radius: 8;
-    -fx-pref-width: 90;
+    -fx-pref-height: 35;
     -fx-font-family: "Arial";
-    -fx-font-size: 12;
-    -fx-text-fill: BLACK;
+    -fx-font-size: 13;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
     -fx-cursor: hand;
     -fx-text-alignment: center;
-    -fx-border-color: #f3ad50;
-    -fx-border-radius: 5;
-    -fx-border-width: 0 0 2 0;
+    -fx-effect: dropshadow(three-pass-box, rgba(5, 70, 133, 0.25), 6, 0.2, 0, 1);
 }
-.btn-padrao-2:hover{ /* */
-    /*
-       Parâmetros do dropshadow:
-       - three-pass-box: algoritmo de blur suave
-       - rgba(0,0,0,0.4): cor preta com 40% de opacidade
-       - 10: raio do blur (espalhamento)
-       - 0.5: quanto a sombra se espalha além do blur
-       - 5: deslocamento em X (move para a direita)
-       - 5: deslocamento em Y (move para baixo)
-    */
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0.5, 5, 5);
+
+.btn-padrao-2:hover {
+    -fx-background-color: #0c569e;
+    -fx-effect: dropshadow(three-pass-box, rgba(5, 70, 133, 0.4), 8, 0.3, 0, 2);
+}
+
+.btn-padrao-2:pressed {
+    -fx-background-color: #032e59;
+}
+
+/* Botão de Destaque / Ação Principal (ex: Adicionar Produto, Ações em Laranja) */
+.btn-action-primary,
+.btn-adicionar {
+    -fx-background-color: #e4891b;
+    -fx-background-radius: 8;
+    -fx-pref-height: 35;
+    -fx-font-family: "Arial";
+    -fx-font-size: 13;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+    -fx-cursor: hand;
+    -fx-text-alignment: center;
+    -fx-effect: dropshadow(three-pass-box, rgba(228, 137, 27, 0.35), 6, 0.25, 0, 2);
+}
+
+.btn-action-primary:hover,
+.btn-adicionar:hover {
+    -fx-background-color: #d17810;
+    -fx-effect: dropshadow(three-pass-box, rgba(228, 137, 27, 0.5), 8, 0.35, 0, 2);
+}
+
+.btn-action-primary:pressed,
+.btn-adicionar:pressed {
+    -fx-background-color: #b86809;
+}
+
+/* Botão Secundário / Busca / Filtro / Edição (Azul Institucional Senac #054685) */
+.btn-action-secondary,
+.btn-pesquisar,
+.btn-filtrar,
+.btn-editar {
+    -fx-background-color: #054685;
+    -fx-background-radius: 8;
+    -fx-pref-height: 35;
+    -fx-font-family: "Arial";
+    -fx-font-size: 13;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+    -fx-cursor: hand;
+    -fx-text-alignment: center;
+    -fx-effect: dropshadow(three-pass-box, rgba(5, 70, 133, 0.25), 6, 0.2, 0, 1);
+}
+
+.btn-action-secondary:hover,
+.btn-pesquisar:hover,
+.btn-filtrar:hover,
+.btn-editar:hover {
+    -fx-background-color: #0c569e;
+    -fx-effect: dropshadow(three-pass-box, rgba(5, 70, 133, 0.4), 8, 0.3, 0, 2);
+}
+
+.btn-action-secondary:pressed,
+.btn-pesquisar:pressed,
+.btn-filtrar:pressed,
+.btn-editar:pressed {
+    -fx-background-color: #032e59;
+}
+
+/* Botão de Exclusão / Ação Destrutiva (Vermelho Corporativo Elegante) */
+.btn-action-danger,
+.btn-excluir {
+    -fx-background-color: #d32f2f;
+    -fx-background-radius: 8;
+    -fx-pref-height: 35;
+    -fx-font-family: "Arial";
+    -fx-font-size: 13;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+    -fx-cursor: hand;
+    -fx-text-alignment: center;
+    -fx-effect: dropshadow(three-pass-box, rgba(211, 47, 47, 0.3), 6, 0.25, 0, 2);
+}
+
+.btn-action-danger:hover,
+.btn-excluir:hover {
+    -fx-background-color: #b71c1c;
+    -fx-effect: dropshadow(three-pass-box, rgba(211, 47, 47, 0.45), 8, 0.35, 0, 2);
+}
+
+.btn-action-danger:pressed,
+.btn-excluir:pressed {
+    -fx-background-color: #8e0000;
+}
+
+/* --- Campo de Busca / Searchbox Moderno --- */
+.search-field,
+.conteudo-pagina .text-field {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cbd5e1;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-font-family: "Arial";
+    -fx-font-size: 13px;
+    -fx-text-fill: #1e293b;
+    -fx-prompt-text-fill: #94a3b8;
+    -fx-pref-height: 35px;
+    -fx-padding: 0 12px;
+}
+
+.search-field:hover,
+.conteudo-pagina .text-field:hover {
+    -fx-border-color: #94a3b8;
+}
+
+.search-field:focused,
+.conteudo-pagina .text-field:focused {
+    -fx-border-color: #054685;
+    -fx-effect: dropshadow(three-pass-box, rgba(5, 70, 133, 0.25), 6, 0.25, 0, 1);
+}
+
+/* --- CheckBoxes Padronizados (Perecível, Não Perecível, Utensílios) --- */
+.check-box,
+.filtro-checkbox {
+    -fx-font-family: "Arial";
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #054685;
+    -fx-cursor: hand;
+    -fx-spacing: 8px;
+}
+
+.check-box:hover,
+.filtro-checkbox:hover {
+    -fx-text-fill: #e4891b;
+}
+
+.check-box .box,
+.filtro-checkbox .box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #94a3b8;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-padding: 3px;
+}
+
+.check-box:hover .box,
+.filtro-checkbox:hover .box {
+    -fx-border-color: #054685;
+    -fx-effect: dropshadow(three-pass-box, rgba(5, 70, 133, 0.25), 4, 0.2, 0, 1);
+}
+
+.check-box:selected .box,
+.filtro-checkbox:selected .box {
+    -fx-background-color: #054685;
+    -fx-border-color: #054685;
+}
+
+.check-box:selected .mark,
+.filtro-checkbox:selected .mark {
+    -fx-background-color: #ffffff;
+    -fx-shape: "M 0 4 L 3 7 L 8 1 L 7 0 L 3 5 L 1 3 Z";
+}
+
+/* --- DatePicker (Seleção de Datas) Harmonizado --- */
+.date-picker,
+.custom-date-picker {
+    -fx-background-color: transparent;
+    -fx-pref-height: 35px;
+    -fx-cursor: hand;
+}
+
+.date-picker .text-field,
+.custom-date-picker .text-field {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cbd5e1;
+    -fx-border-width: 1.5px 0 1.5px 1.5px;
+    -fx-border-radius: 8px 0 0 8px;
+    -fx-background-radius: 8px 0 0 8px;
+    -fx-font-family: "Arial";
+    -fx-font-size: 13px;
+    -fx-text-fill: #1e293b;
+    -fx-prompt-text-fill: #94a3b8;
+    -fx-pref-height: 35px;
+    -fx-padding: 0 10px;
+}
+
+.date-picker:hover .text-field,
+.custom-date-picker:hover .text-field {
+    -fx-border-color: #94a3b8;
+}
+
+.date-picker:focused .text-field,
+.custom-date-picker:focused .text-field {
+    -fx-border-color: #054685;
+}
+
+.date-picker .arrow-button,
+.custom-date-picker .arrow-button {
+    -fx-background-color: #054685;
+    -fx-border-color: #054685;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 0 8px 8px 0;
+    -fx-background-radius: 0 8px 8px 0;
+    -fx-pref-height: 35px;
+    -fx-padding: 0 12px;
+    -fx-cursor: hand;
+}
+
+.date-picker .arrow-button:hover,
+.custom-date-picker .arrow-button:hover {
+    -fx-background-color: #0c569e;
+    -fx-border-color: #0c569e;
+}
+
+.date-picker .arrow-button .arrow,
+.custom-date-picker .arrow-button .arrow {
+    -fx-background-color: #ffffff;
+}
+
+/* Calendário popup do DatePicker */
+.date-picker-popup {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #054685;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.15), 10, 0.2, 0, 4);
+}
+
+.date-picker-popup .month-year-pane {
+    -fx-background-color: #054685;
+    -fx-background-radius: 6px 6px 0 0;
+}
+
+.date-picker-popup .month-year-pane .label {
+    -fx-text-fill: #ffffff;
+    -fx-font-family: "Arial Bold";
+    -fx-font-size: 13px;
+}
+
+.date-picker-popup .spinner .button .arrow {
+    -fx-background-color: #ffffff;
+}
+
+.date-picker-popup .day-cell:hover {
+    -fx-background-color: #e4891b;
+    -fx-text-fill: #ffffff;
+}
+
+.date-picker-popup .day-cell:selected {
+    -fx-background-color: #054685;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+}
+
+/* --- ChoiceBox (Categorias / Filtros) Harmonizado --- */
+.choice-box,
+.custom-choice-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cbd5e1;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-pref-height: 35px;
+    -fx-font-family: "Arial";
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+    -fx-padding: 0 8px 0 12px;
+}
+
+.choice-box:hover,
+.custom-choice-box:hover {
+    -fx-border-color: #94a3b8;
+}
+
+.choice-box:focused,
+.custom-choice-box:focused {
+    -fx-border-color: #054685;
+    -fx-effect: dropshadow(three-pass-box, rgba(5, 70, 133, 0.2), 6, 0.2, 0, 1);
+}
+
+.choice-box .label,
+.custom-choice-box .label {
+    -fx-text-fill: #1e293b;
+    -fx-font-weight: bold;
+}
+
+.choice-box .open-button .arrow,
+.custom-choice-box .open-button .arrow {
+    -fx-background-color: #054685;
+}
+
+.choice-box .context-menu,
+.custom-choice-box .context-menu {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cbd5e1;
+    -fx-border-width: 1px;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.12), 8, 0.2, 0, 3);
+}
+
+.choice-box .menu-item:hover,
+.choice-box .menu-item:focused,
+.custom-choice-box .menu-item:hover,
+.custom-choice-box .menu-item:focused {
+    -fx-background-color: #054685;
+}
+
+.choice-box .menu-item:hover .label,
+.choice-box .menu-item:focused .label,
+.custom-choice-box .menu-item:hover .label,
+.custom-choice-box .menu-item:focused .label {
+    -fx-text-fill: #ffffff;
 }
 /* Configura as cores de fundo alternadas (Zebra) */
 .list-view {

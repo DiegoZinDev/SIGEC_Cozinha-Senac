@@ -169,39 +169,42 @@
                         </HBox>
                         <VBox fx:id="conteudoPagina" styleClass="conteudo-pagina" VBox.vgrow="ALWAYS">
                             <children>
-                                <HBox alignment="CENTER_LEFT" prefHeight="40.0" spacing="10.0">
+                                <HBox alignment="CENTER_LEFT" prefHeight="45.0" spacing="12.0">
                                     <children>
-                                        <TextField fx:id="FiltrarProdutos" prefHeight="32.0" prefWidth="200.0" promptText="🔍 Buscar no estoque...">
+                                        <TextField fx:id="FiltrarProdutos" prefHeight="35.0" prefWidth="250.0" promptText="🔍 Buscar no estoque..." styleClass="search-field">
                                             <font>
                                                 <Font name="Arial" size="13.0" />
                                             </font>
                                         </TextField>
-                                        <Button mnemonicParsing="false" onAction="#onPesquisarClick" prefHeight="32.0" prefWidth="95.0" styleClass="btn-padrao-2" text="Pesquisar">
+                                        <Button mnemonicParsing="false" onAction="#onPesquisarClick" prefHeight="35.0" prefWidth="105.0" styleClass="btn-action-secondary" text="Pesquisar">
                                             <font>
-                                                <Font name="Arial Bold" size="12.0" />
+                                                <Font name="Arial Bold" size="13.0" />
                                             </font>
                                         </Button>
                                         <Region HBox.hgrow="ALWAYS" />
-                                        <Button alignment="CENTER" graphicTextGap="6.0" mnemonicParsing="false" onAction="#onClickAddProduto" prefHeight="32.0" prefWidth="110.0" styleClass="btn-padrao-2" text="Adicionar">
+                                        <Button alignment="CENTER" graphicTextGap="6.0" mnemonicParsing="false" onAction="#onClickAddProduto" prefHeight="35.0" prefWidth="115.0" styleClass="btn-action-primary" text="Adicionar">
                                             <graphic>
                                                 <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
                                                     <image>
                                                         <Image url="@imagens/mais.png" />
                                                     </image>
+                                                    <effect>
+                                                        <ColorAdjust brightness="1.0" />
+                                                    </effect>
                                                 </ImageView>
                                             </graphic>
                                             <font>
-                                                <Font name="Arial Bold" size="12.0" />
+                                                <Font name="Arial Bold" size="13.0" />
                                             </font>
                                         </Button>
-                                        <Button fx:id="editar" mnemonicParsing="false" onAction="#onEditarProduto" prefHeight="32.0" prefWidth="85.0" styleClass="btn-padrao-2" text="Editar">
+                                        <Button fx:id="editar" mnemonicParsing="false" onAction="#onEditarProduto" prefHeight="35.0" prefWidth="95.0" styleClass="btn-action-secondary" text="Editar">
                                             <font>
-                                                <Font name="Arial Bold" size="12.0" />
+                                                <Font name="Arial Bold" size="13.0" />
                                             </font>
                                         </Button>
-                                        <Button fx:id="remover" mnemonicParsing="false" onAction="#onRemoverProdutoClick" prefHeight="32.0" prefWidth="85.0" styleClass="btn-padrao-2" text="Excluir">
+                                        <Button fx:id="remover" mnemonicParsing="false" onAction="#onRemoverProdutoClick" prefHeight="35.0" prefWidth="95.0" styleClass="btn-action-danger" text="Excluir">
                                             <font>
-                                                <Font name="Arial Bold" size="12.0" />
+                                                <Font name="Arial Bold" size="13.0" />
                                             </font>
                                         </Button>
                                     </children>
@@ -209,26 +212,26 @@
                                         <Insets left="20.0" right="20.0" top="15.0" />
                                     </VBox.margin>
                                 </HBox>
-                                <HBox alignment="CENTER_RIGHT" prefHeight="25.0" spacing="15.0">
+                                <HBox alignment="CENTER_RIGHT" prefHeight="30.0" spacing="20.0">
                                     <children>
-                                        <CheckBox fx:id="chkPereciveis" mnemonicParsing="false" text="Perecível">
+                                        <CheckBox fx:id="chkPereciveis" mnemonicParsing="false" styleClass="filtro-checkbox" text="Perecível">
                                             <font>
-                                                <Font name="Arial" size="12.0" />
+                                                <Font name="Arial Bold" size="13.0" />
                                             </font>
                                         </CheckBox>
-                                        <CheckBox fx:id="chkNaoPereciveis" mnemonicParsing="false" text="Não Perecível">
+                                        <CheckBox fx:id="chkNaoPereciveis" mnemonicParsing="false" styleClass="filtro-checkbox" text="Não Perecível">
                                             <font>
-                                                <Font name="Arial" size="12.0" />
+                                                <Font name="Arial Bold" size="13.0" />
                                             </font>
                                         </CheckBox>
-                                        <CheckBox fx:id="chkUtensilios" mnemonicParsing="false" text="Utensílios">
+                                        <CheckBox fx:id="chkUtensilios" mnemonicParsing="false" styleClass="filtro-checkbox" text="Utensílios">
                                             <font>
-                                                <Font name="Arial" size="12.0" />
+                                                <Font name="Arial Bold" size="13.0" />
                                             </font>
                                         </CheckBox>
                                     </children>
                                     <VBox.margin>
-                                        <Insets bottom="8.0" left="20.0" right="20.0" top="8.0" />
+                                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                                     </VBox.margin>
                                 </HBox>
                                 <TableView fx:id="ListaEstoque" prefHeight="380.0" prefWidth="560.0" styleClass="table-view" VBox.vgrow="ALWAYS">
