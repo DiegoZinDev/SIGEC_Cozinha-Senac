@@ -53,19 +53,22 @@
                             <Insets top="4.0" />
                         </VBox.margin>
                     </Label>
-                    <TextField fx:id="emailDigitar" prefHeight="32.0" promptText="Digite seu e-mail cadastrado">
+                    <TextField fx:id="emailDigitar" prefHeight="35.0" promptText="Digite seu e-mail cadastrado">
                         <font>
                             <Font name="Arial" size="13.0" />
                         </font>
                     </TextField>
-                    <HBox alignment="CENTER_RIGHT" prefHeight="35.0">
+                    <HBox alignment="CENTER" prefHeight="45.0">
                         <children>
-                            <Button mnemonicParsing="false" onAction="#onConfirmaEmailClick" prefHeight="30.0" prefWidth="130.0" styleClass="btn-laranja" text="ENVIAR CÓDIGO" textFill="WHITE">
+                            <Button mnemonicParsing="false" onAction="#onConfirmaEmailClick" prefHeight="35.0" prefWidth="180.0" styleClass="btn-laranja" text="ENVIAR CÓDIGO" textFill="WHITE">
                                 <font>
-                                    <Font name="Arial Bold" size="12.0" />
+                                    <Font name="Arial Bold" size="13.0" />
                                 </font>
                             </Button>
                         </children>
+                        <VBox.margin>
+                            <Insets bottom="6.0" top="6.0" />
+                        </VBox.margin>
                     </HBox>
                     <Separator prefWidth="200.0">
                         <VBox.margin>
@@ -85,21 +88,21 @@
                             <Insets top="4.0" />
                         </VBox.margin>
                     </Label>
-                    <TextField fx:id="codigoDigitar" prefHeight="32.0" promptText="Digite o código de verificação">
+                    <TextField fx:id="codigoDigitar" prefHeight="35.0" promptText="Digite o código de verificação">
                         <font>
                             <Font name="Arial" size="13.0" />
                         </font>
                     </TextField>
                     <HBox alignment="CENTER" prefHeight="45.0">
                         <children>
-                            <Button mnemonicParsing="false" onAction="#onConfirmaToken" prefHeight="35.0" prefWidth="160.0" styleClass="btn-laranja" text="CONFIRMAR" textFill="WHITE">
+                            <Button mnemonicParsing="false" onAction="#onConfirmaToken" prefHeight="35.0" prefWidth="180.0" styleClass="btn-laranja" text="VERIFICAR CÓDIGO" textFill="WHITE">
                                 <font>
                                     <Font name="Arial Bold" size="13.0" />
                                 </font>
                             </Button>
                         </children>
                         <VBox.margin>
-                            <Insets top="10.0" />
+                            <Insets top="8.0" />
                         </VBox.margin>
                     </HBox>
                 </children>
