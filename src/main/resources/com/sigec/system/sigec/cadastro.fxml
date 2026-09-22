@@ -4,7 +4,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.*?>
 
 <BorderPane prefHeight="600.0" prefWidth="800.0" stylesheets="@CSS/StyleSheet.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sigec.system.sigec.Controllers.CadastroController">
@@ -73,7 +72,7 @@
                                 <Font name="Arial Bold" size="13.0" />
                             </font>
                         </Label>
-                        <TextField fx:id="txtNome" prefHeight="32.0" promptText="Digite seu nome completo">
+                        <TextField fx:id="txtNome" prefHeight="35.0" promptText="Digite seu nome completo">
                             <font>
                                 <Font name="Arial" size="13.0" />
                             </font>
@@ -86,7 +85,7 @@
                                 <Insets top="6.0" />
                             </VBox.margin>
                         </Label>
-                        <TextField fx:id="txtEmail" prefHeight="32.0" promptText="Digite seu e-mail">
+                        <TextField fx:id="txtEmail" prefHeight="35.0" promptText="Digite seu e-mail">
                             <font>
                                 <Font name="Arial" size="13.0" />
                             </font>
@@ -99,11 +98,7 @@
                                 <Insets top="6.0" />
                             </VBox.margin>
                         </Label>
-                        <TextField fx:id="txtAcesso" prefHeight="32.0" promptText="Digite o nível de acesso (ex: comum, admin)">
-                            <font>
-                                <Font name="Arial" size="13.0" />
-                            </font>
-                        </TextField>
+                        <ChoiceBox fx:id="acessoSelect" maxWidth="1.7976931348623157E308" prefHeight="35.0" prefWidth="400.0" styleClass="choice-box-cadastro" />
                         <Label text="Senha">
                             <font>
                                 <Font name="Arial Bold" size="13.0" />
@@ -112,7 +107,7 @@
                                 <Insets top="6.0" />
                             </VBox.margin>
                         </Label>
-                        <PasswordField fx:id="txtSenha" prefHeight="32.0" promptText="Crie uma senha">
+                        <PasswordField fx:id="txtSenha" prefHeight="35.0" promptText="Crie uma senha">
                             <font>
                                 <Font name="Arial" size="13.0" />
                             </font>
@@ -125,7 +120,7 @@
                                 <Insets top="6.0" />
                             </VBox.margin>
                         </Label>
-                        <PasswordField fx:id="txtConfirmarSenha" prefHeight="32.0" promptText="Confirme sua senha">
+                        <PasswordField fx:id="txtConfirmarSenha" prefHeight="35.0" promptText="Confirme sua senha">
                             <font>
                                 <Font name="Arial" size="13.0" />
                             </font>
@@ -151,4 +146,3 @@
         </VBox>
     </center>
 </BorderPane>
-

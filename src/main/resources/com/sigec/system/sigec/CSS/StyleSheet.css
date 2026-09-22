@@ -584,6 +584,99 @@
 .custom-choice-box .menu-item:focused .label {
     -fx-text-fill: #ffffff;
 }
+
+/* --- ChoiceBox de Acesso (Cadastro de Instrutor) --- */
+.choice-box-cadastro,
+#acessoSelect {
+    -fx-pref-width: 400px;
+    -fx-min-width: 400px;
+    -fx-pref-height: 35px;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cbd5e1;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-font-family: "Arial";
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+    -fx-padding: 0 10px 0 12px;
+}
+
+.choice-box-cadastro:hover,
+#acessoSelect:hover {
+    -fx-border-color: #94a3b8;
+}
+
+.choice-box-cadastro:focused,
+#acessoSelect:focused {
+    -fx-border-color: #054685;
+    -fx-effect: dropshadow(three-pass-box, rgba(5, 70, 133, 0.2), 6, 0.2, 0, 1);
+}
+
+.choice-box-cadastro .label,
+#acessoSelect .label {
+    -fx-text-fill: #1e293b;
+    -fx-font-family: "Arial Bold";
+    -fx-font-size: 13px;
+}
+
+/* O menu suspenso (caixa de opções) com o tamanho exato do botão onde o usuário clica */
+.choice-box-cadastro .context-menu,
+#acessoSelect .context-menu {
+    -fx-min-width: 400px;
+    -fx-pref-width: 400px;
+    -fx-max-width: 400px;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #054685;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.18), 10, 0.2, 0, 4);
+    -fx-padding: 4px;
+}
+
+.choice-box-cadastro .menu-item,
+#acessoSelect .menu-item {
+    -fx-min-width: 390px;
+    -fx-pref-width: 390px;
+    -fx-pref-height: 35px;
+    -fx-padding: 8px 14px;
+    -fx-cursor: hand;
+    -fx-background-radius: 6px;
+}
+
+.choice-box-cadastro .menu-item .label,
+#acessoSelect .menu-item .label {
+    -fx-font-family: "Arial Bold";
+    -fx-font-size: 13px;
+    -fx-text-fill: #1e293b;
+}
+
+.choice-box-cadastro .menu-item:hover,
+.choice-box-cadastro .menu-item:focused,
+#acessoSelect .menu-item:hover,
+#acessoSelect .menu-item:focused {
+    -fx-background-color: #054685;
+}
+
+.choice-box-cadastro .menu-item:hover .label,
+.choice-box-cadastro .menu-item:focused .label,
+#acessoSelect .menu-item:hover .label,
+#acessoSelect .menu-item:focused .label {
+    -fx-text-fill: #ffffff;
+}
+
+.choice-box-cadastro .radio-menu-item:checked .label,
+#acessoSelect .radio-menu-item:checked .label {
+    -fx-text-fill: #054685;
+    -fx-font-weight: bold;
+}
+
+.choice-box-cadastro .radio-menu-item:checked:hover .label,
+#acessoSelect .radio-menu-item:checked:hover .label {
+    -fx-text-fill: #ffffff;
+}
+
 /* Configura as cores de fundo alternadas (Zebra) */
 .list-view {
     -fx-control-inner-background: #aecae6;      /* Cor 1 (Ímpar) */

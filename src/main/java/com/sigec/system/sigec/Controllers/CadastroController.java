@@ -4,10 +4,7 @@ import com.sigec.system.sigec.DAOS.UserDAO;
 import com.sigec.system.sigec.MainApplication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import com.sigec.system.sigec.Utils.BackgroundAnimator;
 
@@ -38,6 +35,9 @@ public class CadastroController {
     private Button btnCadastrar;
 
     @FXML
+    private ChoiceBox<String> acessoSelect;
+
+    @FXML
     public void initialize() {
         if (topBarPane != null) {
             BackgroundAnimator.startTopBarAnimation(topBarPane);
@@ -48,6 +48,40 @@ public class CadastroController {
             com.sigec.system.sigec.Utils.FormNavigationUtil.encadearCampos(btnCadastrar, txtNome, txtEmail, txtAcesso, txtSenha, txtConfirmarSenha);
         } else {
             com.sigec.system.sigec.Utils.FormNavigationUtil.encadearCampos(btnCadastrar, txtNome, txtEmail, txtSenha, txtConfirmarSenha);
+        }
+
+        if (acessoSelect != null) {
+            acessoSelect.getItems().clear();
+            acessoSelect.getItems().addAll("Instrutor", "Gestor");
+            acessoSelect.setValue("Instrutor");
+
+            // Sincroniza a largura do menu suspenso (caixa de opções) com a largura do botão onde o usuário clica
+            acessoSelect.showingProperty().addListener((obs, wasShowing, isShowing) -> {
+                if (isShowing) {
+                    javafx.application.Platform.runLater(() -> {
+                        double buttonWidth = acessoSelect.getWidth();
+                        if (buttonWidth <= 0) {
+                            buttonWidth = acessoSelect.getPrefWidth();
+                        }
+                        if (buttonWidth > 0) {
+                            for (javafx.stage.Window window : javafx.stage.Window.getWindows()) {
+                                if (window instanceof javafx.stage.PopupWindow popupWindow) {
+                                    if (popupWindow.getScene() != null && popupWindow.getScene().getRoot() != null) {
+                                        javafx.scene.Node root = popupWindow.getScene().getRoot();
+                                        if (root.getStyleClass().contains("context-menu")) {
+                                            if (root instanceof javafx.scene.layout.Region region) {
+                                                region.setMinWidth(buttonWidth);
+                                                region.setPrefWidth(buttonWidth);
+                                                region.setMaxWidth(buttonWidth);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            });
         }
     }
 
@@ -81,7 +115,9 @@ public class CadastroController {
         }
 
         try {
-            String nivelAcesso = (txtAcesso != null && !txtAcesso.getText().trim().isEmpty()) ? txtAcesso.getText().trim() : "comum";
+            String nivelAcesso = (acessoSelect != null && acessoSelect.getValue() != null && !acessoSelect.getValue().trim().isEmpty())
+                    ? acessoSelect.getValue().trim()
+                    : ((txtAcesso != null && !txtAcesso.getText().trim().isEmpty()) ? txtAcesso.getText().trim() : "Instrutor");
             boolean cadastrado = UserDAO.cadastrar(nome.trim(), email.trim(), senha, nivelAcesso);
             if (cadastrado) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
