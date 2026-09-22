@@ -1,8 +1,9 @@
 package com.sigec.system.sigec.Controllers;
 
 import com.sigec.system.sigec.DAOS.UserDAO;
+import com.sigec.system.sigec.Utils.ScreenTransitionManager;
 import com.sigec.system.sigec.MainApplication;
-import com.sigec.system.sigec.Services.ScreenTransitionManager;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -178,7 +179,8 @@ public class LoginController {
             FadeTransition ftLogo1 = new FadeTransition(Duration.millis(350), logoSenac);
             ftLogo1.setToValue(0);
 
-            // Transição suave onde a tela de fundo se recolhe até a altura da barra do topo (50px)
+            // Transição suave onde a tela de fundo se recolhe até a altura da barra do topo
+            // (50px)
             double currentHeight = rootPane.getHeight() > 0 ? rootPane.getHeight() : 600.0;
             javafx.scene.shape.Rectangle clipRect = new javafx.scene.shape.Rectangle();
             clipRect.widthProperty().bind(rootPane.widthProperty());
@@ -186,9 +188,10 @@ public class LoginController {
             animatedBackground.setClip(clipRect);
 
             javafx.animation.Timeline clipTimeline = new javafx.animation.Timeline(
-                new javafx.animation.KeyFrame(Duration.ZERO, new javafx.animation.KeyValue(clipRect.heightProperty(), currentHeight)),
-                new javafx.animation.KeyFrame(Duration.millis(750), new javafx.animation.KeyValue(clipRect.heightProperty(), 50.0, Interpolator.SPLINE(0.25, 0.1, 0.25, 1.0)))
-            );
+                    new javafx.animation.KeyFrame(Duration.ZERO,
+                            new javafx.animation.KeyValue(clipRect.heightProperty(), currentHeight)),
+                    new javafx.animation.KeyFrame(Duration.millis(750), new javafx.animation.KeyValue(
+                            clipRect.heightProperty(), 50.0, Interpolator.SPLINE(0.25, 0.1, 0.25, 1.0))));
 
             // Transição de fusão da tela de fundo com a barra superior da Home
             FadeTransition ftBgFade = new FadeTransition(Duration.millis(250), animatedBackground);

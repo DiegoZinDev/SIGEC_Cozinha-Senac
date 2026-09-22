@@ -234,33 +234,33 @@ public class BackgroundAnimator {
         gc.fill();
         gc.restore();
 
-        // Linha laranja com espessura variável (Tapered shape idêntico à tela de login) e reflexo dinâmico
+        // Linha laranja com espessura variável sobreposta na junção para eliminar vazamento da borda azul
         gc.save();
         gc.beginPath();
-        // Borda esquerda/superior da curva laranja
-        gc.moveTo(xStart, h);
+        // Borda esquerda/superior da curva laranja (avança suavemente sobre a borda para cobrir qualquer vazamento)
+        gc.moveTo(xStart - 2.5, h);
         gc.bezierCurveTo(
-            xStart + dx * 0.20, h * 0.60,
-            xStart + dx * 0.45, h * 0.75,
-            xStart + dx * 0.60, h * 0.75
+            xStart + dx * 0.20 - 2.5, h * 0.60,
+            xStart + dx * 0.45 - 2.5, h * 0.75,
+            xStart + dx * 0.60 - 2.5, h * 0.75
         );
         gc.bezierCurveTo(
-            xStart + dx * 0.75, h * 0.75,
-            xStart + dx * 0.85, h * 0.55,
-            xEnd, 0
+            xStart + dx * 0.75 - 2.5, h * 0.75,
+            xStart + dx * 0.85 - 2.5, h * 0.55,
+            xEnd - 2.5, 0
         );
 
-        // Borda direita/inferior retornando com espessura cônica suavemente variável e bem visível (de 3.2px a 8.8px)
-        gc.lineTo(xEnd + 8.8, 0);
+        // Borda direita/inferior retornando com espessura cônica sobre o azul marinho
+        gc.lineTo(xEnd + 5.5, 0);
         gc.bezierCurveTo(
-            xStart + dx * 0.85 + 7.8, h * 0.55,
-            xStart + dx * 0.75 + 6.8, h * 0.75,
-            xStart + dx * 0.60 + 5.8, h * 0.75
+            xStart + dx * 0.85 + 4.8, h * 0.55,
+            xStart + dx * 0.75 + 4.2, h * 0.75,
+            xStart + dx * 0.60 + 3.6, h * 0.75
         );
         gc.bezierCurveTo(
-            xStart + dx * 0.45 + 4.8, h * 0.75,
-            xStart + dx * 0.20 + 3.8, h * 0.60,
-            xStart + 3.2, h
+            xStart + dx * 0.45 + 3.0, h * 0.75,
+            xStart + dx * 0.20 + 2.4, h * 0.60,
+            xStart + 1.8, h
         );
         gc.closePath();
 

@@ -1,4 +1,4 @@
-package com.sigec.system.sigec.Services;
+package com.sigec.system.sigec.Utils;
 
 import com.sigec.system.sigec.MainApplication;
 import javafx.animation.Interpolator;
@@ -27,7 +27,8 @@ import java.util.Map;
 
 /**
  * Gerenciador de transições de tela com animação em cascata (stagger),
- * direcionalidade intuitiva (Forward/Backward) e desaceleração suave (Silk easing),
+ * direcionalidade intuitiva (Forward/Backward) e desaceleração suave (Silk
+ * easing),
  * baseado nas diretrizes de UI Motion e Design Engineering.
  */
 public class ScreenTransitionManager {
@@ -46,8 +47,7 @@ public class ScreenTransitionManager {
     private static final Map<String, Integer> TAB_ORDER = Map.of(
             "home.fxml", 0,
             "lista-estoque.fxml", 1,
-            "historico.fxml", 2
-    );
+            "historico.fxml", 2);
 
     // Parâmetros de animação baseados em Emil Kowalski & StyleSeed (Silk motion)
     private static final double MOTION_DISTANCE = 55.0;
@@ -61,7 +61,8 @@ public class ScreenTransitionManager {
     // Curva cúbica para saída (Silk Ease-In)
     private static final Interpolator EASE_IN_SILK = Interpolator.SPLINE(0.4, 0.0, 0.2, 1.0);
 
-    public static void trocarTela(StackPane rootContainer, String fxml, Direction requestedDirection) throws IOException {
+    public static void trocarTela(StackPane rootContainer, String fxml, Direction requestedDirection)
+            throws IOException {
         if (isTransitioning) {
             return;
         }
@@ -146,8 +147,7 @@ public class ScreenTransitionManager {
             Parent oldView,
             Parent newView,
             Direction direction,
-            Runnable onFinishedCallback
-    ) {
+            Runnable onFinishedCallback) {
         // Direção dos eixos:
         // FORWARD: Sai para a ESQUERDA (-), entra da DIREITA (+)
         // BACKWARD: Sai para a DIREITA (+), entra da ESQUERDA (-)
@@ -166,28 +166,25 @@ public class ScreenTransitionManager {
             KeyFrame startKf = new KeyFrame(
                     Duration.millis(delay),
                     new KeyValue(node.translateXProperty(), node.getTranslateX()),
-                    new KeyValue(node.opacityProperty(), node.getOpacity())
-            );
+                    new KeyValue(node.opacityProperty(), node.getOpacity()));
 
             KeyFrame endKf = new KeyFrame(
                     Duration.millis(delay + EXIT_DURATION_MS),
                     new KeyValue(node.translateXProperty(), exitTranslateX, EASE_IN_SILK),
-                    new KeyValue(node.opacityProperty(), 0.0, EASE_IN_SILK)
-            );
+                    new KeyValue(node.opacityProperty(), 0.0, EASE_IN_SILK));
 
             exitTimeline.getKeyFrames().addAll(startKf, endKf);
         }
 
         // Esmaecimento suave do fundo da tela antiga acompanhando o final do último nó
-        double maxExitDelay = exitNodes.isEmpty() ? 0 : Math.min((exitNodes.size() - 1) * STAGGER_INTERVAL_MS, MAX_STAGGER_MS);
+        double maxExitDelay = exitNodes.isEmpty() ? 0
+                : Math.min((exitNodes.size() - 1) * STAGGER_INTERVAL_MS, MAX_STAGGER_MS);
         double totalExitTime = maxExitDelay + EXIT_DURATION_MS;
 
         exitTimeline.getKeyFrames().add(
                 new KeyFrame(
                         Duration.millis(totalExitTime),
-                        new KeyValue(oldView.opacityProperty(), 0.0, EASE_IN_SILK)
-                )
-        );
+                        new KeyValue(oldView.opacityProperty(), 0.0, EASE_IN_SILK)));
 
         exitTimeline.setOnFinished(e -> {
             try {
@@ -218,14 +215,12 @@ public class ScreenTransitionManager {
                     KeyFrame startKf = new KeyFrame(
                             Duration.millis(delay),
                             new KeyValue(node.translateXProperty(), enterTranslateX),
-                            new KeyValue(node.opacityProperty(), 0.0)
-                    );
+                            new KeyValue(node.opacityProperty(), 0.0));
 
                     KeyFrame endKf = new KeyFrame(
                             Duration.millis(delay + ENTER_DURATION_MS),
                             new KeyValue(node.translateXProperty(), 0.0, EASE_OUT_SILK),
-                            new KeyValue(node.opacityProperty(), 1.0, EASE_OUT_SILK)
-                    );
+                            new KeyValue(node.opacityProperty(), 1.0, EASE_OUT_SILK));
 
                     enterTimeline.getKeyFrames().addAll(startKf, endKf);
                 }

@@ -1,6 +1,5 @@
 package com.sigec.system.sigec;
 
-import com.sigec.system.sigec.Services.ScreenTransitionManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,6 +8,8 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+
+import com.sigec.system.sigec.Utils.ScreenTransitionManager;
 
 public class MainApplication extends Application {
 
