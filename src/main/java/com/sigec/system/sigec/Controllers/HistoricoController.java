@@ -100,6 +100,9 @@ public class HistoricoController implements Initializable {
             ));
             filtro.getSelectionModel().selectFirst();
         }
+        if (txtpesquisa != null) {
+            txtpesquisa.setOnAction(this::filtrarHistorico);
+        }
     }
 
     private void configurarDataHora() {

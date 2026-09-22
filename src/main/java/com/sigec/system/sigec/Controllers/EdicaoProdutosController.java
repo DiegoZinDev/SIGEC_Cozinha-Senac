@@ -63,6 +63,9 @@ public class EdicaoProdutosController implements Initializable {
             ));
             txtUnidadeDeMedida.getSelectionModel().selectFirst();
         }
+
+        // Navegação por Enter entre os campos de texto da edição de produto
+        com.sigec.system.sigec.Utils.FormNavigationUtil.encadearCampos(btnCadastro, txtNomeProduto, txtQtdAtual, txtEstoqueMinimo);
     }
 
     @FXML

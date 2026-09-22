@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
-<?import javafx.scene.Group?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
 <StackPane fx:id="rootPane" prefHeight="600.0" prefWidth="800.0" stylesheets="@CSS/StyleSheet.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sigec.system.sigec.Controllers.LoginController">
@@ -14,17 +14,17 @@
     <AnchorPane fx:id="animatedBackground" prefHeight="600.0" prefWidth="800.0" styleClass="fundo-login">
         <children>
             <!-- Onda baseada no novo design em CSS -->
-            <Group fx:id="waveGroup" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0">
+            <Group fx:id="waveGroup" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                 
                 <!-- Forma da onda azul marinho escuro -->
-                <SVGPath fx:id="bgAzul" styleClass="onda-azul" content="M -5 650 L -5 540 Q 200 620, 500 500 T 805 350 L 805 650 Z" />
+                <SVGPath fx:id="bgAzul" content="M -5 650 L -5 540 Q 200 620, 500 500 T 805 350 L 805 650 Z" styleClass="onda-azul" />
                 
                 <!-- Linha laranja divisória (solida, sem strokeDashArray) -->
-                <SVGPath fx:id="linhaLaranja" styleClass="onda-laranja" content="M -5 540 Q 200 620, 500 500 T 805 350" />
+                <SVGPath fx:id="linhaLaranja" content="M -5 540 Q 200 620, 500 500 T 805 350" styleClass="onda-laranja" />
             </Group>
             
             <!-- Logo colorida Senac no topo à esquerda -->
-            <ImageView fx:id="logoSenac" fitHeight="130.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="50.0" AnchorPane.leftAnchor="50.0">
+            <ImageView fx:id="logoSenac" fitHeight="130.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="50.0">
                 <image>
                     <Image url="@imagens/LogocoloridaSenac.png" />
                 </image>
@@ -38,9 +38,9 @@
             <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />
         </padding>
         <children>
-            <Label text="ACESSO" textFill="#054685">
+            <Label alignment="CENTER" prefHeight="74.0" prefWidth="153.0" text="SIGEC" textFill="#054685">
                 <font>
-                    <Font name="Arial Bold" size="24.0" />
+                    <Font name="Arial Bold" size="48.0" />
                 </font>
                 <VBox.margin>
                     <Insets bottom="10.0" />
@@ -100,4 +100,3 @@
         </children>
     </VBox>
 </StackPane>
-

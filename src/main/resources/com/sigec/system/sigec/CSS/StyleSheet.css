@@ -26,6 +26,27 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0.5, 5, 5);
 }
 
+.btn-ativo {
+    -fx-background-color: linear-gradient(to right, #005bb5, #1877f2);
+    -fx-background-radius: 10;
+    -fx-border-color: #ff9800;
+    -fx-border-radius: 5;
+    -fx-border-width: 0 0 0 6;
+    -fx-pref-width: 185;
+    -fx-pref-height: 40;
+    -fx-font-family: "Arial";
+    -fx-font-size: 15;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+    -fx-effect: dropshadow(three-pass-box, rgba(24, 119, 242, 0.5), 14, 0.45, 0, 0);
+}
+
+.btn-ativo:hover {
+    -fx-background-color: linear-gradient(to right, #006ce6, #2d88ff);
+    -fx-border-color: #ffb74d;
+    -fx-effect: dropshadow(three-pass-box, rgba(24, 119, 242, 0.7), 16, 0.55, 0, 0);
+}
+
 .btn-click {
     -fx-background-color: #054685;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0.5, 5, 5);
@@ -88,12 +109,24 @@
     -fx-border-color: #0b2647;
     -fx-border-width: 0 1 0 0;
 }
+
+/* Garante que o menu lateral e seus botões permaneçam 100% nítidos, opacos e sem escurecer */
+.painel-lateral:disabled,
+.painel-lateral .button:disabled,
+.painel-lateral .btn-padrao:disabled,
+.painel-lateral .btn-ativo:disabled,
+.painel-lateral .btn-sair:disabled {
+    -fx-opacity: 1.0;
+}
+
 .painel-center{
     -fx-border-color: #054584;
     -fx-border-width: 3.5;
 }
+
+.top-bar-pane,
 .painel-superior {
-    -fx-background-color: #0b2647;
+    -fx-background-color: #f6f8fb;
 }
 .btn-sair {
     -fx-background-color: #e4891b;

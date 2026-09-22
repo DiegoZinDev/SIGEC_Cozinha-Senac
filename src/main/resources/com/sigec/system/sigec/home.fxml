@@ -20,7 +20,7 @@
 
 <BorderPane prefHeight="600.0" prefWidth="800.0" stylesheets="@CSS/StyleSheet.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sigec.system.sigec.Controllers.HomeController">
     <top>
-        <AnchorPane fx:id="topBarPane" prefHeight="50.0" style="-fx-background-color: #0b2647;" BorderPane.alignment="CENTER">
+        <AnchorPane fx:id="topBarPane" prefHeight="50.0" style="-fx-background-color: #f6f8fb;" BorderPane.alignment="CENTER">
             <children>
                 <!-- Logo colorida Senac maior e posicionada na parte clara da onda -->
                 <HBox alignment="CENTER_LEFT" prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="0.0">
@@ -49,7 +49,11 @@
     <left>
         <VBox alignment="TOP_CENTER" prefHeight="550.0" prefWidth="200.0" styleClass="painel-lateral" BorderPane.alignment="CENTER">
             <children>
-                <Button alignment="BASELINE_LEFT" graphicTextGap="12.0" mnemonicParsing="false" styleClass="btn-padrao" text="Página Inicial">
+                <Button id="btnNavHome" alignment="BASELINE_LEFT" graphicTextGap="12.0" mnemonicParsing="false" text="Página Inicial">
+                    <styleClass>
+                        <String fx:value="btn-padrao" />
+                        <String fx:value="btn-ativo" />
+                    </styleClass>
                     <font>
                         <Font name="Arial Bold" size="15.0" />
                     </font>
@@ -67,7 +71,7 @@
                         <Insets bottom="15.0" top="20.0" />
                     </VBox.margin>
                 </Button>
-                <Button alignment="BASELINE_LEFT" graphicTextGap="12.0" mnemonicParsing="false" onAction="#botaoEstoqueAction" styleClass="btn-padrao" text="Estoque">
+                <Button id="btnNavEstoque" alignment="BASELINE_LEFT" graphicTextGap="12.0" mnemonicParsing="false" onAction="#botaoEstoqueAction" styleClass="btn-padrao" text="Estoque">
                     <font>
                         <Font name="Arial Bold" size="15.0" />
                     </font>
@@ -85,7 +89,7 @@
                         <Insets bottom="15.0" />
                     </VBox.margin>
                 </Button>
-                <Button alignment="BASELINE_LEFT" graphicTextGap="12.0" mnemonicParsing="false" onAction="#botaoRelatorio" styleClass="btn-padrao" text="Relatório">
+                <Button id="btnNavRelatorio" alignment="BASELINE_LEFT" graphicTextGap="12.0" mnemonicParsing="false" onAction="#botaoRelatorio" styleClass="btn-padrao" text="Relatório">
                     <font>
                         <Font name="Arial Bold" size="15.0" />
                     </font>
@@ -103,7 +107,7 @@
                         <Insets bottom="15.0" />
                     </VBox.margin>
                 </Button>
-                <Button alignment="BASELINE_LEFT" graphicTextGap="12.0" mnemonicParsing="false" onAction="#onClickCadastro" styleClass="btn-padrao" text="Cadastro">
+                <Button id="btnNavCadastro" alignment="BASELINE_LEFT" graphicTextGap="12.0" mnemonicParsing="false" onAction="#onClickCadastro" styleClass="btn-padrao" text="Cadastro">
                     <font>
                         <Font name="Arial Bold" size="15.0" />
                     </font>
@@ -174,40 +178,44 @@
                                 </Label>
                             </children>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="45.0">
+                        <VBox fx:id="conteudoPagina" styleClass="conteudo-pagina" VBox.vgrow="ALWAYS">
                             <children>
-                                <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@imagens/aviso.png" />
-                                    </image>
-                                    <HBox.margin>
-                                        <Insets right="8.0" />
-                                    </HBox.margin>
-                                </ImageView>
-                                <Label text="Alertas e Notificações" textFill="#054685">
-                                    <font>
-                                        <Font name="Arial Bold" size="18.0" />
-                                    </font>
-                                </Label>
+                                <HBox alignment="CENTER_LEFT" prefHeight="45.0">
+                                    <children>
+                                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@imagens/aviso.png" />
+                                            </image>
+                                            <HBox.margin>
+                                                <Insets right="8.0" />
+                                            </HBox.margin>
+                                        </ImageView>
+                                        <Label text="Alertas e Notificações" textFill="#054685">
+                                            <font>
+                                                <Font name="Arial Bold" size="18.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets left="25.0" right="25.0" top="15.0" />
+                                    </VBox.margin>
+                                </HBox>
+                                <TableView fx:id="tabelaAlertas" prefHeight="400.0" prefWidth="550.0" styleClass="table-view" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                        <TableColumn fx:id="colProduto" prefWidth="180.0" text="Produto" />
+                                        <TableColumn fx:id="colValidade" prefWidth="130.0" text="Validade" />
+                                        <TableColumn fx:id="colStatus" prefWidth="120.0" text="Status" />
+                                        <TableColumn fx:id="colQuantidade" prefWidth="120.0" text="Quantidade" />
+                                    </columns>
+                                    <columnResizePolicy>
+                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                    </columnResizePolicy>
+                                    <VBox.margin>
+                                        <Insets bottom="25.0" left="25.0" right="25.0" top="10.0" />
+                                    </VBox.margin>
+                                </TableView>
                             </children>
-                            <VBox.margin>
-                                <Insets left="25.0" right="25.0" top="15.0" />
-                            </VBox.margin>
-                        </HBox>
-                        <TableView fx:id="tabelaAlertas" prefHeight="400.0" prefWidth="550.0" styleClass="table-view" VBox.vgrow="ALWAYS">
-                            <columns>
-                                <TableColumn fx:id="colProduto" prefWidth="180.0" text="Produto" />
-                                <TableColumn fx:id="colValidade" prefWidth="130.0" text="Validade" />
-                                <TableColumn fx:id="colStatus" prefWidth="120.0" text="Status" />
-                                <TableColumn fx:id="colQuantidade" prefWidth="120.0" text="Quantidade" />
-                            </columns>
-                            <columnResizePolicy>
-                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                            </columnResizePolicy>
-                            <VBox.margin>
-                                <Insets bottom="25.0" left="25.0" right="25.0" top="10.0" />
-                            </VBox.margin>
-                        </TableView>
+                        </VBox>
                     </children>
                 </VBox>
             </children>

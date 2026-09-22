@@ -87,6 +87,9 @@ public class ListaController implements Initializable {
         if (usuarioLabel != null) {
             usuarioLabel.setText("Administrador");
         }
+        if (FiltrarProdutos != null) {
+            FiltrarProdutos.setOnAction(this::onPesquisarClick);
+        }
     }
 
     private void configurarDataHora() {

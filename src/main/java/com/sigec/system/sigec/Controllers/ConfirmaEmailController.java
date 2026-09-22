@@ -25,6 +25,23 @@ public class ConfirmaEmailController {
     @FXML
     public void initialize() {
         com.sigec.system.sigec.Utils.BackgroundAnimator.startAnimation(animatedBackground, rootPane);
+
+        // Enter no e-mail: envia o código (se preenchido) e transfere o foco para o código do token
+        if (emailDigitar != null) {
+            emailDigitar.setOnAction(e -> {
+                if (emailDigitar.getText() != null && !emailDigitar.getText().trim().isEmpty()) {
+                    onConfirmaEmailClick(e);
+                }
+                if (codigoDigitar != null) {
+                    codigoDigitar.requestFocus();
+                }
+            });
+        }
+
+        // Enter no código: valida e confirma a autenticação do token
+        if (codigoDigitar != null) {
+            codigoDigitar.setOnAction(this::onConfirmaToken);
+        }
     }
 
     @FXML

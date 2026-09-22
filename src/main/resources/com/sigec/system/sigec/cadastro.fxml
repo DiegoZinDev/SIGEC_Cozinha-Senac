@@ -9,7 +9,7 @@
 
 <BorderPane prefHeight="600.0" prefWidth="800.0" stylesheets="@CSS/StyleSheet.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sigec.system.sigec.Controllers.CadastroController">
     <top>
-        <AnchorPane fx:id="topBarPane" prefHeight="50.0" style="-fx-background-color: #0b2647;" BorderPane.alignment="CENTER">
+        <AnchorPane fx:id="topBarPane" prefHeight="50.0" style="-fx-background-color: #f6f8fb;" BorderPane.alignment="CENTER">
             <children>
                 <HBox alignment="CENTER_LEFT" prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="0.0">
                     <children>

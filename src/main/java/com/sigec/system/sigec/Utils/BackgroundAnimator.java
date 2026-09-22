@@ -141,14 +141,38 @@ public class BackgroundAnimator {
             return;
         }
 
+        // Evita adicionar múltiplos canvases ou iniciar múltiplos timers no mesmo topBarPane
+        for (javafx.scene.Node child : topBarPane.getChildren()) {
+            if (child instanceof Canvas) {
+                return;
+            }
+        }
+
         Canvas canvas = new Canvas(800, 50);
         canvas.widthProperty().bind(topBarPane.widthProperty());
         canvas.heightProperty().bind(topBarPane.heightProperty());
 
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        // Renderização síncrona imediata com dimensões padrão para eliminar qualquer frame em branco ou glitch
+        double initialW = topBarPane.getWidth() > 0 ? topBarPane.getWidth() : 800;
+        double initialH = topBarPane.getHeight() > 0 ? topBarPane.getHeight() : 50;
+        renderTopBar(gc, initialW, initialH, 0);
+
+        // Renderiza imediatamente ao redimensionar
+        canvas.widthProperty().addListener((obs, oldV, newV) -> {
+            if (newV.doubleValue() > 0) {
+                renderTopBar(gc, newV.doubleValue(), canvas.getHeight(), 0);
+            }
+        });
+        canvas.heightProperty().addListener((obs, oldV, newV) -> {
+            if (newV.doubleValue() > 0) {
+                renderTopBar(gc, canvas.getWidth(), newV.doubleValue(), 0);
+            }
+        });
+
         // Adiciona o canvas no fundo (índice 0)
         topBarPane.getChildren().add(0, canvas);
-
-        GraphicsContext gc = canvas.getGraphicsContext2D();
 
         AnimationTimer timer = new AnimationTimer() {
             private long lastUpdate = 0;
@@ -158,6 +182,7 @@ public class BackgroundAnimator {
             public void handle(long now) {
                 if (lastUpdate == 0) {
                     lastUpdate = now;
+                    renderTopBar(gc, canvas.getWidth(), canvas.getHeight(), 0);
                     return;
                 }
                 double deltaSeconds = (now - lastUpdate) / 1_000_000_000.0;
@@ -168,7 +193,18 @@ public class BackgroundAnimator {
                 renderTopBar(gc, canvas.getWidth(), canvas.getHeight(), time);
             }
         };
+
+        // Para o timer quando a view é desanexada da cena para evitar consumo de CPU e leaks
+        topBarPane.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene == null) {
+                timer.stop();
+            } else {
+                timer.start();
+            }
+        });
+
         timer.start();
+        topBarPane.getProperties().put("topBarTimer", timer);
     }
 
     private static void renderTopBar(GraphicsContext gc, double width, double height, double time) {

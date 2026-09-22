@@ -19,7 +19,6 @@ import java.sql.SQLException;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
-import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,14 +28,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.Group;
 import javafx.util.Duration;
-import javafx.animation.AnimationTimer;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.StrokeLineCap;
-import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Stop;
-import javafx.scene.paint.CycleMethod;
 
 /**
  * LoginController
@@ -99,6 +90,9 @@ public class LoginController {
             ptLogo.setDelay(Duration.millis(300)); // Pequeno delay antes de iniciar
             ptLogo.play();
         }
+
+        // Navegação por Enter: Enter no e-mail passa para senha, Enter na senha aciona o botão Entrar
+        com.sigec.system.sigec.Utils.FormNavigationUtil.encadearCampos(btnlogin, txtemail, pswsenha);
     }
 
     @FXML
@@ -248,19 +242,6 @@ public class LoginController {
             alert.setTitle("Erro de Navegação");
             alert.setHeaderText(null);
             alert.setContentText("Não foi possível carregar a tela de recuperação de senha: " + e.getMessage());
-            alert.showAndWait();
-        }
-    }
-
-    @FXML
-    public void Cadastrarme(ActionEvent event) {
-        try {
-            MainApplication.trocadorDeTelas("cadastro.fxml");
-        } catch (IOException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro de Navegação");
-            alert.setHeaderText(null);
-            alert.setContentText("Não foi possível carregar a tela de cadastro: " + e.getMessage());
             alert.showAndWait();
         }
     }

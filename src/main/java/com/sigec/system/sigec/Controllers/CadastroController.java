@@ -26,6 +26,9 @@ public class CadastroController {
     private TextField txtEmail;
 
     @FXML
+    private TextField txtAcesso;
+
+    @FXML
     private PasswordField txtSenha;
 
     @FXML
@@ -38,6 +41,13 @@ public class CadastroController {
     public void initialize() {
         if (topBarPane != null) {
             BackgroundAnimator.startTopBarAnimation(topBarPane);
+        }
+
+        // Enter navega ordenadamente pelos campos e no último campo aciona o cadastro
+        if (txtAcesso != null) {
+            com.sigec.system.sigec.Utils.FormNavigationUtil.encadearCampos(btnCadastrar, txtNome, txtEmail, txtAcesso, txtSenha, txtConfirmarSenha);
+        } else {
+            com.sigec.system.sigec.Utils.FormNavigationUtil.encadearCampos(btnCadastrar, txtNome, txtEmail, txtSenha, txtConfirmarSenha);
         }
     }
 
@@ -71,7 +81,8 @@ public class CadastroController {
         }
 
         try {
-            boolean cadastrado = UserDAO.cadastrar(nome.trim(), email.trim(), senha, "comum");
+            String nivelAcesso = (txtAcesso != null && !txtAcesso.getText().trim().isEmpty()) ? txtAcesso.getText().trim() : "comum";
+            boolean cadastrado = UserDAO.cadastrar(nome.trim(), email.trim(), senha, nivelAcesso);
             if (cadastrado) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Sucesso");

@@ -1,4 +1,4 @@
-package com.sigec.system.sigec.DAOS;
+package com.sigec.system.sigec.Constructors;
 
 import javafx.scene.control.Alert;
 
@@ -11,9 +11,10 @@ public class User {
     private String situação;
     private int token;
 
-    public void User(int id_usuario, String nome, String email, String senha, String acesso, String situação, int token) {
+    public void User(int id_usuario, String nome, String email, String senha, String acesso, String situação,
+            int token) {
 
-        if(nome.isEmpty()){
+        if (nome.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("ERROR CODE 404");
             alert.setHeaderText(null);
@@ -21,7 +22,7 @@ public class User {
             alert.showAndWait();
             return;
         }
-        if(email.isEmpty()){
+        if (email.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("ERROR CODE 404");
             alert.setHeaderText(null);
@@ -38,6 +39,5 @@ public class User {
         this.situação = situação;
         this.token = token;
     }
-
 
 }

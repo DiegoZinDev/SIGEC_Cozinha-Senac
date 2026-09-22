@@ -29,6 +29,9 @@ public class AlteraSenhaController {
     @FXML
     public void initialize() {
         com.sigec.system.sigec.Utils.BackgroundAnimator.startAnimation(animatedBackground, rootPane);
+
+        // Enter na nova senha passa para confirmar senha, Enter na confirmação aciona o botão de confirmação
+        com.sigec.system.sigec.Utils.FormNavigationUtil.encadearCampos(confirmaTroca, novaSenha, confirmaSenha);
     }
 
     @FXML
