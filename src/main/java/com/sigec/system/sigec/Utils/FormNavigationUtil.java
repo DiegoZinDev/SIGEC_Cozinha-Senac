@@ -11,7 +11,11 @@ import javafx.scene.input.KeyEvent;
  * Permite avançar entre campos de entrada ao pressionar Enter e acionar
  * o botão de confirmação/autenticação no último campo sem necessidade de mouse.
  */
-public class FormNavigationUtil {
+public final class FormNavigationUtil {
+
+    private FormNavigationUtil() {
+        // Construtor privado para utilitário de navegação de formulários
+    }
 
     /**
      * Encadeia uma sequência ordenada de campos com um botão de ação final.

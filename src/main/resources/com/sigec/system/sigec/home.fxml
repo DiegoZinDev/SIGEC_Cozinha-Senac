@@ -107,24 +107,66 @@
                         <Insets bottom="15.0" />
                     </VBox.margin>
                 </Button>
-                <Button id="btnNavCadastro" alignment="BASELINE_LEFT" graphicTextGap="12.0" mnemonicParsing="false" onAction="#onClickCadastro" styleClass="btn-padrao" text="Cadastro">
-                    <font>
-                        <Font name="Arial Bold" size="15.0" />
-                    </font>
-                    <graphic>
-                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@imagens/cadastroIMG.png" />
-                            </image>
-                            <effect>
-                                <ColorAdjust brightness="1.0" />
-                            </effect>
-                        </ImageView>
-                    </graphic>
+                <!-- Container do Menu Dropdown de Cadastro -->
+                <VBox alignment="TOP_CENTER" spacing="0.0">
+                    <children>
+                        <Button id="btnNavCadastro" fx:id="btnNavCadastro" alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#toggleDropdownCadastro" styleClass="btn-padrao">
+                            <graphic>
+                                <HBox alignment="CENTER_LEFT" prefWidth="160.0" spacing="10.0">
+                                    <children>
+                                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                               <Image url="@imagens/cadastroIMG.png" />
+                                            </image>
+                                            <effect>
+                                                <ColorAdjust brightness="1.0" />
+                                            </effect>
+                                        </ImageView>
+                                        <Label text="Cadastros" textFill="WHITE">
+                                            <font>
+                                                <Font name="Arial Bold" size="15.0" />
+                                            </font>
+                                        </Label>
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <Label fx:id="setaCadastro" text="▼" textFill="WHITE">
+                                            <font>
+                                                <Font name="Arial Bold" size="11.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                            </graphic>
+                        </Button>
+
+                        <!-- Submenu com as opções de cadastro (inicialmente recolhido) -->
+                        <VBox fx:id="submenuCadastro" alignment="TOP_CENTER" managed="false" spacing="0.0" styleClass="submenu-lateral" visible="false">
+                            <children>
+                                <Button id="btnSubNavUsuario" fx:id="btnSubNavUsuario" alignment="BASELINE_LEFT" graphicTextGap="8.0" mnemonicParsing="false" onAction="#onClickCadastroUsuario" styleClass="btn-sub-opcao" text="Cadastro Usuário">
+                                    <graphic>
+                                        <Label text="•" textFill="#94a3b8">
+                                            <font>
+                                                <Font name="Arial Bold" size="14.0" />
+                                            </font>
+                                        </Label>
+                                    </graphic>
+                                </Button>
+                                <Button id="btnSubNavTurma" fx:id="btnSubNavTurma" alignment="BASELINE_LEFT" graphicTextGap="8.0" mnemonicParsing="false" onAction="#onClickCadastroTurma" styleClass="btn-sub-opcao" text="Cadastro Turma">
+                                    <graphic>
+                                        <Label text="•" textFill="#94a3b8">
+                                            <font>
+                                                <Font name="Arial Bold" size="14.0" />
+                                            </font>
+                                        </Label>
+                                    </graphic>
+                                </Button>
+                            </children>
+                        </VBox>
+                    </children>
                     <VBox.margin>
                         <Insets bottom="15.0" />
                     </VBox.margin>
-                </Button>
+                </VBox>
+
                 <Region VBox.vgrow="ALWAYS" />
                 <HBox alignment="CENTER_LEFT">
                     <children>

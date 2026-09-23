@@ -11,7 +11,11 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.StrokeLineCap;
 
-public class BackgroundAnimator {
+public final class BackgroundAnimator {
+
+    private BackgroundAnimator() {
+        // Construtor privado para classe utilitária de animação gráfica
+    }
 
     public static void startAnimation(AnchorPane animatedBackground, StackPane rootPane) {
         if (animatedBackground == null || rootPane == null) {

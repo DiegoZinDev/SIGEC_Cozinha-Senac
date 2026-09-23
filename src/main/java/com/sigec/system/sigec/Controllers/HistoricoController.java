@@ -1,6 +1,10 @@
 package com.sigec.system.sigec.Controllers;
 
 import com.sigec.system.sigec.MainApplication;
+import com.sigec.system.sigec.Services.SessaoService;
+import com.sigec.system.sigec.Utils.BackgroundAnimator;
+import com.sigec.system.sigec.Utils.ButtonBorderLapAnimator;
+
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -16,6 +20,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -25,9 +31,9 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
-import javafx.scene.layout.AnchorPane;
-import com.sigec.system.sigec.Utils.BackgroundAnimator;
-
+/**
+ * Controlador da tela de Histórico e Auditoria de Movimentações.
+ */
 public class HistoricoController implements Initializable {
 
     @FXML
@@ -79,6 +85,15 @@ public class HistoricoController implements Initializable {
     private TableColumn<?, ?> nome_usuario;
 
     @FXML
+    private Button btnNavCadastro;
+
+    @FXML
+    private VBox submenuCadastro;
+
+    @FXML
+    private Label setaCadastro;
+
+    @FXML
     private Button botaoSair;
 
     @Override
@@ -87,9 +102,21 @@ public class HistoricoController implements Initializable {
             BackgroundAnimator.startTopBarAnimation(topBarPane);
         }
         configurarDataHora();
-        if (usuarioLabel != null) {
-            usuarioLabel.setText("Administrador");
+        configurarUsuario();
+        configurarFiltroCategorias();
+
+        if (txtpesquisa != null) {
+            txtpesquisa.setOnAction(this::filtrarHistorico);
         }
+    }
+
+    private void configurarUsuario() {
+        if (usuarioLabel != null) {
+            usuarioLabel.setText(SessaoService.getNomeUsuarioLogado());
+        }
+    }
+
+    private void configurarFiltroCategorias() {
         if (filtro != null) {
             filtro.setItems(FXCollections.observableArrayList(
                     "Todos",
@@ -99,9 +126,6 @@ public class HistoricoController implements Initializable {
                     "Descarte"
             ));
             filtro.getSelectionModel().selectFirst();
-        }
-        if (txtpesquisa != null) {
-            txtpesquisa.setOnAction(this::filtrarHistorico);
         }
     }
 
@@ -115,20 +139,24 @@ public class HistoricoController implements Initializable {
 
         if (horaLabel != null) {
             horaLabel.setText(LocalTime.now().format(horaFormatter));
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-                horaLabel.setText(LocalTime.now().format(horaFormatter));
-            }));
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event ->
+                    horaLabel.setText(LocalTime.now().format(horaFormatter))
+            ));
             timeline.setCycleCount(Animation.INDEFINITE);
             timeline.play();
         }
     }
+
+    // =========================================================================
+    // NAVEGAÇÃO
+    // =========================================================================
 
     @FXML
     public void onClickHome(ActionEvent event) {
         try {
             MainApplication.trocadorDeTelas("home.fxml");
         } catch (IOException e) {
-            exibirErro("Erro ao navegar para a tela inicial: " + e.getMessage());
+            exibirAlerta(Alert.AlertType.ERROR, "Erro", "Erro ao navegar para a tela inicial: " + e.getMessage());
         }
     }
 
@@ -146,36 +174,72 @@ public class HistoricoController implements Initializable {
         try {
             MainApplication.trocadorDeTelas("lista-estoque.fxml");
         } catch (IOException e) {
-            exibirErro("Erro ao navegar para a tela de estoque: " + e.getMessage());
+            exibirAlerta(Alert.AlertType.ERROR, "Erro", "Erro ao navegar para a tela de estoque: " + e.getMessage());
         }
     }
 
     @FXML
-    public void onClickCadastro(ActionEvent event) {
+    public void toggleDropdownCadastro(ActionEvent event) {
+        if (submenuCadastro != null) {
+            boolean expandido = !submenuCadastro.isVisible();
+            submenuCadastro.setVisible(expandido);
+            submenuCadastro.setManaged(expandido);
+            if (setaCadastro != null) {
+                setaCadastro.setText(expandido ? "▶" : "▼");
+            }
+            if (expandido && btnNavCadastro != null) {
+                ButtonBorderLapAnimator.animarDropdown(btnNavCadastro, submenuCadastro);
+            } else if (!expandido && btnNavCadastro != null) {
+                ButtonBorderLapAnimator.cancelarAnimacaoAtiva();
+                btnNavCadastro.getStyleClass().remove("btn-dropdown-ativo");
+                btnNavCadastro.setStyle(null);
+                submenuCadastro.getStyleClass().remove("submenu-lateral-ativo");
+                submenuCadastro.setStyle(null);
+            }
+        }
+    }
+
+    @FXML
+    public void onClickCadastroUsuario(ActionEvent event) {
         navegarParaCadastro();
     }
 
     @FXML
+    public void onClickCadastroTurma(ActionEvent event) {
+        exibirAlerta(Alert.AlertType.INFORMATION, "Cadastro de Turma", "A funcionalidade de Cadastro de Turma será disponibilizada em breve.");
+    }
+
+    @FXML
+    public void onClickCadastro(ActionEvent event) {
+        toggleDropdownCadastro(event);
+    }
+
+    @FXML
     public void botaoCadastroAction(ActionEvent event) {
-        navegarParaCadastro();
+        toggleDropdownCadastro(event);
     }
 
     private void navegarParaCadastro() {
         try {
             MainApplication.trocadorDeTelas("cadastro.fxml");
         } catch (IOException e) {
-            exibirErro("Erro ao navegar para a tela de cadastro: " + e.getMessage());
+            exibirAlerta(Alert.AlertType.ERROR, "Erro", "Erro ao navegar para a tela de cadastro: " + e.getMessage());
         }
     }
 
     @FXML
     public void botaoSairAction(ActionEvent event) {
         try {
+            SessaoService.encerrarSessao();
             MainApplication.trocadorDeTelas("login.fxml");
         } catch (IOException e) {
-            exibirErro("Erro ao sair: " + e.getMessage());
+            exibirAlerta(Alert.AlertType.ERROR, "Erro", "Erro ao sair: " + e.getMessage());
         }
     }
+
+    // =========================================================================
+    // CONSULTA DO HISTÓRICO
+    // =========================================================================
 
     @FXML
     public void filtrarHistorico(ActionEvent event) {
@@ -187,9 +251,9 @@ public class HistoricoController implements Initializable {
         System.out.println("Filtrando histórico: termo=" + termo + ", categoria=" + categoria + ", de=" + de + ", ate=" + ate);
     }
 
-    private void exibirErro(String mensagem) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erro");
+    private void exibirAlerta(Alert.AlertType tipo, String titulo, String mensagem) {
+        Alert alert = new Alert(tipo);
+        alert.setTitle(titulo);
         alert.setHeaderText(null);
         alert.setContentText(mensagem);
         alert.showAndWait();

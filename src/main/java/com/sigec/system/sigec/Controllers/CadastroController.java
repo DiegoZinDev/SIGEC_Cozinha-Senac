@@ -2,19 +2,74 @@ package com.sigec.system.sigec.Controllers;
 
 import com.sigec.system.sigec.DAOS.UserDAO;
 import com.sigec.system.sigec.MainApplication;
+import com.sigec.system.sigec.Services.SessaoService;
+import com.sigec.system.sigec.Utils.BackgroundAnimator;
+import com.sigec.system.sigec.Utils.ButtonBorderLapAnimator;
+import com.sigec.system.sigec.Utils.FormNavigationUtil;
+
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import com.sigec.system.sigec.Utils.BackgroundAnimator;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
+import javafx.stage.PopupWindow;
+import javafx.stage.Window;
+import javafx.util.Duration;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ResourceBundle;
 
-public class CadastroController {
+/**
+ * Controlador responsável pelo cadastro e gerenciamento de novos usuários.
+ */
+public class CadastroController implements Initializable {
 
     @FXML
     private AnchorPane topBarPane;
+
+    @FXML
+    private Label dataLabel;
+
+    @FXML
+    private Label usuarioLabel;
+
+    @FXML
+    private Label horaLabel;
+
+    @FXML
+    private Button btnNavCadastro;
+
+    @FXML
+    private VBox submenuCadastro;
+
+    @FXML
+    private Label setaCadastro;
+
+    @FXML
+    private Button btnSubNavUsuario;
+
+    @FXML
+    private Button btnSubNavTurma;
+
+    @FXML
+    private Button botaoSair;
 
     @FXML
     private TextField txtNome;
@@ -26,6 +81,9 @@ public class CadastroController {
     private TextField txtAcesso;
 
     @FXML
+    private ChoiceBox<String> acessoSelect;
+
+    @FXML
     private PasswordField txtSenha;
 
     @FXML
@@ -35,45 +93,68 @@ public class CadastroController {
     private Button btnCadastrar;
 
     @FXML
-    private ChoiceBox<String> acessoSelect;
+    private Button btnLimpar;
 
-    @FXML
-    public void initialize() {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         if (topBarPane != null) {
             BackgroundAnimator.startTopBarAnimation(topBarPane);
         }
 
-        // Enter navega ordenadamente pelos campos e no último campo aciona o cadastro
-        if (txtAcesso != null) {
-            com.sigec.system.sigec.Utils.FormNavigationUtil.encadearCampos(btnCadastrar, txtNome, txtEmail, txtAcesso, txtSenha, txtConfirmarSenha);
-        } else {
-            com.sigec.system.sigec.Utils.FormNavigationUtil.encadearCampos(btnCadastrar, txtNome, txtEmail, txtSenha, txtConfirmarSenha);
-        }
+        configurarDataHora();
+        configurarUsuario();
+        configurarMenuInicial();
+        configurarNavegacaoCampos();
+        configurarSeletorAcesso();
+    }
 
+    private void configurarUsuario() {
+        if (usuarioLabel != null) {
+            usuarioLabel.setText(SessaoService.getNomeUsuarioLogado());
+        }
+    }
+
+    private void configurarMenuInicial() {
+        if (submenuCadastro != null) {
+            submenuCadastro.setVisible(true);
+            submenuCadastro.setManaged(true);
+        }
+        if (setaCadastro != null) {
+            setaCadastro.setText("▶");
+        }
+    }
+
+    private void configurarNavegacaoCampos() {
+        if (txtAcesso != null) {
+            FormNavigationUtil.encadearCampos(btnCadastrar, txtNome, txtEmail, txtAcesso, txtSenha, txtConfirmarSenha);
+        } else {
+            FormNavigationUtil.encadearCampos(btnCadastrar, txtNome, txtEmail, txtSenha, txtConfirmarSenha);
+        }
+    }
+
+    private void configurarSeletorAcesso() {
         if (acessoSelect != null) {
             acessoSelect.getItems().clear();
             acessoSelect.getItems().addAll("Instrutor", "Gestor");
             acessoSelect.setValue("Instrutor");
 
-            // Sincroniza a largura do menu suspenso (caixa de opções) com a largura do botão onde o usuário clica
+            // Sincroniza a largura do menu suspenso com a largura do seletor
             acessoSelect.showingProperty().addListener((obs, wasShowing, isShowing) -> {
                 if (isShowing) {
-                    javafx.application.Platform.runLater(() -> {
+                    Platform.runLater(() -> {
                         double buttonWidth = acessoSelect.getWidth();
                         if (buttonWidth <= 0) {
                             buttonWidth = acessoSelect.getPrefWidth();
                         }
                         if (buttonWidth > 0) {
-                            for (javafx.stage.Window window : javafx.stage.Window.getWindows()) {
-                                if (window instanceof javafx.stage.PopupWindow popupWindow) {
+                            for (Window window : Window.getWindows()) {
+                                if (window instanceof PopupWindow popupWindow) {
                                     if (popupWindow.getScene() != null && popupWindow.getScene().getRoot() != null) {
-                                        javafx.scene.Node root = popupWindow.getScene().getRoot();
-                                        if (root.getStyleClass().contains("context-menu")) {
-                                            if (root instanceof javafx.scene.layout.Region region) {
-                                                region.setMinWidth(buttonWidth);
-                                                region.setPrefWidth(buttonWidth);
-                                                region.setMaxWidth(buttonWidth);
-                                            }
+                                        Node root = popupWindow.getScene().getRoot();
+                                        if (root.getStyleClass().contains("context-menu") && root instanceof Region region) {
+                                            region.setMinWidth(buttonWidth);
+                                            region.setPrefWidth(buttonWidth);
+                                            region.setMaxWidth(buttonWidth);
                                         }
                                     }
                                 }
@@ -85,32 +166,120 @@ public class CadastroController {
         }
     }
 
+    private void configurarDataHora() {
+        DateTimeFormatter dataFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter horaFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+        if (dataLabel != null) {
+            dataLabel.setText(LocalDate.now().format(dataFormatter));
+        }
+
+        if (horaLabel != null) {
+            horaLabel.setText(LocalTime.now().format(horaFormatter));
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event ->
+                    horaLabel.setText(LocalTime.now().format(horaFormatter))
+            ));
+            timeline.setCycleCount(Animation.INDEFINITE);
+            timeline.play();
+        }
+    }
+
+    // =========================================================================
+    // NAVEGAÇÃO DA BARRA LATERAL
+    // =========================================================================
+
+    @FXML
+    public void onClickHome(ActionEvent event) {
+        try {
+            MainApplication.trocadorDeTelas("home.fxml");
+        } catch (IOException e) {
+            exibirAlerta(Alert.AlertType.ERROR, "Erro", "Erro ao navegar para a Página Inicial: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void onClickEstoque(ActionEvent event) {
+        try {
+            MainApplication.trocadorDeTelas("lista-estoque.fxml");
+        } catch (IOException e) {
+            exibirAlerta(Alert.AlertType.ERROR, "Erro", "Erro ao navegar para o Estoque: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void onClickRelatorio(ActionEvent event) {
+        try {
+            MainApplication.trocadorDeTelas("historico.fxml");
+        } catch (IOException e) {
+            exibirAlerta(Alert.AlertType.ERROR, "Erro", "Erro ao navegar para o Relatório: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void toggleDropdownCadastro(ActionEvent event) {
+        if (submenuCadastro != null) {
+            boolean expandido = !submenuCadastro.isVisible();
+            submenuCadastro.setVisible(expandido);
+            submenuCadastro.setManaged(expandido);
+            if (setaCadastro != null) {
+                setaCadastro.setText(expandido ? "▶" : "▼");
+            }
+            if (expandido && btnNavCadastro != null) {
+                ButtonBorderLapAnimator.animarDropdown(btnNavCadastro, submenuCadastro);
+            } else if (!expandido && btnNavCadastro != null) {
+                ButtonBorderLapAnimator.cancelarAnimacaoAtiva();
+                btnNavCadastro.getStyleClass().remove("btn-dropdown-ativo");
+                btnNavCadastro.setStyle(null);
+                submenuCadastro.getStyleClass().remove("submenu-lateral-ativo");
+                submenuCadastro.setStyle(null);
+            }
+        }
+    }
+
+    @FXML
+    public void onClickCadastroUsuario(ActionEvent event) {
+        if (txtNome != null) {
+            txtNome.requestFocus();
+        }
+    }
+
+    @FXML
+    public void onClickCadastroTurma(ActionEvent event) {
+        exibirAlerta(Alert.AlertType.INFORMATION, "Cadastro de Turma", "A funcionalidade de Cadastro de Turma será disponibilizada na próxima etapa.");
+    }
+
+    @FXML
+    public void botaoSairAction(ActionEvent event) {
+        try {
+            SessaoService.encerrarSessao();
+            MainApplication.trocadorDeTelas("login.fxml");
+        } catch (IOException e) {
+            exibirAlerta(Alert.AlertType.ERROR, "Erro", "Erro ao sair: " + e.getMessage());
+        }
+    }
+
+    // =========================================================================
+    // AÇÕES DO FORMULÁRIO DE CADASTRO
+    // =========================================================================
+
     @FXML
     public void onCadastrar(ActionEvent event) {
-        String nome = txtNome.getText();
-        String email = txtEmail.getText();
-        String senha = txtSenha.getText();
-        String confirmarSenha = txtConfirmarSenha.getText();
+        String nome = txtNome != null ? txtNome.getText() : null;
+        String email = txtEmail != null ? txtEmail.getText() : null;
+        String senha = txtSenha != null ? txtSenha.getText() : null;
+        String confirmarSenha = txtConfirmarSenha != null ? txtConfirmarSenha.getText() : null;
 
         if (nome == null || nome.trim().isEmpty() ||
                 email == null || email.trim().isEmpty() ||
                 senha == null || senha.isEmpty() ||
                 confirmarSenha == null || confirmarSenha.isEmpty()) {
 
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Campos Obrigatórios");
-            alert.setHeaderText(null);
-            alert.setContentText("Preencha todos os campos para continuar.");
-            alert.showAndWait();
+            exibirAlerta(Alert.AlertType.WARNING, "Campos Obrigatórios", "Por favor, preencha todos os campos obrigatórios para continuar.");
             return;
         }
 
         if (!senha.equals(confirmarSenha)) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Senhas não conferem");
-            alert.setHeaderText(null);
-            alert.setContentText("A senha e a confirmação de senha devem ser idênticas.");
-            alert.showAndWait();
+            exibirAlerta(Alert.AlertType.ERROR, "Senhas não conferem", "A senha e a confirmação de senha devem ser idênticas.");
             return;
         }
 
@@ -118,47 +287,42 @@ public class CadastroController {
             String nivelAcesso = (acessoSelect != null && acessoSelect.getValue() != null && !acessoSelect.getValue().trim().isEmpty())
                     ? acessoSelect.getValue().trim()
                     : ((txtAcesso != null && !txtAcesso.getText().trim().isEmpty()) ? txtAcesso.getText().trim() : "Instrutor");
+
             boolean cadastrado = UserDAO.cadastrar(nome.trim(), email.trim(), senha, nivelAcesso);
             if (cadastrado) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Sucesso");
-                alert.setHeaderText(null);
-                alert.setContentText("Usuário cadastrado com sucesso!");
-                alert.showAndWait();
-
-                MainApplication.trocadorDeTelas("login.fxml");
+                exibirAlerta(Alert.AlertType.INFORMATION, "Cadastro Realizado", "Usuário \"" + nome.trim() + "\" cadastrado com sucesso no sistema!");
+                limparCampos();
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erro no Cadastro");
-                alert.setHeaderText(null);
-                alert.setContentText("Não foi possível cadastrar. O e-mail informado pode já estar em uso.");
-                alert.showAndWait();
+                exibirAlerta(Alert.AlertType.ERROR, "Erro no Cadastro", "Não foi possível cadastrar. O e-mail informado já pode estar em uso.");
             }
         } catch (SQLException | RuntimeException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro de Banco de Dados");
-            alert.setHeaderText(null);
-            alert.setContentText("Erro ao salvar cadastro: " + e.getMessage());
-            alert.showAndWait();
-        } catch (IOException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro de Navegação");
-            alert.setHeaderText(null);
-            alert.setContentText("Erro ao redirecionar para a tela de login: " + e.getMessage());
-            alert.showAndWait();
+            exibirAlerta(Alert.AlertType.ERROR, "Erro de Banco de Dados", "Erro ao salvar cadastro: " + e.getMessage());
         }
     }
 
     @FXML
-    public void voltarTela(ActionEvent event) {
-        try {
-            MainApplication.trocadorDeTelas("home.fxml");
-        } catch (IOException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro de Navegação");
-            alert.setHeaderText(null);
-            alert.setContentText("Erro ao voltar para o login: " + e.getMessage());
-            alert.showAndWait();
+    public void onLimparCampos(ActionEvent event) {
+        limparCampos();
+    }
+
+    public void limparCampos() {
+        if (txtNome != null) txtNome.clear();
+        if (txtEmail != null) txtEmail.clear();
+        if (txtSenha != null) txtSenha.clear();
+        if (txtConfirmarSenha != null) txtConfirmarSenha.clear();
+        if (txtAcesso != null) txtAcesso.clear();
+        if (acessoSelect != null) acessoSelect.setValue("Instrutor");
+
+        if (txtNome != null) {
+            txtNome.requestFocus();
         }
+    }
+
+    private void exibirAlerta(Alert.AlertType tipo, String titulo, String mensagem) {
+        Alert alert = new Alert(tipo);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensagem);
+        alert.showAndWait();
     }
 }

@@ -12,20 +12,22 @@ import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
 
 /**
- * Utilitário responsável pela animação fluida do contorno laranja ao selecionar
- * uma opção no menu lateral.
+ * Utilitário responsável pelo ciclo de vida e pela animação fluida do contorno
+ * laranja (Border Lap) ao selecionar uma opção no menu lateral.
  *
- * A linha laranja (inicialmente na base) dá uma volta completa no botão em direção
- * à direita, contorna o topo e finaliza na lateral esquerda, expandindo sua espessura
+ * Para botões padrão, a linha laranja dá uma volta completa no botão em direção
+ * à direita, contorna o topo e finaliza na lateral esquerda, expandindo sua
+ * espessura
  * para 6px e fixando-se no estado ativo (.btn-ativo).
+ *
+ * Para botões dropdown, delega a execução especializada para
+ * {@link DropdownBorderLapAnimator}.
  */
-public class ButtonBorderLapAnimator {
+public final class ButtonBorderLapAnimator {
 
     private static final double PAD = 4.0;
     private static final double CORNER_RADIUS = 6.0;
-    private static final double DURATION_SECONDS = 0.45; // Equilíbrio perfeito: ágil, visível e fluido
-
-    // Desaceleração suave baseada no modelo Silk Easing
+    private static final double DURATION_SECONDS = 0.45;
     private static final Interpolator EASE = Interpolator.SPLINE(0.2, 0.0, 0.2, 1.0);
 
     private static Canvas activeCanvas = null;
@@ -33,11 +35,38 @@ public class ButtonBorderLapAnimator {
     private static Button activeBtn = null;
     private static Runnable activeCleanup = null;
 
+    private ButtonBorderLapAnimator() {
+        // Construtor privado para utilitário estático
+    }
+
     /**
      * Verifica se o botão informado já está no meio da animação de volta da linha.
      */
     public static boolean isAnimating(Button btn) {
         return activeBtn == btn && activeTimer != null;
+    }
+
+    /**
+     * Registra o estado da animação ativa em andamento (padrão ou dropdown).
+     */
+    static void registrarAnimacaoAtiva(Canvas canvas, Button btn, AnimationTimer timer, Runnable cleanup) {
+        activeCanvas = canvas;
+        activeBtn = btn;
+        activeTimer = timer;
+        activeCleanup = cleanup;
+    }
+
+    /**
+     * Conclui a animação ativa, executando a limpeza e restaurando os estados visuais.
+     */
+    static void finalizarAnimacaoAtiva() {
+        if (activeCleanup != null) {
+            activeCleanup.run();
+            activeCleanup = null;
+        }
+        activeCanvas = null;
+        activeBtn = null;
+        activeTimer = null;
     }
 
     /**
@@ -48,10 +77,7 @@ public class ButtonBorderLapAnimator {
             activeTimer.stop();
             activeTimer = null;
         }
-        if (activeCleanup != null) {
-            activeCleanup.run();
-            activeCleanup = null;
-        }
+        finalizarAnimacaoAtiva();
     }
 
     /**
@@ -64,12 +90,10 @@ public class ButtonBorderLapAnimator {
             return;
         }
 
-        // Se já estiver animando este mesmo botão, mantém a animação em curso
         if (isAnimating(btn)) {
             return;
         }
 
-        // Interrompe qualquer animação anterior e a consolida
         cancelarAnimacaoAtiva();
 
         Pane parent = (btn.getParent() instanceof Pane p) ? p : null;
@@ -96,15 +120,11 @@ public class ButtonBorderLapAnimator {
 
         parent.getChildren().add(canvas);
 
-        activeCanvas = canvas;
-        activeBtn = btn;
-
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        // Oculta a borda estática do botão durante a animação e aplica o fundo ativo
-        btn.setStyle("-fx-border-color: transparent; -fx-background-color: linear-gradient(to right, #005bb5, #1877f2); -fx-effect: dropshadow(three-pass-box, rgba(24, 119, 242, 0.4), 12, 0.4, 0, 0);");
+        btn.setStyle(
+                "-fx-border-color: transparent; -fx-background-color: linear-gradient(to right, #005bb5, #1877f2); -fx-effect: dropshadow(three-pass-box, rgba(24, 119, 242, 0.4), 12, 0.4, 0, 0);");
 
-        // Alinhamento subpixel para coincidir perfeitamente com os insets do CSS
         double insetLeft = 3.0;
         double insetBottom = 1.0;
         double insetRight = 1.5;
@@ -124,7 +144,6 @@ public class ButtonBorderLapAnimator {
         double l7 = (y1 - y0) - 2 * r;
         double l8 = (Math.PI / 2) * r;
 
-        // O traço na lateral esquerda finaliza cobrindo a borda vertical esquerda
         double sLeftTop = l1 + l2 + l3 + l4 + l5 + l6;
         double sLeftBottom = sLeftTop + l7;
 
@@ -135,23 +154,17 @@ public class ButtonBorderLapAnimator {
 
         long startNano = System.nanoTime();
 
-        activeCleanup = () -> {
-            if (activeCanvas != null && activeCanvas.getParent() instanceof Pane p) {
-                p.getChildren().remove(activeCanvas);
+        Runnable cleanup = () -> {
+            if (canvas.getParent() instanceof Pane p) {
+                p.getChildren().remove(canvas);
             }
-            if (activeBtn != null) {
-                activeBtn.setStyle(null);
-                if (!activeBtn.getStyleClass().contains("btn-ativo")) {
-                    activeBtn.getStyleClass().add("btn-ativo");
-                }
+            btn.setStyle(null);
+            if (!btn.getStyleClass().contains("btn-ativo")) {
+                btn.getStyleClass().add("btn-ativo");
             }
-            activeCanvas = null;
-            activeBtn = null;
-            activeTimer = null;
-            activeCleanup = null;
         };
 
-        activeTimer = new AnimationTimer() {
+        AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 double elapsedSeconds = (now - startNano) / 1_000_000_000.0;
@@ -160,13 +173,9 @@ public class ButtonBorderLapAnimator {
 
                 gc.clearRect(0, 0, canvasW, canvasH);
 
-                // Cálculo contínuo e monótono:
-                // Em t = 0: cauda em 0, cabeça em l1 (cobre a linha inferior como divisória)
-                // Em t = 1: cauda em sEndTail, cabeça em sEndHead (completa a volta na lateral esquerda)
                 double sTail = sStartTail + easeT * (sEndTail - sStartTail);
                 double sHead = sStartHead + easeT * (sEndHead - sStartHead);
 
-                // Espessura: 2.2px na volta e expande suavemente para 6.0px ao entrar na esquerda
                 double thickness;
                 if (t < 0.60) {
                     thickness = 2.2;
@@ -176,31 +185,33 @@ public class ButtonBorderLapAnimator {
                     thickness = 2.2 + easeGrow * 3.8;
                 }
 
-                // Interpolação de cor elegante: #f3ad50 para #ff9800
                 Color coreColor = Color.web("#f3ad50").interpolate(Color.web("#ff9800"), easeT);
                 Color glowColor = Color.color(coreColor.getRed(), coreColor.getGreen(), coreColor.getBlue(), 0.38);
 
-                // Passada 1: Halo de brilho externo (Glow)
                 drawStrokeSegment(gc, sTail, sHead, thickness + 4.0, glowColor, x0, y0, x1, y1, r);
-
-                // Passada 2: Traço principal nítido com pontas suaves
                 drawStrokeSegment(gc, sTail, sHead, thickness, coreColor, x0, y0, x1, y1, r);
 
-                // Conclusão fluida da volta
                 if (t >= 1.0) {
                     stop();
-                    if (activeCleanup != null) {
-                        activeCleanup.run();
-                    }
+                    finalizarAnimacaoAtiva();
                 }
             }
         };
 
-        activeTimer.start();
+        registrarAnimacaoAtiva(canvas, btn, timer, cleanup);
+        timer.start();
     }
 
-    private static void drawStrokeSegment(GraphicsContext gc, double sStart, double sEnd, double thickness, Color color,
-                                          double x0, double y0, double x1, double y1, double r) {
+    /**
+     * Ponto de entrada compatível para a animação dropdown, delegando para
+     * {@link DropdownBorderLapAnimator#animarDropdown(Button, Pane)}.
+     */
+    public static void animarDropdown(Button btn, Pane submenu) {
+        DropdownBorderLapAnimator.animarDropdown(btn, submenu);
+    }
+
+    private static void drawStrokeSegment(GraphicsContext gc, double sStart, double sEnd, double thickness,
+            Color color, double x0, double y0, double x1, double y1, double r) {
         if (sEnd <= sStart) {
             return;
         }
@@ -236,14 +247,14 @@ public class ButtonBorderLapAnimator {
         double l6 = (Math.PI / 2) * r;
         double l7 = (y1 - y0) - 2 * r;
 
-        // 1. Base (da esquerda para a direita)
+        // 1. Base
         if (s <= l1) {
             double u = s / l1;
             return new Point2D((x0 + r) + u * l1, y1);
         }
         s -= l1;
 
-        // 2. Canto inferior direito (curva subindo para a direita)
+        // 2. Canto inferior direito
         if (s <= l2) {
             double angle = (Math.PI / 2) - (s / r);
             double cx = x1 - r;
@@ -252,14 +263,14 @@ public class ButtonBorderLapAnimator {
         }
         s -= l2;
 
-        // 3. Lateral direita (subindo)
+        // 3. Lateral direita
         if (s <= l3) {
             double u = s / l3;
             return new Point2D(x1, (y1 - r) - u * l3);
         }
         s -= l3;
 
-        // 4. Canto superior direito (curva virando para a esquerda)
+        // 4. Canto superior direito
         if (s <= l4) {
             double angle = -(s / r);
             double cx = x1 - r;
@@ -268,14 +279,14 @@ public class ButtonBorderLapAnimator {
         }
         s -= l4;
 
-        // 5. Topo (da direita para a esquerda)
+        // 5. Topo
         if (s <= l5) {
             double u = s / l5;
             return new Point2D((x1 - r) - u * l5, y0);
         }
         s -= l5;
 
-        // 6. Canto superior esquerdo (curva descendo para a lateral esquerda)
+        // 6. Canto superior esquerdo
         if (s <= l6) {
             double angle = -(Math.PI / 2) - (s / r);
             double cx = x0 + r;
@@ -284,17 +295,8 @@ public class ButtonBorderLapAnimator {
         }
         s -= l6;
 
-        // 7. Lateral esquerda (descendo até a base)
-        if (s <= l7) {
-            double u = s / l7;
-            return new Point2D(x0, (y0 + r) + u * l7);
-        }
-        s -= l7;
-
-        // 8. Canto inferior esquerdo (fechando na base)
-        double angle = Math.PI - (s / r);
-        double cx = x0 + r;
-        double cy = y1 - r;
-        return new Point2D(cx + r * Math.cos(angle), cy + r * Math.sin(angle));
+        // 7. Lateral esquerda
+        double u = Math.min(1.0, Math.max(0.0, s / l7));
+        return new Point2D(x0, (y0 + r) + u * l7);
     }
 }

@@ -10,21 +10,32 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ConfigDataBase {
+/**
+ * Gerenciador de conexão com o banco de dados MySQL para o sistema SIGEC.
+ * Lê credenciais e configurações de variáveis de ambiente ou arquivo .env local.
+ */
+public final class ConfigDataBase {
+
     private static final Map<String, String> ENV_FILE_CACHE = new HashMap<>();
     private static boolean envLoaded = false;
 
-    private static synchronized void loadEnv() {
-        if (envLoaded) return;
-        envLoaded = true;
-
-        String[] possiblePaths = {
+    private static final String[] POSSIBLE_ENV_PATHS = {
             ".env",
             ".antigravity/.env",
             "../.env"
-        };
+    };
 
-        for (String path : possiblePaths) {
+    private ConfigDataBase() {
+        // Construtor privado para utilitário de infraestrutura
+    }
+
+    private static synchronized void loadEnv() {
+        if (envLoaded) {
+            return;
+        }
+        envLoaded = true;
+
+        for (String path : POSSIBLE_ENV_PATHS) {
             File file = new File(path);
             if (file.exists() && file.isFile()) {
                 try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -62,10 +73,17 @@ public class ConfigDataBase {
         return defaultValue;
     }
 
+    /**
+     * Obtém uma nova conexão ativa com o banco de dados.
+     *
+     * @return {@link Connection} conectada ao MySQL
+     * @throws SQLException Em caso de falha de conexão ou credenciais inválidas
+     */
     public static Connection getConnection() throws SQLException {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException ignored) {
+            // Driver moderno carrega automaticamente via ServiceLoader
         }
 
         String url = getEnvVar("DB_URL", "");
@@ -76,53 +94,42 @@ public class ConfigDataBase {
         String port = getEnvVar("DB_PORT", "");
         String dbName = getEnvVar("DB_NAME", "");
 
-        if (url != null) {
-            url = url.trim();
-            // Corrige possíveis erros de digitação como mmysql://
-            if (url.startsWith("mmysql://")) {
-                url = url.substring(1);
-            }
-            // Adiciona o prefixo jdbc: caso o usuário tenha colado mysql://
-            if (url.startsWith("mysql://")) {
-                url = "jdbc:" + url;
-            }
-
-            // Se o usuário passou formato de URI (jdbc:mysql://user:pass@host:port/db)
-            if (url.startsWith("jdbc:mysql://") && url.contains("@")) {
-                int atIdx = url.indexOf('@');
-                String userInfo = url.substring("jdbc:mysql://".length(), atIdx);
-                String rest = url.substring(atIdx + 1);
-                if (userInfo.contains(":")) {
-                    String[] parts = userInfo.split(":", 2);
-                    if (user.isBlank()) user = parts[0];
-                    if (pass.isBlank()) pass = parts[1];
-                } else if (user.isBlank()) {
-                    user = userInfo;
-                }
-                url = "jdbc:mysql://" + rest;
-            }
-
-            // Normaliza parâmetros de SSL
-            url = url.replace("ssl-mode=", "sslMode=");
-
-            // Se estiver apontando para defaultdb e houver DB_NAME configurado, ajusta o banco
-            if (url.contains("/defaultdb") && !dbName.isBlank() && !"defaultdb".equals(dbName)) {
-                url = url.replace("/defaultdb", "/" + dbName);
-            }
+        if (url != null && !url.isBlank()) {
+            url = normalizarUrlConexao(url, dbName);
         }
 
         // Se a URL estiver vazia, monta com base nas variáveis individuais
         if (url == null || url.isBlank()) {
             if (host.isBlank() || port.isBlank() || dbName.isBlank()) {
-                throw new SQLException("Configurações do banco de dados (DB_URL ou DB_HOST/DB_PORT/DB_NAME) não encontradas no arquivo .env");
+                throw new SQLException("Configurações do banco de dados (DB_URL ou DB_HOST/DB_PORT/DB_NAME) não encontradas.");
             }
             url = "jdbc:mysql://" + host + ":" + port + "/" + dbName + "?sslMode=REQUIRED&serverTimezone=America/Sao_Paulo";
         }
 
         if (user.isBlank() || pass.isBlank()) {
-            throw new SQLException("Credenciais do banco de dados (DB_USER, DB_PASS) não encontradas no arquivo .env");
+            throw new SQLException("Credenciais do banco de dados (DB_USER, DB_PASS) não encontradas.");
         }
 
         return DriverManager.getConnection(url, user, pass);
+    }
+
+    private static String normalizarUrlConexao(String url, String dbName) {
+        String normalizada = url.trim();
+
+        if (normalizada.startsWith("mmysql://")) {
+            normalizada = normalizada.substring(1);
+        }
+        if (normalizada.startsWith("mysql://")) {
+            normalizada = "jdbc:" + normalizada;
+        }
+
+        // Normalização de parâmetros de segurança
+        normalizada = normalizada.replace("ssl-mode=", "sslMode=");
+
+        if (normalizada.contains("/defaultdb") && !dbName.isBlank() && !"defaultdb".equals(dbName)) {
+            normalizada = normalizada.replace("/defaultdb", "/" + dbName);
+        }
+
+        return normalizada;
     }
 }

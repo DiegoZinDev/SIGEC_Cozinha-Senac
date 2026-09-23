@@ -733,3 +733,146 @@
     -fx-fill: #ffffff;
     -fx-effect: dropshadow(three-pass-box, #ff9900, 20, 0.7, 0, 0);
 }
+
+/* ==========================================================================
+   SUBMENU DROPDOWN DE NAVEGAÇÃO LATERAL (CADASTROS)
+   ========================================================================== */
+
+/* Estado ativo do botão Dropdown (com borda esquerda laranja de 6px conectada perfeitamente ao submenu) */
+.btn-padrao.btn-dropdown-ativo,
+.btn-dropdown-ativo {
+    -fx-background-color: linear-gradient(to right, #005bb5, #1877f2);
+    -fx-background-radius: 10 10 0 0;
+    -fx-border-color: #ff9800;
+    -fx-border-radius: 5 0 0 0;
+    -fx-border-width: 0 0 0 6;
+    -fx-pref-width: 185;
+    -fx-pref-height: 40;
+    -fx-font-family: "Arial";
+    -fx-font-size: 15;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+    -fx-effect: dropshadow(three-pass-box, rgba(24, 119, 242, 0.5), 14, 0.45, 0, 0);
+}
+
+.btn-padrao.btn-dropdown-ativo:hover,
+.btn-dropdown-ativo:hover {
+    -fx-background-color: linear-gradient(to right, #006ce6, #2d88ff);
+    -fx-border-color: #ffb74d;
+    -fx-effect: dropshadow(three-pass-box, rgba(24, 119, 242, 0.7), 16, 0.55, 0, 0);
+}
+
+.submenu-lateral {
+    -fx-pref-width: 185;
+    -fx-max-width: 185;
+    -fx-padding: 0;
+    -fx-spacing: 0;
+    -fx-background-color: transparent;
+}
+
+/* Container do submenu quando ativo */
+.submenu-lateral-ativo {
+    -fx-pref-width: 185;
+    -fx-max-width: 185;
+    -fx-padding: 0;
+    -fx-spacing: 0;
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+
+.btn-sub-opcao {
+    -fx-background-color: #071f3a;
+    -fx-background-radius: 0;
+    -fx-border-color: #ff9800;
+    -fx-border-radius: 0;
+    -fx-border-width: 0 0 1.2 6;
+    -fx-pref-width: 185;
+    -fx-max-width: 185;
+    -fx-pref-height: 36;
+    -fx-font-family: "Arial";
+    -fx-font-size: 13;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e2e8f0;
+    -fx-cursor: hand;
+    -fx-padding: 0 10 0 14;
+}
+
+.btn-sub-opcao:hover {
+    -fx-background-color: #0d3663;
+    -fx-text-fill: #ffffff;
+    -fx-border-color: #ff9800;
+    -fx-border-width: 0 0 1.2 6;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.35), 8, 0.4, 2, 2);
+}
+
+.btn-sub-ativo {
+    -fx-background-color: linear-gradient(to right, #005bb5, #1877f2);
+    -fx-background-radius: 0;
+    -fx-border-color: #ff9800;
+    -fx-border-radius: 0;
+    -fx-border-width: 0 0 1.2 6;
+    -fx-pref-width: 185;
+    -fx-max-width: 185;
+    -fx-pref-height: 36;
+    -fx-font-family: "Arial";
+    -fx-font-size: 13;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+    -fx-effect: dropshadow(three-pass-box, rgba(24, 119, 242, 0.4), 10, 0.4, 0, 0);
+}
+
+.btn-sub-ativo:hover {
+    -fx-background-color: linear-gradient(to right, #006ce6, #2d88ff);
+    -fx-border-color: #ffb74d;
+    -fx-border-width: 0 0 1.2 6;
+}
+
+#btnSubNavTurma,
+#btnSubNavTurma:hover,
+#btnSubNavTurma.btn-sub-ativo {
+    -fx-background-radius: 0 0 10 0;
+}
+
+/* ==========================================================================
+   CARTÃO E FORMULÁRIO DE CADASTRO (PADRÃO SENAC)
+   ========================================================================== */
+
+.card-form-cadastro {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 12px;
+    -fx-border-color: #cbd5e1;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 12px;
+    -fx-effect: dropshadow(three-pass-box, rgba(11, 38, 71, 0.10), 16, 0.25, 0, 4);
+    -fx-padding: 24px 32px;
+}
+
+.form-label {
+    -fx-font-family: "Arial Bold";
+    -fx-font-size: 13px;
+    -fx-text-fill: #054685;
+}
+
+.form-field-input {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cbd5e1;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-font-family: "Arial";
+    -fx-font-size: 13px;
+    -fx-text-fill: #1e293b;
+    -fx-prompt-text-fill: #94a3b8;
+    -fx-pref-height: 36px;
+    -fx-padding: 0 12px;
+}
+
+.form-field-input:hover {
+    -fx-border-color: #94a3b8;
+}
+
+.form-field-input:focused {
+    -fx-border-color: #054685;
+    -fx-effect: dropshadow(three-pass-box, rgba(5, 70, 133, 0.25), 6, 0.25, 0, 1);
+}
+

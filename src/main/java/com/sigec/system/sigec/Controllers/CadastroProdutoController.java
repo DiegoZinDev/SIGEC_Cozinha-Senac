@@ -1,5 +1,7 @@
 package com.sigec.system.sigec.Controllers;
 
+import com.sigec.system.sigec.Utils.FormNavigationUtil;
+
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +16,9 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Controlador do modal/janela de cadastro de novo produto no estoque.
+ */
 public class CadastroProdutoController implements Initializable {
 
     @FXML
@@ -42,6 +47,11 @@ public class CadastroProdutoController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        configurarSeletores();
+        FormNavigationUtil.encadearCampos(btnCadastro, txtNomeProduto, txtQtdAtual, txtEstoqueMinimo);
+    }
+
+    private void configurarSeletores() {
         if (txtTipoProduto != null) {
             txtTipoProduto.setItems(FXCollections.observableArrayList(
                     "Perecível",
@@ -63,26 +73,19 @@ public class CadastroProdutoController implements Initializable {
             ));
             txtUnidadeDeMedida.getSelectionModel().selectFirst();
         }
-
-        // Navegação por Enter entre os campos de texto do cadastro de produto
-        com.sigec.system.sigec.Utils.FormNavigationUtil.encadearCampos(btnCadastro, txtNomeProduto, txtQtdAtual, txtEstoqueMinimo);
     }
 
     @FXML
     public void onCadastrar(ActionEvent event) {
-        String nome = txtNomeProduto.getText();
-        String qtd = txtQtdAtual.getText();
-        String min = txtEstoqueMinimo.getText();
+        String nome = txtNomeProduto != null ? txtNomeProduto.getText() : null;
+        String qtd = txtQtdAtual != null ? txtQtdAtual.getText() : null;
+        String min = txtEstoqueMinimo != null ? txtEstoqueMinimo.getText() : null;
 
         if (nome == null || nome.trim().isEmpty() ||
-            qtd == null || qtd.trim().isEmpty() ||
-            min == null || min.trim().isEmpty()) {
+                qtd == null || qtd.trim().isEmpty() ||
+                min == null || min.trim().isEmpty()) {
 
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Campos Obrigatórios");
-            alert.setHeaderText(null);
-            alert.setContentText("Preencha todos os campos obrigatórios do produto.");
-            alert.showAndWait();
+            exibirAlerta(Alert.AlertType.WARNING, "Campos Obrigatórios", "Preencha todos os campos obrigatórios do produto.");
             return;
         }
 
@@ -90,20 +93,11 @@ public class CadastroProdutoController implements Initializable {
             Double.parseDouble(qtd.trim());
             Double.parseDouble(min.trim());
         } catch (NumberFormatException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Formato Inválido");
-            alert.setHeaderText(null);
-            alert.setContentText("Quantidade e estoque mínimo devem ser valores numéricos.");
-            alert.showAndWait();
+            exibirAlerta(Alert.AlertType.ERROR, "Formato Inválido", "Quantidade e estoque mínimo devem ser valores numéricos válidos.");
             return;
         }
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Sucesso");
-        alert.setHeaderText(null);
-        alert.setContentText("Produto '" + nome + "' cadastrado com sucesso no estoque!");
-        alert.showAndWait();
-
+        exibirAlerta(Alert.AlertType.INFORMATION, "Sucesso", "Produto '" + nome.trim() + "' cadastrado com sucesso no estoque!");
         fecharJanela();
     }
 
@@ -118,5 +112,13 @@ public class CadastroProdutoController implements Initializable {
         } else if (btnCadastro != null && btnCadastro.getScene() != null && btnCadastro.getScene().getWindow() != null) {
             ((Stage) btnCadastro.getScene().getWindow()).close();
         }
+    }
+
+    private void exibirAlerta(Alert.AlertType tipo, String titulo, String mensagem) {
+        Alert alert = new Alert(tipo);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensagem);
+        alert.showAndWait();
     }
 }

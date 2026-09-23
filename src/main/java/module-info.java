@@ -9,10 +9,13 @@ module com.sigec.system.sigec {
 
     opens com.sigec.system.sigec to javafx.fxml;
     opens com.sigec.system.sigec.Controllers to javafx.fxml;
+    opens com.sigec.system.sigec.Constructors to javafx.base;
 
     exports com.sigec.system.sigec;
     exports com.sigec.system.sigec.Controllers;
+    exports com.sigec.system.sigec.Constructors;
     exports com.sigec.system.sigec.DAOS;
     exports com.sigec.system.sigec.DTBConfig;
     exports com.sigec.system.sigec.Services;
+    exports com.sigec.system.sigec.Utils;
 }

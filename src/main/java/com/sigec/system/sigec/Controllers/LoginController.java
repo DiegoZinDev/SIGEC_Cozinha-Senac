@@ -1,36 +1,43 @@
 package com.sigec.system.sigec.Controllers;
 
+import com.sigec.system.sigec.Constructors.User;
 import com.sigec.system.sigec.DAOS.UserDAO;
-import com.sigec.system.sigec.Utils.ScreenTransitionManager;
 import com.sigec.system.sigec.MainApplication;
+import com.sigec.system.sigec.Services.SessaoService;
+import com.sigec.system.sigec.Utils.BackgroundAnimator;
+import com.sigec.system.sigec.Utils.FormNavigationUtil;
+import com.sigec.system.sigec.Utils.ScreenTransitionManager;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.ParallelTransition;
+import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.SVGPath;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
-import javafx.animation.FadeTransition;
-import javafx.animation.Interpolator;
-import javafx.animation.ParallelTransition;
-import javafx.animation.TranslateTransition;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.shape.SVGPath;
-import javafx.scene.Group;
-import javafx.util.Duration;
-
 /**
- * LoginController
+ * Controlador da tela de Login e Autenticação de Usuários.
  */
 public class LoginController {
 
@@ -67,83 +74,60 @@ public class LoginController {
     @FXML
     public void initialize() {
         if (waveGroup != null && animatedBackground != null && rootPane != null) {
-            // Remove os elementos SVG antigos
             waveGroup.getChildren().clear();
-
-            // Usa a classe utilitária para renderizar e animar o fundo
-            com.sigec.system.sigec.Utils.BackgroundAnimator.startAnimation(animatedBackground, rootPane);
+            BackgroundAnimator.startAnimation(animatedBackground, rootPane);
         }
 
         if (logoSenac != null) {
-            // Animação da logo: surgindo de forma esmaecer bottom-to-top
-            logoSenac.setOpacity(0.0);
-            logoSenac.setTranslateY(50.0);
-
-            FadeTransition fadeLogo = new FadeTransition(Duration.millis(1200), logoSenac);
-            fadeLogo.setToValue(1.0);
-
-            TranslateTransition moveLogo = new TranslateTransition(Duration.millis(1200), logoSenac);
-            moveLogo.setToY(0);
-
-            ParallelTransition ptLogo = new ParallelTransition(fadeLogo, moveLogo);
-            ptLogo.setInterpolator(Interpolator.EASE_OUT);
-            ptLogo.setDelay(Duration.millis(300)); // Pequeno delay antes de iniciar
-            ptLogo.play();
+            iniciarAnimacaoLogo();
         }
 
-        // Navegação por Enter: Enter no e-mail passa para senha, Enter na senha aciona o botão Entrar
-        com.sigec.system.sigec.Utils.FormNavigationUtil.encadearCampos(btnlogin, txtemail, pswsenha);
+        // Navegação por tecla Enter através dos campos de formulário
+        FormNavigationUtil.encadearCampos(btnlogin, txtemail, pswsenha);
+    }
+
+    private void iniciarAnimacaoLogo() {
+        logoSenac.setOpacity(0.0);
+        logoSenac.setTranslateY(50.0);
+
+        FadeTransition fadeLogo = new FadeTransition(Duration.millis(1200), logoSenac);
+        fadeLogo.setToValue(1.0);
+
+        TranslateTransition moveLogo = new TranslateTransition(Duration.millis(1200), logoSenac);
+        moveLogo.setToY(0);
+
+        ParallelTransition ptLogo = new ParallelTransition(fadeLogo, moveLogo);
+        ptLogo.setInterpolator(Interpolator.EASE_OUT);
+        ptLogo.setDelay(Duration.millis(300));
+        ptLogo.play();
     }
 
     @FXML
     public void onButtonLoginClick(ActionEvent event) {
-        String email = txtemail.getText();
-        String senha = pswsenha.getText();
+        String email = txtemail != null ? txtemail.getText() : null;
+        String senha = pswsenha != null ? pswsenha.getText() : null;
 
         if (email == null || email.trim().isEmpty() || senha == null || senha.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Atenção");
-            alert.setHeaderText(null);
-            alert.setContentText("Todos os campos devem estar preenchidos!");
-            alert.showAndWait();
+            exibirAlerta(Alert.AlertType.WARNING, "Atenção", "Todos os campos devem estar preenchidos!");
             return;
         }
 
-        boolean autenticado = false;
         try {
-            autenticado = UserDAO.autenticar(email.trim(), senha);
-        } catch (SQLException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro de Banco de Dados");
-            alert.setHeaderText(null);
-            alert.setContentText("Erro ao conectar ao banco de dados: " + e.getMessage());
-            alert.showAndWait();
-            return;
-        } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro de Autenticação");
-            alert.setHeaderText(null);
-            alert.setContentText("Ocorreu um erro ao validar os dados: " + e.getMessage());
-            alert.showAndWait();
-            return;
-        }
-
-        if (autenticado) {
-            try {
+            boolean autenticado = UserDAO.autenticar(email.trim(), senha);
+            if (autenticado) {
+                // Registra usuário logado na sessão ativa
+                User userLogado = UserDAO.buscarPorEmail(email.trim());
+                if (userLogado != null) {
+                    SessaoService.setUsuarioLogado(userLogado);
+                }
                 transicaoParaHome();
-            } catch (Exception e) {
-                Alert alertNav = new Alert(Alert.AlertType.ERROR);
-                alertNav.setTitle("Erro de Navegação");
-                alertNav.setHeaderText(null);
-                alertNav.setContentText("Não foi possível carregar a tela principal: " + e.getMessage());
-                alertNav.showAndWait();
+            } else {
+                exibirAlerta(Alert.AlertType.ERROR, "Erro", "Usuário ou senha incorretos.");
             }
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setHeaderText(null);
-            alert.setContentText("Usuário ou senha incorretos.");
-            alert.showAndWait();
+        } catch (SQLException e) {
+            exibirAlerta(Alert.AlertType.ERROR, "Erro de Banco de Dados", "Erro ao conectar ao banco de dados: " + e.getMessage());
+        } catch (Exception e) {
+            exibirAlerta(Alert.AlertType.ERROR, "Erro de Autenticação", "Ocorreu um erro ao validar os dados: " + e.getMessage());
         }
     }
 
@@ -162,68 +146,35 @@ public class LoginController {
                 homeController.prepararAnimacao();
             }
 
-            // Garante que homeRoot não esteja duplicado em rootPane
             rootPane.getChildren().remove(homeRoot);
             rootPane.getChildren().add(0, homeRoot);
 
-            // Oculta o formulário e as logos antigas
+            // Animação de fade-out do formulário de login e logo
             FadeTransition ftForm = new FadeTransition(Duration.millis(350), loginForm);
             ftForm.setToValue(0);
 
-            FadeTransition ftLogo1 = new FadeTransition(Duration.millis(350), logoSenac);
-            ftLogo1.setToValue(0);
+            FadeTransition ftLogo = new FadeTransition(Duration.millis(350), logoSenac);
+            ftLogo.setToValue(0);
 
-            // Transição suave onde a tela de fundo se recolhe até a altura da barra do topo
-            // (50px)
+            // Recolhimento suave do fundo até a altura do topo (50px)
             double currentHeight = rootPane.getHeight() > 0 ? rootPane.getHeight() : 600.0;
-            javafx.scene.shape.Rectangle clipRect = new javafx.scene.shape.Rectangle();
+            Rectangle clipRect = new Rectangle();
             clipRect.widthProperty().bind(rootPane.widthProperty());
             clipRect.setHeight(currentHeight);
             animatedBackground.setClip(clipRect);
 
-            javafx.animation.Timeline clipTimeline = new javafx.animation.Timeline(
-                    new javafx.animation.KeyFrame(Duration.ZERO,
-                            new javafx.animation.KeyValue(clipRect.heightProperty(), currentHeight)),
-                    new javafx.animation.KeyFrame(Duration.millis(750), new javafx.animation.KeyValue(
-                            clipRect.heightProperty(), 50.0, Interpolator.SPLINE(0.25, 0.1, 0.25, 1.0))));
+            Timeline clipTimeline = new Timeline(
+                    new KeyFrame(Duration.ZERO, new KeyValue(clipRect.heightProperty(), currentHeight)),
+                    new KeyFrame(Duration.millis(750), new KeyValue(clipRect.heightProperty(), 50.0, Interpolator.SPLINE(0.25, 0.1, 0.25, 1.0)))
+            );
 
-            // Transição de fusão da tela de fundo com a barra superior da Home
             FadeTransition ftBgFade = new FadeTransition(Duration.millis(250), animatedBackground);
             ftBgFade.setDelay(Duration.millis(550));
             ftBgFade.setToValue(0.0);
 
-            ParallelTransition pt = new ParallelTransition(ftForm, ftLogo1, clipTimeline, ftBgFade);
-            pt.setOnFinished(e -> {
-                try {
-                    animatedBackground.setClip(null);
-                    // Remove homeRoot de rootPane antes de inseri-lo no rootContainer
-                    rootPane.getChildren().remove(homeRoot);
+            ParallelTransition pt = new ParallelTransition(ftForm, ftLogo, clipTimeline, ftBgFade);
+            pt.setOnFinished(e -> finalizarTransicaoHome(homeRoot, homeController));
 
-                    if (MainApplication.getRootContainer() != null) {
-                        MainApplication.getRootContainer().getChildren().setAll(homeRoot);
-                        if (MainApplication.getPrimaryStage() != null &&
-                                MainApplication.getPrimaryStage().getScene() != null &&
-                                MainApplication.getPrimaryStage().getScene().getRoot() != MainApplication
-                                        .getRootContainer()) {
-                            MainApplication.getPrimaryStage().getScene().setRoot(MainApplication.getRootContainer());
-                        }
-                        MainApplication.getRootContainer().setDisable(false);
-                    }
-                    if (homeController != null) {
-                        homeController.iniciarAnimacaoLogos();
-                    }
-                    ScreenTransitionManager.setCurrentFxml("home.fxml");
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    if (MainApplication.getRootContainer() != null) {
-                        MainApplication.getRootContainer().getChildren().setAll(homeRoot);
-                        MainApplication.getRootContainer().setDisable(false);
-                    }
-                    ScreenTransitionManager.setCurrentFxml("home.fxml");
-                }
-            });
-
-            // Desativa a janela durante a animação
             if (MainApplication.getRootContainer() != null) {
                 MainApplication.getRootContainer().setDisable(true);
             }
@@ -233,16 +184,49 @@ public class LoginController {
         }
     }
 
+    private void finalizarTransicaoHome(Parent homeRoot, HomeController homeController) {
+        try {
+            animatedBackground.setClip(null);
+            rootPane.getChildren().remove(homeRoot);
+
+            if (MainApplication.getRootContainer() != null) {
+                MainApplication.getRootContainer().getChildren().setAll(homeRoot);
+                if (MainApplication.getPrimaryStage() != null &&
+                        MainApplication.getPrimaryStage().getScene() != null &&
+                        MainApplication.getPrimaryStage().getScene().getRoot() != MainApplication.getRootContainer()) {
+                    MainApplication.getPrimaryStage().getScene().setRoot(MainApplication.getRootContainer());
+                }
+                MainApplication.getRootContainer().setDisable(false);
+            }
+
+            if (homeController != null) {
+                homeController.iniciarAnimacaoLogos();
+            }
+            ScreenTransitionManager.setCurrentFxml("home.fxml");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            if (MainApplication.getRootContainer() != null) {
+                MainApplication.getRootContainer().getChildren().setAll(homeRoot);
+                MainApplication.getRootContainer().setDisable(false);
+            }
+            ScreenTransitionManager.setCurrentFxml("home.fxml");
+        }
+    }
+
     @FXML
     public void EsqueciSenha(ActionEvent event) {
         try {
             MainApplication.trocadorDeTelas("esqueceu-senha.fxml");
         } catch (IOException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro de Navegação");
-            alert.setHeaderText(null);
-            alert.setContentText("Não foi possível carregar a tela de recuperação de senha: " + e.getMessage());
-            alert.showAndWait();
+            exibirAlerta(Alert.AlertType.ERROR, "Erro de Navegação", "Não foi possível carregar a tela de recuperação de senha: " + e.getMessage());
         }
+    }
+
+    private void exibirAlerta(Alert.AlertType tipo, String titulo, String mensagem) {
+        Alert alert = new Alert(tipo);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensagem);
+        alert.showAndWait();
     }
 }

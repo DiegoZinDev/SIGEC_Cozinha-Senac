@@ -1,13 +1,21 @@
 package com.sigec.system.sigec.Controllers;
 
 import com.sigec.system.sigec.MainApplication;
+import com.sigec.system.sigec.Services.EmailService;
+import com.sigec.system.sigec.Utils.BackgroundAnimator;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 
+/**
+ * Controlador da etapa de confirmação de e-mail e validação de token de recuperação.
+ */
 public class ConfirmaEmailController {
 
     @FXML
@@ -17,16 +25,17 @@ public class ConfirmaEmailController {
     private TextField codigoDigitar;
 
     @FXML
-    private javafx.scene.layout.StackPane rootPane;
+    private StackPane rootPane;
 
     @FXML
-    private javafx.scene.layout.AnchorPane animatedBackground;
+    private AnchorPane animatedBackground;
 
     @FXML
     public void initialize() {
-        com.sigec.system.sigec.Utils.BackgroundAnimator.startAnimation(animatedBackground, rootPane);
+        if (animatedBackground != null && rootPane != null) {
+            BackgroundAnimator.startAnimation(animatedBackground, rootPane);
+        }
 
-        // Enter no e-mail: envia o código (se preenchido) e transfere o foco para o código do token
         if (emailDigitar != null) {
             emailDigitar.setOnAction(e -> {
                 if (emailDigitar.getText() != null && !emailDigitar.getText().trim().isEmpty()) {
@@ -38,7 +47,6 @@ public class ConfirmaEmailController {
             });
         }
 
-        // Enter no código: valida e confirma a autenticação do token
         if (codigoDigitar != null) {
             codigoDigitar.setOnAction(this::onConfirmaToken);
         }
@@ -46,51 +54,38 @@ public class ConfirmaEmailController {
 
     @FXML
     public void onConfirmaEmailClick(ActionEvent event) {
-        String email = emailDigitar.getText();
+        String email = emailDigitar != null ? emailDigitar.getText() : null;
 
         if (email == null || email.trim().isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Atenção");
-            alert.setHeaderText(null);
-            alert.setContentText("Informe o seu e-mail cadastrado.");
-            alert.showAndWait();
+            exibirAlerta(Alert.AlertType.WARNING, "Atenção", "Informe o seu e-mail cadastrado.");
             return;
         }
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Código Enviado");
-        alert.setHeaderText(null);
-        alert.setContentText("Se o e-mail estiver cadastrado, um código de verificação foi enviado. Por favor, verifique sua caixa de entrada.");
-        alert.showAndWait();
+        if (!EmailService.validarFormatoEmail(email.trim())) {
+            exibirAlerta(Alert.AlertType.WARNING, "Formato Inválido", "Por favor, digite um endereço de e-mail válido.");
+            return;
+        }
+
+        exibirAlerta(Alert.AlertType.INFORMATION, "Código Enviado",
+                "Se o e-mail estiver cadastrado, um código de verificação foi enviado. Por favor, verifique sua caixa de entrada.");
     }
 
     @FXML
     public void onConfirmaToken(ActionEvent event) {
-        String codigo = codigoDigitar.getText();
+        String codigo = codigoDigitar != null ? codigoDigitar.getText() : null;
 
         if (codigo == null || codigo.trim().isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Atenção");
-            alert.setHeaderText(null);
-            alert.setContentText("Digite o código recebido no seu e-mail.");
-            alert.showAndWait();
+            exibirAlerta(Alert.AlertType.WARNING, "Atenção", "Digite o código recebido no seu e-mail.");
             return;
         }
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Código Confirmado");
-        alert.setHeaderText(null);
-        alert.setContentText("Código validado com sucesso! Você será redirecionado para a alteração de senha.");
-        alert.showAndWait();
+        exibirAlerta(Alert.AlertType.INFORMATION, "Código Confirmado",
+                "Código validado com sucesso! Você será redirecionado para a alteração de senha.");
 
         try {
             MainApplication.trocadorDeTelas("alterar-senha.fxml");
         } catch (IOException e) {
-            Alert erro = new Alert(Alert.AlertType.ERROR);
-            erro.setTitle("Erro");
-            erro.setHeaderText(null);
-            erro.setContentText("Não foi possível carregar a tela de alteração de senha: " + e.getMessage());
-            erro.showAndWait();
+            exibirAlerta(Alert.AlertType.ERROR, "Erro", "Não foi possível carregar a tela de alteração de senha: " + e.getMessage());
         }
     }
 
@@ -99,11 +94,15 @@ public class ConfirmaEmailController {
         try {
             MainApplication.trocadorDeTelas("login.fxml");
         } catch (IOException e) {
-            Alert erro = new Alert(Alert.AlertType.ERROR);
-            erro.setTitle("Erro");
-            erro.setHeaderText(null);
-            erro.setContentText("Erro ao voltar para o login: " + e.getMessage());
-            erro.showAndWait();
+            exibirAlerta(Alert.AlertType.ERROR, "Erro", "Erro ao voltar para o login: " + e.getMessage());
         }
+    }
+
+    private void exibirAlerta(Alert.AlertType tipo, String titulo, String mensagem) {
+        Alert alert = new Alert(tipo);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensagem);
+        alert.showAndWait();
     }
 }

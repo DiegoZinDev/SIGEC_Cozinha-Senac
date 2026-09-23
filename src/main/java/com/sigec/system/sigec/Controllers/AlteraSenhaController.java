@@ -1,14 +1,22 @@
 package com.sigec.system.sigec.Controllers;
 
 import com.sigec.system.sigec.MainApplication;
+import com.sigec.system.sigec.Utils.BackgroundAnimator;
+import com.sigec.system.sigec.Utils.FormNavigationUtil;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 
+/**
+ * Controlador do fluxo de redefinição de senha do usuário.
+ */
 public class AlteraSenhaController {
 
     @FXML
@@ -21,56 +29,42 @@ public class AlteraSenhaController {
     private Button confirmaTroca;
 
     @FXML
-    private javafx.scene.layout.StackPane rootPane;
+    private StackPane rootPane;
 
     @FXML
-    private javafx.scene.layout.AnchorPane animatedBackground;
+    private AnchorPane animatedBackground;
 
     @FXML
     public void initialize() {
-        com.sigec.system.sigec.Utils.BackgroundAnimator.startAnimation(animatedBackground, rootPane);
+        if (animatedBackground != null && rootPane != null) {
+            BackgroundAnimator.startAnimation(animatedBackground, rootPane);
+        }
 
-        // Enter na nova senha passa para confirmar senha, Enter na confirmação aciona o botão de confirmação
-        com.sigec.system.sigec.Utils.FormNavigationUtil.encadearCampos(confirmaTroca, novaSenha, confirmaSenha);
+        // Navegação sequencial por Enter
+        FormNavigationUtil.encadearCampos(confirmaTroca, novaSenha, confirmaSenha);
     }
 
     @FXML
     public void onConfirmaTrocaClick(ActionEvent event) {
-        String nova = novaSenha.getText();
-        String confirma = confirmaSenha.getText();
+        String nova = novaSenha != null ? novaSenha.getText() : null;
+        String confirma = confirmaSenha != null ? confirmaSenha.getText() : null;
 
         if (nova == null || nova.isEmpty() || confirma == null || confirma.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Atenção");
-            alert.setHeaderText(null);
-            alert.setContentText("Preencha todos os campos para alterar a senha.");
-            alert.showAndWait();
+            exibirAlerta(Alert.AlertType.WARNING, "Atenção", "Preencha todos os campos para alterar a senha.");
             return;
         }
 
         if (!nova.equals(confirma)) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Senhas Diferentes");
-            alert.setHeaderText(null);
-            alert.setContentText("A nova senha e a confirmação devem ser iguais.");
-            alert.showAndWait();
+            exibirAlerta(Alert.AlertType.ERROR, "Senhas Diferentes", "A nova senha e a confirmação devem ser iguais.");
             return;
         }
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Sucesso");
-        alert.setHeaderText(null);
-        alert.setContentText("Senha alterada com sucesso! Faça login com sua nova credencial.");
-        alert.showAndWait();
+        exibirAlerta(Alert.AlertType.INFORMATION, "Sucesso", "Senha alterada com sucesso! Faça login com sua nova credencial.");
 
         try {
             MainApplication.trocadorDeTelas("login.fxml");
         } catch (IOException e) {
-            Alert erro = new Alert(Alert.AlertType.ERROR);
-            erro.setTitle("Erro");
-            erro.setHeaderText(null);
-            erro.setContentText("Erro ao redirecionar para a tela de login: " + e.getMessage());
-            erro.showAndWait();
+            exibirAlerta(Alert.AlertType.ERROR, "Erro", "Erro ao redirecionar para a tela de login: " + e.getMessage());
         }
     }
 
@@ -79,11 +73,15 @@ public class AlteraSenhaController {
         try {
             MainApplication.trocadorDeTelas("login.fxml");
         } catch (IOException e) {
-            Alert erro = new Alert(Alert.AlertType.ERROR);
-            erro.setTitle("Erro");
-            erro.setHeaderText(null);
-            erro.setContentText("Erro ao voltar para a tela de login: " + e.getMessage());
-            erro.showAndWait();
+            exibirAlerta(Alert.AlertType.ERROR, "Erro", "Erro ao voltar para a tela de login: " + e.getMessage());
         }
+    }
+
+    private void exibirAlerta(Alert.AlertType tipo, String titulo, String mensagem) {
+        Alert alert = new Alert(tipo);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensagem);
+        alert.showAndWait();
     }
 }

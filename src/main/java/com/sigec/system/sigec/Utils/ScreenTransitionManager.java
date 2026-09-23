@@ -10,7 +10,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -51,7 +53,8 @@ public class ScreenTransitionManager {
     private static final Map<String, Integer> TAB_ORDER = Map.of(
             "home.fxml", 0,
             "lista-estoque.fxml", 1,
-            "historico.fxml", 2);
+            "historico.fxml", 2,
+            "cadastro.fxml", 3);
 
     // Parâmetros de animação para transições de tela cheia (Login <-> Home, etc.)
     private static final double FULL_MOTION_DISTANCE = 55.0;
@@ -604,92 +607,15 @@ public class ScreenTransitionManager {
         history.clear();
     }
 
+    public static boolean isTransitioning() {
+        return isTransitioning;
+    }
+
     /**
      * Sincroniza visualmente o botão da tela atual no menu lateral,
-     * disparando a animação da linha laranja contornando o botão em direção à direita,
-     * completando na esquerda com espessura de 6px e ativando a classe 'btn-ativo'.
+     * delegando para {@link SidebarNavigationManager#sincronizarBotaoAtivo(Parent, String)}.
      */
     public static void sincronizarBotaoAtivo(Parent view, String fxml) {
-        if (view == null || fxml == null) {
-            return;
-        }
-
-        Node painelLateral = view.lookup(".painel-lateral");
-        if (painelLateral instanceof Parent lateralParent) {
-            for (Node node : lateralParent.lookupAll(".btn-padrao")) {
-                if (node instanceof Button btn) {
-                    configurarAcaoNavegacao(btn);
-                    boolean deveDestacar = isBotaoCorrespondente(btn, fxml);
-                    if (deveDestacar) {
-                        if (!btn.getStyleClass().contains("btn-ativo") && !ButtonBorderLapAnimator.isAnimating(btn)) {
-                            ButtonBorderLapAnimator.animarSelecao(btn);
-                        }
-                    } else {
-                        btn.getStyleClass().remove("btn-ativo");
-                        btn.setStyle(null);
-                    }
-                }
-            }
-            Node btnSair = lateralParent.lookup(".btn-sair");
-            if (btnSair instanceof Button btn) {
-                btn.setOnAction(e -> {
-                    try {
-                        ButtonBorderLapAnimator.cancelarAnimacaoAtiva();
-                        MainApplication.trocadorDeTelas("login.fxml");
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                });
-            }
-        }
-    }
-
-    private static void configurarAcaoNavegacao(Button btn) {
-        String id = btn.getId() != null ? btn.getId().toLowerCase() : "";
-        String text = btn.getText() != null ? btn.getText().toLowerCase().trim() : "";
-
-        String destino = null;
-        if (id.contains("home") || text.contains("inicial") || text.contains("home")) {
-            destino = "home.fxml";
-        } else if (id.contains("estoque") || text.contains("estoque")) {
-            destino = "lista-estoque.fxml";
-        } else if (id.contains("relatorio") || id.contains("historico") || text.contains("relat") || text.contains("hist")) {
-            destino = "historico.fxml";
-        } else if (id.contains("cadastro") || text.contains("cadastr")) {
-            destino = "cadastro.fxml";
-        }
-
-        if (destino != null) {
-            final String targetFxml = destino;
-            btn.setOnAction(e -> {
-                try {
-                    if (!targetFxml.equals(currentFxml) && !isTransitioning) {
-                        MainApplication.trocadorDeTelas(targetFxml);
-                    }
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            });
-        }
-    }
-
-    private static boolean isBotaoCorrespondente(Button btn, String fxml) {
-        String id = btn.getId() != null ? btn.getId().toLowerCase() : "";
-        String text = btn.getText() != null ? btn.getText().toLowerCase().trim() : "";
-        String target = fxml.toLowerCase();
-
-        if (target.contains("home")) {
-            return id.contains("home") || text.contains("inicial") || text.contains("home");
-        }
-        if (target.contains("estoque")) {
-            return id.contains("estoque") || text.contains("estoque");
-        }
-        if (target.contains("historico") || target.contains("relatorio")) {
-            return id.contains("relatorio") || id.contains("historico") || text.contains("relat") || text.contains("hist");
-        }
-        if (target.contains("cadastro")) {
-            return id.contains("cadastro") || text.contains("cadastr");
-        }
-        return false;
+        SidebarNavigationManager.sincronizarBotaoAtivo(view, fxml);
     }
 }
