@@ -206,7 +206,11 @@ public class HistoricoController implements Initializable {
 
     @FXML
     public void onClickCadastroTurma(ActionEvent event) {
-        exibirAlerta(Alert.AlertType.INFORMATION, "Cadastro de Turma", "A funcionalidade de Cadastro de Turma será disponibilizada em breve.");
+        try {
+            MainApplication.trocadorDeTelas("cadastro-turma.fxml");
+        } catch (IOException e) {
+            exibirAlerta(Alert.AlertType.ERROR, "Erro", "Não foi possível carregar a tela de Cadastro de Turma: " + e.getMessage());
+        }
     }
 
     @FXML

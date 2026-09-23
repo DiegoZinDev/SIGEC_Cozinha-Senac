@@ -54,7 +54,8 @@ public class ScreenTransitionManager {
             "home.fxml", 0,
             "lista-estoque.fxml", 1,
             "historico.fxml", 2,
-            "cadastro.fxml", 3);
+            "cadastro.fxml", 3,
+            "cadastro-turma.fxml", 3);
 
     // Parâmetros de animação para transições de tela cheia (Login <-> Home, etc.)
     private static final double FULL_MOTION_DISTANCE = 55.0;

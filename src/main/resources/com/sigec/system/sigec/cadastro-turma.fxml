@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="650.0" prefWidth="950.0" stylesheets="@CSS/StyleSheet.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sigec.system.sigec.Controllers.CadastroTurmaController">
+    <top>
+        <AnchorPane fx:id="topBarPane" prefHeight="50.0" style="-fx-background-color: #f6f8fb;" BorderPane.alignment="CENTER">
+            <children>
+                <HBox alignment="CENTER_LEFT" prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <ImageView fitHeight="42.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@imagens/LogocoloridaSenac.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </HBox>
+
+                <HBox alignment="CENTER_RIGHT" prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <Label text="S.I.G.E.C" textFill="WHITE">
+                            <font>
+                                <Font name="Arial Bold" size="24.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
+            </children>
+        </AnchorPane>
+    </top>
+    <left>
+        <VBox alignment="TOP_CENTER" prefHeight="550.0" prefWidth="200.0" styleClass="painel-lateral" BorderPane.alignment="CENTER">
+            <children>
+                <Button id="btnNavHome" alignment="BASELINE_LEFT" graphicTextGap="12.0" mnemonicParsing="false" onAction="#onClickHome" styleClass="btn-padrao" text="Página Inicial">
+                    <font>
+                        <Font name="Arial Bold" size="15.0" />
+                    </font>
+                    <graphic>
+                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@imagens/home.png" />
+                            </image>
+                            <effect>
+                                <ColorAdjust brightness="1.0" />
+                            </effect>
+                        </ImageView>
+                    </graphic>
+                    <VBox.margin>
+                        <Insets bottom="15.0" top="20.0" />
+                    </VBox.margin>
+                </Button>
+                <Button id="btnNavEstoque" alignment="BASELINE_LEFT" graphicTextGap="12.0" mnemonicParsing="false" onAction="#onClickEstoque" styleClass="btn-padrao" text="Estoque">
+                    <font>
+                        <Font name="Arial Bold" size="15.0" />
+                    </font>
+                    <graphic>
+                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@imagens/estoque.png" />
+                            </image>
+                            <effect>
+                                <ColorAdjust brightness="1.0" />
+                            </effect>
+                        </ImageView>
+                    </graphic>
+                    <VBox.margin>
+                        <Insets bottom="15.0" />
+                    </VBox.margin>
+                </Button>
+                <Button id="btnNavRelatorio" alignment="BASELINE_LEFT" graphicTextGap="12.0" mnemonicParsing="false" onAction="#onClickRelatorio" styleClass="btn-padrao" text="Relatório">
+                    <font>
+                        <Font name="Arial Bold" size="15.0" />
+                    </font>
+                    <graphic>
+                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@imagens/relatorio.png" />
+                            </image>
+                            <effect>
+                                <ColorAdjust brightness="1.0" />
+                            </effect>
+                        </ImageView>
+                    </graphic>
+                    <VBox.margin>
+                        <Insets bottom="15.0" />
+                    </VBox.margin>
+                </Button>
+
+                <!-- Container do Menu Dropdown de Cadastro -->
+                <VBox alignment="TOP_CENTER" spacing="0.0">
+                    <children>
+                        <Button id="btnNavCadastro" fx:id="btnNavCadastro" alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#toggleDropdownCadastro" styleClass="btn-padrao">
+                            <graphic>
+                                <HBox alignment="CENTER_LEFT" prefWidth="160.0" spacing="10.0">
+                                    <children>
+                                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@imagens/cadastroIMG.png" />
+                                            </image>
+                                            <effect>
+                                                <ColorAdjust brightness="1.0" />
+                                            </effect>
+                                        </ImageView>
+                                        <Label text="Cadastros" textFill="WHITE">
+                                            <font>
+                                                <Font name="Arial Bold" size="15.0" />
+                                            </font>
+                                        </Label>
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <Label fx:id="setaCadastro" text="▶" textFill="WHITE">
+                                            <font>
+                                                <Font name="Arial Bold" size="11.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                            </graphic>
+                        </Button>
+
+                        <!-- Submenu com as opções de cadastro (visível na tela de Cadastro de Turma) -->
+                        <VBox fx:id="submenuCadastro" alignment="TOP_CENTER" spacing="0.0" styleClass="submenu-lateral">
+                            <children>
+                                <Button id="btnSubNavUsuario" fx:id="btnSubNavUsuario" alignment="BASELINE_LEFT" graphicTextGap="8.0" mnemonicParsing="false" onAction="#onClickCadastroUsuario" styleClass="btn-sub-opcao" text="Cadastro Usuário">
+                                    <graphic>
+                                        <Label text="•" textFill="#94a3b8">
+                                            <font>
+                                                <Font name="Arial Bold" size="14.0" />
+                                            </font>
+                                        </Label>
+                                    </graphic>
+                                </Button>
+                                <Button id="btnSubNavTurma" fx:id="btnSubNavTurma" alignment="BASELINE_LEFT" graphicTextGap="8.0" mnemonicParsing="false" onAction="#onClickCadastroTurma" text="Cadastro Turma">
+                                    <styleClass>
+                                        <String fx:value="btn-sub-opcao" />
+                                        <String fx:value="btn-sub-ativo" />
+                                    </styleClass>
+                                    <graphic>
+                                        <Label text="•" textFill="#ff9800">
+                                            <font>
+                                                <Font name="Arial Bold" size="14.0" />
+                                            </font>
+                                        </Label>
+                                    </graphic>
+                                </Button>
+                            </children>
+                        </VBox>
+                    </children>
+                    <VBox.margin>
+                        <Insets bottom="15.0" />
+                    </VBox.margin>
+                </VBox>
+
+                <Region VBox.vgrow="ALWAYS" />
+                <HBox alignment="CENTER_LEFT">
+                    <children>
+                        <Button fx:id="botaoSair" alignment="CENTER" mnemonicParsing="false" onAction="#botaoSairAction" styleClass="btn-sair" text="Sair">
+                            <font>
+                                <Font name="Arial Bold" size="13.0" />
+                            </font>
+                        </Button>
+                    </children>
+                    <VBox.margin>
+                        <Insets bottom="20.0" left="15.0" />
+                    </VBox.margin>
+                </HBox>
+            </children>
+        </VBox>
+    </left>
+    <center>
+        <StackPane prefHeight="550.0" prefWidth="750.0" BorderPane.alignment="CENTER">
+            <children>
+                <ImageView fitHeight="420.0" fitWidth="420.0" opacity="0.12" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@imagens/LogocoloridaSenac.png" />
+                    </image>
+                </ImageView>
+                <VBox alignment="TOP_CENTER" prefHeight="550.0" prefWidth="750.0" style="-fx-border-color: #054584; -fx-border-width: 0 0 0 1;">
+                    <children>
+                        <HBox alignment="CENTER" prefHeight="50.0" styleClass="painel-secundario">
+                            <children>
+                                <Label fx:id="dataLabel" textFill="WHITE">
+                                    <font>
+                                        <Font name="Arial Bold" size="16.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets left="20.0" />
+                                    </HBox.margin>
+                                </Label>
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Label fx:id="usuarioLabel" text="Administrador" textFill="WHITE">
+                                    <font>
+                                        <Font name="Arial Bold" size="16.0" />
+                                    </font>
+                                </Label>
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Label fx:id="horaLabel" textFill="WHITE">
+                                    <font>
+                                        <Font name="Arial Bold" size="16.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets right="20.0" />
+                                    </HBox.margin>
+                                </Label>
+                            </children>
+                        </HBox>
+
+                        <!-- Cabeçalho da Página -->
+                        <VBox fx:id="conteudoPagina" styleClass="conteudo-pagina" VBox.vgrow="ALWAYS">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" prefHeight="45.0" spacing="10.0">
+                                    <children>
+                                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@imagens/cadastroIMG.png" />
+                                            </image>
+                                            <effect>
+                                                <ColorAdjust brightness="-0.2" hue="0.1" />
+                                            </effect>
+                                        </ImageView>
+                                        <Label text="Cadastro de Turmas" textFill="#054685">
+                                            <font>
+                                                <Font name="Arial Bold" size="18.0" />
+                                            </font>
+                                        </Label>
+                                        <Label text="•  Estruturação de turmas, laboratórios e vinculação de instrutores" textFill="#64748b">
+                                            <font>
+                                                <Font name="Arial" size="13.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" left="25.0" right="25.0" top="15.0" />
+                                    </VBox.margin>
+                                </HBox>
+
+                                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;" VBox.vgrow="ALWAYS">
+                                    <content>
+                                        <!-- DUAS SEÇÕES LADO A LADO -->
+                                        <HBox alignment="TOP_CENTER" spacing="20.0">
+                                            <children>
+
+                                                <!-- SEÇÃO 1: FORMULÁRIO DE CADASTRO DA TURMA -->
+                                                <VBox maxWidth="450.0" prefWidth="420.0" spacing="14.0" styleClass="card-turma-section" HBox.hgrow="ALWAYS">
+                                                    <children>
+                                                        <VBox spacing="3.0">
+                                                            <children>
+                                                                <Label styleClass="section-title" text="1. Dados da Turma" />
+                                                                <Label styleClass="section-subtitle" text="Preencha os campos para registrar a nova turma" />
+                                                            </children>
+                                                            <VBox.margin>
+                                                                <Insets bottom="6.0" />
+                                                            </VBox.margin>
+                                                        </VBox>
+
+                                                        <!-- Campo Nome da Turma -->
+                                                        <VBox spacing="5.0">
+                                                            <children>
+                                                                <Label styleClass="form-label" text="Nome da Turma *" />
+                                                                <TextField fx:id="txtNomeTurma" prefHeight="36.0" promptText="Ex: Cozinha Básica - 2026.1" styleClass="form-field-input" />
+                                                            </children>
+                                                        </VBox>
+
+                                                        <!-- Campo Laboratório -->
+                                                        <VBox spacing="5.0">
+                                                            <children>
+                                                                <Label styleClass="form-label" text="Laboratório *" />
+                                                                <ChoiceBox fx:id="laboratorioSelect" maxWidth="1.7976931348623157E308" prefHeight="36.0" styleClass="choice-box-cadastro" />
+                                                            </children>
+                                                        </VBox>
+
+                                                        <!-- Campo Professor Responsável -->
+                                                        <VBox spacing="5.0">
+                                                            <children>
+                                                                <Label styleClass="form-label" text="Professor Responsável *" />
+                                                                <TextField fx:id="txtProfessorResponsavel" editable="false" prefHeight="36.0" promptText="Selecione um instrutor na lista ao lado ➔" styleClass="form-field-input" style="-fx-background-color: #f8fafc;" />
+                                                                <Label text="Clique em um dos instrutores na Seção 2 para vincular" textFill="#94a3b8">
+                                                                    <font>
+                                                                        <Font name="Arial Italic" size="11.0" />
+                                                                    </font>
+                                                                </Label>
+                                                            </children>
+                                                        </VBox>
+
+                                                        <!-- Campo Situação (padrão Ativo) -->
+                                                        <VBox spacing="5.0">
+                                                            <children>
+                                                                <Label styleClass="form-label" text="Situação *" />
+                                                                <ChoiceBox fx:id="situacaoSelect" maxWidth="1.7976931348623157E308" prefHeight="36.0" styleClass="choice-box-cadastro" />
+                                                            </children>
+                                                        </VBox>
+
+                                                        <!-- Botões de Ação do Formulário -->
+                                                        <HBox alignment="CENTER" spacing="12.0">
+                                                            <children>
+                                                                <Button fx:id="btnCadastrarTurma" mnemonicParsing="false" onAction="#onCadastrarTurma" prefHeight="36.0" prefWidth="180.0" styleClass="btn-action-primary" text="Cadastrar Turma">
+                                                                    <font>
+                                                                        <Font name="Arial Bold" size="13.0" />
+                                                                    </font>
+                                                                </Button>
+                                                                <Button fx:id="btnLimpar" mnemonicParsing="false" onAction="#onLimparFormulario" prefHeight="36.0" prefWidth="140.0" styleClass="btn-action-secondary" text="Limpar Campos">
+                                                                    <font>
+                                                                        <Font name="Arial Bold" size="13.0" />
+                                                                    </font>
+                                                                </Button>
+                                                            </children>
+                                                            <VBox.margin>
+                                                                <Insets top="10.0" />
+                                                            </VBox.margin>
+                                                        </HBox>
+                                                    </children>
+                                                </VBox>
+
+                                                <!-- SEÇÃO 2: INSTRUTORES DISPONÍVEIS PARA VINCULAÇÃO -->
+                                                <VBox maxWidth="450.0" prefWidth="420.0" spacing="14.0" styleClass="card-turma-section" HBox.hgrow="ALWAYS">
+                                                    <children>
+                                                        <VBox spacing="3.0">
+                                                            <children>
+                                                                <Label styleClass="section-title" text="2. Instrutores Disponíveis" />
+                                                                <Label styleClass="section-subtitle" text="Selecione um professor para vincular como responsável" />
+                                                            </children>
+                                                            <VBox.margin>
+                                                                <Insets bottom="6.0" />
+                                                            </VBox.margin>
+                                                        </VBox>
+
+                                                        <!-- Campo de Busca Rápida de Instrutor -->
+                                                        <VBox spacing="5.0">
+                                                            <children>
+                                                                <TextField fx:id="txtPesquisarInstrutor" prefHeight="36.0" promptText="🔍 Filtrar instrutor por nome..." styleClass="form-field-input" />
+                                                            </children>
+                                                        </VBox>
+
+                                                        <!-- Lista de Instrutores -->
+                                                        <ListView fx:id="listaInstrutores" prefHeight="220.0" styleClass="lista-instrutores-view" VBox.vgrow="ALWAYS" />
+
+                                                        <!-- Caixa de Status da Seleção -->
+                                                        <VBox spacing="8.0" style="-fx-background-color: #f8fafc; -fx-border-color: #e2e8f0; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 10px 14px;">
+                                                            <children>
+                                                                <HBox alignment="CENTER_LEFT" spacing="8.0">
+                                                                    <children>
+                                                                        <Label text="Instrutor Selecionado:" textFill="#475569">
+                                                                            <font>
+                                                                                <Font name="Arial Bold" size="12.0" />
+                                                                            </font>
+                                                                        </Label>
+                                                                        <Label fx:id="lblInstrutorSelecionado" text="Nenhum selecionado" textFill="#054685">
+                                                                            <font>
+                                                                                <Font name="Arial Bold" size="12.0" />
+                                                                            </font>
+                                                                        </Label>
+                                                                    </children>
+                                                                </HBox>
+                                                                <HBox alignment="CENTER_RIGHT">
+                                                                    <children>
+                                                                        <Button fx:id="btnDesmarcarInstrutor" mnemonicParsing="false" onAction="#onDesmarcarInstrutor" style="-fx-background-color: transparent; -fx-cursor: hand;" text="Desmarcar seleção" textFill="#94a3b8">
+                                                                            <font>
+                                                                                <Font name="Arial" size="11.0" />
+                                                                            </font>
+                                                                        </Button>
+                                                                    </children>
+                                                                </HBox>
+                                                            </children>
+                                                        </VBox>
+                                                    </children>
+                                                </VBox>
+
+                                            </children>
+                                            <padding>
+                                                <Insets bottom="25.0" left="25.0" right="25.0" top="5.0" />
+                                            </padding>
+                                        </HBox>
+                                    </content>
+                                </ScrollPane>
+                            </children>
+                        </VBox>
+                    </children>
+                </VBox>
+            </children>
+        </StackPane>
+    </center>
+</BorderPane>

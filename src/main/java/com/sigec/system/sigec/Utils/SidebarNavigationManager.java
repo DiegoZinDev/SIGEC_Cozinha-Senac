@@ -77,7 +77,9 @@ public final class SidebarNavigationManager {
         Node btnSubUsuarioNode = lateralParent.lookup("#btnSubNavUsuario");
         Node btnSubTurmaNode = lateralParent.lookup("#btnSubNavTurma");
 
-        boolean isCadastroTela = "cadastro.fxml".equalsIgnoreCase(fxml);
+        boolean isCadastroUsuario = "cadastro.fxml".equalsIgnoreCase(fxml);
+        boolean isCadastroTurma = "cadastro-turma.fxml".equalsIgnoreCase(fxml);
+        boolean isCadastroTela = isCadastroUsuario || isCadastroTurma;
 
         if (subCadNode != null) {
             subCadNode.setVisible(isCadastroTela);
@@ -89,7 +91,7 @@ public final class SidebarNavigationManager {
         }
 
         if (btnSubUsuarioNode instanceof Button btnSubUsuario) {
-            if (isCadastroTela) {
+            if (isCadastroUsuario) {
                 if (!btnSubUsuario.getStyleClass().contains("btn-sub-ativo")) {
                     btnSubUsuario.getStyleClass().add("btn-sub-ativo");
                 }
@@ -101,9 +103,20 @@ public final class SidebarNavigationManager {
         }
 
         if (btnSubTurmaNode instanceof Button btnSubTurma) {
-            btnSubTurma.getStyleClass().remove("btn-sub-ativo");
-            btnSubTurma.setOnAction(e -> exibirModuloEmDesenvolvimento("Cadastro de Turma"));
+            if (isCadastroTurma) {
+                if (!btnSubTurma.getStyleClass().contains("btn-sub-ativo")) {
+                    btnSubTurma.getStyleClass().add("btn-sub-ativo");
+                }
+            } else {
+                btnSubTurma.getStyleClass().remove("btn-sub-ativo");
+            }
+
+            btnSubTurma.setOnAction(e -> navegarComVerificacao("cadastro-turma.fxml"));
         }
+
+        boolean isAlreadyInCadastro = ScreenTransitionManager.getCurrentFxml() != null &&
+                (ScreenTransitionManager.getCurrentFxml().equalsIgnoreCase("cadastro.fxml") ||
+                 ScreenTransitionManager.getCurrentFxml().equalsIgnoreCase("cadastro-turma.fxml"));
 
         if (btnCadNode instanceof Button btnCad && subCadNode instanceof Pane subPane) {
             if (isCadastroTela) {
@@ -113,7 +126,8 @@ public final class SidebarNavigationManager {
                 if (!subPane.getStyleClass().contains("submenu-lateral-ativo")) {
                     subPane.getStyleClass().add("submenu-lateral-ativo");
                 }
-                if (!ButtonBorderLapAnimator.isAnimating(btnCad)) {
+                // Se já estava em uma das telas de cadastro, apenas preserva o menu ativo sem reiniciar a timeline
+                if (!isAlreadyInCadastro && !ButtonBorderLapAnimator.isAnimating(btnCad)) {
                     DropdownBorderLapAnimator.animarDropdown(btnCad, subPane);
                 }
             } else {

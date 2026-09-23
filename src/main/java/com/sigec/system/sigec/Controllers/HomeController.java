@@ -200,11 +200,11 @@ public class HomeController implements Initializable {
 
     @FXML
     public void onClickCadastroTurma(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Cadastro de Turma");
-        alert.setHeaderText("Módulo em Desenvolvimento");
-        alert.setContentText("A funcionalidade de Cadastro de Turma será disponibilizada em breve.");
-        alert.showAndWait();
+        try {
+            MainApplication.trocadorDeTelas("cadastro-turma.fxml");
+        } catch (IOException e) {
+            exibirErroNavegacao("Cadastro de Turma", e);
+        }
     }
 
     @FXML

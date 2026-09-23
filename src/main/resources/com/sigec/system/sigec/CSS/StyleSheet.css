@@ -876,3 +876,116 @@
     -fx-effect: dropshadow(three-pass-box, rgba(5, 70, 133, 0.25), 6, 0.25, 0, 1);
 }
 
+/* Botões de Ação de Formulário */
+.btn-action-primary {
+    -fx-background-color: linear-gradient(to right, #e4891b, #f59e0b);
+    -fx-background-radius: 8px;
+    -fx-font-family: "Arial Bold";
+    -fx-font-size: 13px;
+    -fx-text-fill: #ffffff;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(228, 137, 27, 0.35), 8, 0.3, 0, 2);
+}
+
+.btn-action-primary:hover {
+    -fx-background-color: linear-gradient(to right, #d97706, #e4891b);
+    -fx-effect: dropshadow(three-pass-box, rgba(228, 137, 27, 0.55), 12, 0.4, 0, 3);
+}
+
+.btn-action-primary:pressed {
+    -fx-background-color: #b45309;
+}
+
+.btn-action-secondary {
+    -fx-background-color: #f1f5f9;
+    -fx-background-radius: 8px;
+    -fx-border-color: #cbd5e1;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 8px;
+    -fx-font-family: "Arial Bold";
+    -fx-font-size: 13px;
+    -fx-text-fill: #475569;
+    -fx-cursor: hand;
+}
+
+.btn-action-secondary:hover {
+    -fx-background-color: #e2e8f0;
+    -fx-border-color: #94a3b8;
+    -fx-text-fill: #1e293b;
+}
+
+/* ==========================================================================
+   TELA DE CADASTRO DE TURMAS (SEÇÕES LADO A LADO)
+   ========================================================================== */
+
+.card-turma-section {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 12px;
+    -fx-border-color: #cbd5e1;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 12px;
+    -fx-effect: dropshadow(three-pass-box, rgba(11, 38, 71, 0.10), 16, 0.25, 0, 4);
+    -fx-padding: 20px 24px;
+}
+
+.section-title {
+    -fx-font-family: "Arial Bold";
+    -fx-font-size: 16px;
+    -fx-text-fill: #054685;
+}
+
+.section-subtitle {
+    -fx-font-family: "Arial";
+    -fx-font-size: 12px;
+    -fx-text-fill: #64748b;
+}
+
+/* Lista de Instrutores */
+.lista-instrutores-view {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-border-color: #e2e8f0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+}
+
+.lista-instrutores-view .list-cell {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #f1f5f9;
+    -fx-border-width: 0 0 1px 0;
+    -fx-padding: 10px 14px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-cursor: hand;
+}
+
+.lista-instrutores-view .list-cell:hover {
+    -fx-background-color: #f8fafc;
+}
+
+.lista-instrutores-view .list-cell:filled:selected {
+    -fx-background-color: #f0f7ff;
+    -fx-border-color: #ff9800;
+    -fx-border-width: 0 0 1px 4px;
+}
+
+.badge-instrutor-selecionado {
+    -fx-background-color: #054685;
+    -fx-background-radius: 12px;
+    -fx-padding: 2px 8px;
+    -fx-font-family: "Arial Bold";
+    -fx-font-size: 11px;
+    -fx-text-fill: #ffffff;
+}
+
+.badge-instrutor-disponivel {
+    -fx-background-color: #f1f5f9;
+    -fx-background-radius: 12px;
+    -fx-padding: 2px 8px;
+    -fx-font-family: "Arial Bold";
+    -fx-font-size: 11px;
+    -fx-text-fill: #64748b;
+}
+
+

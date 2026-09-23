@@ -167,31 +167,36 @@ public final class ButtonBorderLapAnimator {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                double elapsedSeconds = (now - startNano) / 1_000_000_000.0;
-                double t = Math.min(1.0, elapsedSeconds / DURATION_SECONDS);
-                double easeT = EASE.interpolate(0.0, 1.0, t);
+                try {
+                    double elapsedSeconds = (now - startNano) / 1_000_000_000.0;
+                    double t = Math.max(0.0, Math.min(1.0, elapsedSeconds / DURATION_SECONDS));
+                    double easeT = EASE.interpolate(0.0, 1.0, t);
 
-                gc.clearRect(0, 0, canvasW, canvasH);
+                    gc.clearRect(0, 0, canvasW, canvasH);
 
-                double sTail = sStartTail + easeT * (sEndTail - sStartTail);
-                double sHead = sStartHead + easeT * (sEndHead - sStartHead);
+                    double sTail = sStartTail + easeT * (sEndTail - sStartTail);
+                    double sHead = sStartHead + easeT * (sEndHead - sStartHead);
 
-                double thickness;
-                if (t < 0.60) {
-                    thickness = 2.2;
-                } else {
-                    double growT = (t - 0.60) / 0.40;
-                    double easeGrow = EASE.interpolate(0.0, 1.0, growT);
-                    thickness = 2.2 + easeGrow * 3.8;
-                }
+                    double thickness;
+                    if (t < 0.60) {
+                        thickness = 2.2;
+                    } else {
+                        double growT = Math.max(0.0, Math.min(1.0, (t - 0.60) / 0.40));
+                        double easeGrow = EASE.interpolate(0.0, 1.0, growT);
+                        thickness = 2.2 + easeGrow * 3.8;
+                    }
 
-                Color coreColor = Color.web("#f3ad50").interpolate(Color.web("#ff9800"), easeT);
-                Color glowColor = Color.color(coreColor.getRed(), coreColor.getGreen(), coreColor.getBlue(), 0.38);
+                    Color coreColor = Color.web("#f3ad50").interpolate(Color.web("#ff9800"), easeT);
+                    Color glowColor = Color.color(coreColor.getRed(), coreColor.getGreen(), coreColor.getBlue(), 0.38);
 
-                drawStrokeSegment(gc, sTail, sHead, thickness + 4.0, glowColor, x0, y0, x1, y1, r);
-                drawStrokeSegment(gc, sTail, sHead, thickness, coreColor, x0, y0, x1, y1, r);
+                    drawStrokeSegment(gc, sTail, sHead, thickness + 4.0, glowColor, x0, y0, x1, y1, r);
+                    drawStrokeSegment(gc, sTail, sHead, thickness, coreColor, x0, y0, x1, y1, r);
 
-                if (t >= 1.0) {
+                    if (t >= 1.0) {
+                        stop();
+                        finalizarAnimacaoAtiva();
+                    }
+                } catch (Exception ex) {
                     stop();
                     finalizarAnimacaoAtiva();
                 }

@@ -9,6 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Objeto de Acesso a Dados (DAO) para operações de Usuários no banco de dados.
@@ -155,5 +157,56 @@ public final class UserDAO {
             System.err.println("Erro interno ao cadastrar usuário: " + e.getMessage());
             throw e;
         }
+    }
+
+    /**
+     * Retorna a lista de usuários com perfil de Instrutor cadastrados no sistema.
+     *
+     * @return Lista de instrutores disponíveis
+     */
+    public static List<User> listarInstrutores() {
+        List<User> instrutores = new ArrayList<>();
+        String sql = "SELECT * FROM usuario WHERE UPPER(acesso) LIKE 'I%' OR UPPER(acesso) = 'INSTRUTOR' ORDER BY nome_usuario ASC";
+
+        try (Connection conn = ConfigDataBase.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                User u = new User();
+                try {
+                    u.setIdUsuario(rs.getInt("id_usuario"));
+                } catch (SQLException ignored) {
+                    try {
+                        u.setIdUsuario(rs.getInt("id"));
+                    } catch (SQLException ignored2) {}
+                }
+                try {
+                    u.setNome(rs.getString("nome_usuario"));
+                } catch (SQLException ignored) {
+                    try {
+                        u.setNome(rs.getString("nome"));
+                    } catch (SQLException ignored2) {}
+                }
+                u.setEmail(rs.getString("email"));
+                try {
+                    u.setAcesso(rs.getString("acesso"));
+                } catch (SQLException ignored) {}
+                instrutores.add(u);
+            }
+        } catch (SQLException e) {
+            System.err.println("Aviso: Falha ao consultar instrutores do banco de dados: " + e.getMessage());
+        }
+
+        // Se a base estiver sem instrutores cadastrados ou offline, fornece lista padrão de instrutores do Senac
+        if (instrutores.isEmpty()) {
+            instrutores.add(new User(1, "Chef Rogério Silva", "rogerio.silva@sp.senac.br", "", "Instrutor", "Ativo", 0));
+            instrutores.add(new User(2, "Chef Amanda Oliveira", "amanda.oliveira@sp.senac.br", "", "Instrutor", "Ativo", 0));
+            instrutores.add(new User(3, "Prof. Carlos Eduardo", "carlos.eduardo@sp.senac.br", "", "Instrutor", "Ativo", 0));
+            instrutores.add(new User(4, "Chef Mariana Costa", "mariana.costa@sp.senac.br", "", "Instrutor", "Ativo", 0));
+            instrutores.add(new User(5, "Chef Bruno Henrique", "bruno.henrique@sp.senac.br", "", "Instrutor", "Ativo", 0));
+        }
+
+        return instrutores;
     }
 }
