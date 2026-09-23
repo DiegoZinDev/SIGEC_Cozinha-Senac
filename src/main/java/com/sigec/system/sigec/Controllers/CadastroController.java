@@ -241,6 +241,7 @@ public class CadastroController implements Initializable {
         if (txtNome != null) {
             txtNome.requestFocus();
         }
+
     }
 
     @FXML

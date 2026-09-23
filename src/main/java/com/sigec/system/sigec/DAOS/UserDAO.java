@@ -166,7 +166,7 @@ public final class UserDAO {
      */
     public static List<User> listarInstrutores() {
         List<User> instrutores = new ArrayList<>();
-        String sql = "SELECT * FROM usuario WHERE UPPER(acesso) LIKE 'I%' OR UPPER(acesso) = 'INSTRUTOR' ORDER BY nome_usuario ASC";
+        String sql = "SELECT * FROM usuario WHERE UPPER(acesso) LIKE 'I%' OR UPPER(acesso) = 'INSTRUTOR' OR UPPER(acesso) LIKE 'P%' OR UPPER(acesso) = 'PROFESSOR' ORDER BY nome_usuario ASC";
 
         try (Connection conn = ConfigDataBase.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -196,15 +196,6 @@ public final class UserDAO {
             }
         } catch (SQLException e) {
             System.err.println("Aviso: Falha ao consultar instrutores do banco de dados: " + e.getMessage());
-        }
-
-        // Se a base estiver sem instrutores cadastrados ou offline, fornece lista padrão de instrutores do Senac
-        if (instrutores.isEmpty()) {
-            instrutores.add(new User(1, "Chef Rogério Silva", "rogerio.silva@sp.senac.br", "", "Instrutor", "Ativo", 0));
-            instrutores.add(new User(2, "Chef Amanda Oliveira", "amanda.oliveira@sp.senac.br", "", "Instrutor", "Ativo", 0));
-            instrutores.add(new User(3, "Prof. Carlos Eduardo", "carlos.eduardo@sp.senac.br", "", "Instrutor", "Ativo", 0));
-            instrutores.add(new User(4, "Chef Mariana Costa", "mariana.costa@sp.senac.br", "", "Instrutor", "Ativo", 0));
-            instrutores.add(new User(5, "Chef Bruno Henrique", "bruno.henrique@sp.senac.br", "", "Instrutor", "Ativo", 0));
         }
 
         return instrutores;

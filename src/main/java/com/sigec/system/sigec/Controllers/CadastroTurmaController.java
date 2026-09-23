@@ -196,16 +196,6 @@ public class CadastroTurmaController implements Initializable {
         if (listaInstrutores == null) {
             return;
         }
-
-        // Popula instantaneamente com dados padrão do Senac (0ms de carregamento, zero travamento na transição)
-        masterInstrutores.setAll(
-                new User(1, "Chef Rogério Silva", "rogerio.silva@sp.senac.br", "", "Instrutor", "Ativo", 0),
-                new User(2, "Chef Amanda Oliveira", "amanda.oliveira@sp.senac.br", "", "Instrutor", "Ativo", 0),
-                new User(3, "Prof. Carlos Eduardo", "carlos.eduardo@sp.senac.br", "", "Instrutor", "Ativo", 0),
-                new User(4, "Chef Mariana Costa", "mariana.costa@sp.senac.br", "", "Instrutor", "Ativo", 0),
-                new User(5, "Chef Bruno Henrique", "bruno.henrique@sp.senac.br", "", "Instrutor", "Ativo", 0)
-        );
-
         filteredInstrutores = new FilteredList<>(masterInstrutores, p -> true);
         listaInstrutores.setItems(filteredInstrutores);
 

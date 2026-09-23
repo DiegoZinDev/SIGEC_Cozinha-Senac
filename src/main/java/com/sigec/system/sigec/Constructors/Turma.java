@@ -9,28 +9,23 @@ public class Turma {
 
     private int idTurma;
     private String nomeTurma;
-    private String laboratorio;
-    private String professorResponsavel;
-    private int idProfessor;
+    private int id_laboratorio;
     private String situacao;
 
     public Turma() {
         this.situacao = "Ativo";
     }
 
-    public Turma(String nomeTurma, String laboratorio, String professorResponsavel, String situacao) {
+    public Turma(String nomeTurma, int id_laboratorio, String situacao) {
         this.nomeTurma = nomeTurma;
-        this.laboratorio = laboratorio;
-        this.professorResponsavel = professorResponsavel;
+        this.id_laboratorio = id_laboratorio;
         this.situacao = (situacao != null && !situacao.isBlank()) ? situacao : "Ativo";
     }
 
-    public Turma(int idTurma, String nomeTurma, String laboratorio, String professorResponsavel, int idProfessor, String situacao) {
+    public Turma(int idTurma, String nomeTurma, int id_laboratorio, String situacao) {
         this.idTurma = idTurma;
         this.nomeTurma = nomeTurma;
-        this.laboratorio = laboratorio;
-        this.professorResponsavel = professorResponsavel;
-        this.idProfessor = idProfessor;
+        this.id_laboratorio = id_laboratorio;
         this.situacao = (situacao != null && !situacao.isBlank()) ? situacao : "Ativo";
     }
 
@@ -50,28 +45,12 @@ public class Turma {
         this.nomeTurma = nomeTurma;
     }
 
-    public String getLaboratorio() {
-        return laboratorio;
+    public int getid_Laboratorio() {
+        return id_laboratorio;
     }
 
-    public void setLaboratorio(String laboratorio) {
-        this.laboratorio = laboratorio;
-    }
-
-    public String getProfessorResponsavel() {
-        return professorResponsavel;
-    }
-
-    public void setProfessorResponsavel(String professorResponsavel) {
-        this.professorResponsavel = professorResponsavel;
-    }
-
-    public int getIdProfessor() {
-        return idProfessor;
-    }
-
-    public void setIdProfessor(int idProfessor) {
-        this.idProfessor = idProfessor;
+    public void setLaboratorio(int laboratorio) {
+        this.id_laboratorio = id_laboratorio;
     }
 
     public String getSituacao() {
@@ -100,8 +79,7 @@ public class Turma {
         return "Turma{" +
                 "idTurma=" + idTurma +
                 ", nomeTurma='" + nomeTurma + '\'' +
-                ", laboratorio='" + laboratorio + '\'' +
-                ", professorResponsavel='" + professorResponsavel + '\'' +
+                ", laboratorio='" + id_laboratorio + '\'' +
                 ", situacao='" + situacao + '\'' +
                 '}';
     }
