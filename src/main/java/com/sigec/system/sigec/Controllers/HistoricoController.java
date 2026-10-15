@@ -4,6 +4,7 @@ import com.sigec.system.sigec.MainApplication;
 import com.sigec.system.sigec.Services.SessaoService;
 import com.sigec.system.sigec.Utils.BackgroundAnimator;
 import com.sigec.system.sigec.Utils.ButtonBorderLapAnimator;
+import com.sigec.system.sigec.Utils.SidebarNavigationManager;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -206,7 +207,11 @@ public class HistoricoController implements Initializable {
 
     @FXML
     public void onClickCadastroTurma(ActionEvent event) {
-        exibirAlerta(Alert.AlertType.INFORMATION, "Cadastro de Turma", "A funcionalidade de Cadastro de Turma será disponibilizada em breve.");
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Cadastro de Turma");
+        alert.setHeaderText("Módulo em Desenvolvimento");
+        alert.setContentText("A funcionalidade de Cadastro de Turma será disponibilizada em breve.");
+        alert.showAndWait();
     }
 
     @FXML
@@ -229,12 +234,7 @@ public class HistoricoController implements Initializable {
 
     @FXML
     public void botaoSairAction(ActionEvent event) {
-        try {
-            SessaoService.encerrarSessao();
-            MainApplication.trocadorDeTelas("login.fxml");
-        } catch (IOException e) {
-            exibirAlerta(Alert.AlertType.ERROR, "Erro", "Erro ao sair: " + e.getMessage());
-        }
+        SidebarNavigationManager.executarLogout(botaoSair);
     }
 
     // =========================================================================

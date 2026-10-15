@@ -1,6 +1,7 @@
 package com.sigec.system.sigec.Utils;
 
 import com.sigec.system.sigec.MainApplication;
+import com.sigec.system.sigec.Services.SessaoService;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
@@ -60,7 +61,7 @@ public final class SidebarNavigationManager {
 
         Node btnSair = lateralParent.lookup(".btn-sair");
         if (btnSair instanceof Button btn) {
-            btn.setOnAction(e -> executarLogout());
+            btn.setOnAction(e -> executarLogout(btn));
         }
     }
 
@@ -212,12 +213,37 @@ public final class SidebarNavigationManager {
         }
     }
 
-    private static void executarLogout() {
-        try {
-            ButtonBorderLapAnimator.cancelarAnimacaoAtiva();
-            MainApplication.trocadorDeTelas("login.fxml");
-        } catch (Exception ex) {
-            exibirAlertaErro("Logout", "Erro ao retornar à tela de login", ex);
+    /**
+     * Executa o logout padrão sem referência a botão específico.
+     */
+    public static void executarLogout() {
+        executarLogout(null);
+    }
+
+    /**
+     * Executa o logout animando o botão de Sair com a volta em azul antes
+     * de encerrar a sessão e navegar para login.fxml.
+     *
+     * @param btn Botão de Sair a ser animado
+     */
+    public static void executarLogout(Button btn) {
+        if (btn != null && !ButtonBorderLapAnimator.isAnimating(btn)) {
+            ButtonBorderLapAnimator.animarSair(btn, () -> {
+                try {
+                    SessaoService.encerrarSessao();
+                    MainApplication.trocadorDeTelas("login.fxml");
+                } catch (Exception ex) {
+                    exibirAlertaErro("Logout", "Erro ao retornar à tela de login", ex);
+                }
+            });
+        } else if (btn == null) {
+            try {
+                ButtonBorderLapAnimator.cancelarAnimacaoAtiva();
+                SessaoService.encerrarSessao();
+                MainApplication.trocadorDeTelas("login.fxml");
+            } catch (Exception ex) {
+                exibirAlertaErro("Logout", "Erro ao retornar à tela de login", ex);
+            }
         }
     }
 

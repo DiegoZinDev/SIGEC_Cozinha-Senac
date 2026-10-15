@@ -130,32 +130,29 @@
 }
 .btn-sair {
     -fx-background-color: #e4891b;
-    -fx-background-radius: 8;
-    -fx-pref-width: 90;
-    -fx-pref-height: 32;
+    -fx-background-radius: 10;
+    -fx-border-color: #054685;
+    -fx-border-radius: 5;
+    -fx-border-width: 0 0 2 0;
+    -fx-pref-width: 185;
+    -fx-pref-height: 40;
     -fx-font-family: "Arial";
-    -fx-font-size: 13;
+    -fx-font-size: 15;
     -fx-font-weight: bold;
     -fx-text-fill: white;
     -fx-cursor: hand;
+    -fx-alignment: CENTER;
     -fx-text-alignment: center;
+    -fx-effect: dropshadow(three-pass-box, rgba(228, 137, 27, 0.35), 8, 0.25, 0, 1);
 }
 .btn-sair:hover,
 .btn-sair-adimin:hover {
-    /*
-       Parâmetros do dropshadow:
-       - three-pass-box: algoritmo de blur suave
-       - rgba(0,0,0,0.4): cor preta com 40% de opacidade
-       - 10: raio do blur (espalhamento)
-       - 0.5: quanto a sombra se espalha além do blur
-       - 5: deslocamento em X (move para a direita)
-       - 5: deslocamento em Y (move para baixo)
-    */
-    -fx-background-color: #ba7119;
+    -fx-background-color: #f3972b;
+    -fx-border-color: #0c569e;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0.5, 5, 5);
 }
 .btn-sair:pressed {
-    -fx-background-color: #9c5c14;
+    -fx-background-color: #ba7119;
 }
 .btn-padrao-transparent-2 {
     -fx-background-color:  transparent;
